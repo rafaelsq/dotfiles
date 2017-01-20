@@ -1,5 +1,41 @@
-" no tab cicly
-set wildmode=list:longest
+set sts=4 ts=4 sw=4 expandtab smarttab ai smartindent
+set so=5                   " padding on j/k
+set noswapfile             " Don't use swapfile
+set nobackup               " Don't create annoying backup files
+set nowritebackup
+set wildmode=list:longest  " no tab cicly
+
+au FileType qf wincmd J                             " quickfix at bottom
+au FileType go nmap <Leader>dh <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>gr <Plug>(go-referrers)
+
+" close quickfix
+nnoremap <leader>a :cclose<CR>
+" Remove search highlight
+nnoremap <leader><space> :nohlsearch<CR>
+" Center the screen
+nnoremap <space> zz
+" search on C-p
+nnoremap <silent> <C-p> :FZF<CR>
+
+" go to next error(quickfix)
+map <C-n> :cn<CR>
+" go to next error(quickfix)
+map <C-m> :cp<CR>
+" up and down on splitted lines
+map <Up> gk
+map <Down> gj
+map k gk
+map j gj
+" Just go out in insert mode
+imap jk <ESC>l
+
+inoremap <silent><expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <silent><expr><ENTER> pumvisible() ? deoplete#mappings#close_popup() : "\<ENTER>"
+
 
 " Plugins
 "  PluginManager
@@ -43,15 +79,11 @@ Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
-" make quickfix windows take all the lower section of the screen
-" when there are multiple windows open
-autocmd FileType qf wincmd J
+colorscheme molokai_dark   " colorscheme
 
-" default tab to 4 spaces
-set sts=4 ts=4 sw=4 expandtab smarttab ai smartindent
+au! BufWritePost .ts,.tsx,.js,.jsx Neomake
+au BufRead,BufNewFile *.qtpl set filetype=html
 
-" padding on j/k
-set so=5
 
 " deoplete-go
  let g:deoplete#enable_at_startup = 1
@@ -64,20 +96,11 @@ set so=5
  " fix conflict with tab below
  let g:UltiSnipsExpandTrigger = "<leader>j"
 
- " default C-n next, C-p prev; now tab & shift+tab; enter to close
- inoremap <silent><expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
- inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
- inoremap <silent><expr><ENTER> pumvisible() ? deoplete#mappings#close_popup() : "\<ENTER>"
-
 " Git vim-gitgutter
  set updatetime=250
 
 " FZF
  let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --ignore-dir=vendor'
- nnoremap <silent> <C-p> :FZF<CR>
-
-" Neomake
- autocmd! BufWritePost * Neomake
 
  " Typescript
  let g:neomake_typescript_tsc_maker = {
@@ -98,12 +121,6 @@ set so=5
   let g:neomake_javascript_enabled_makers = ['eslint']
   let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
 
-" colorscheme
- colorscheme molokai_dark
-
-" FileType
- autocmd BufRead,BufNewFile *.qtpl set filetype=html
-
 " vim-go
  let g:go_fmt_command = "goimports"
  let g:go_def_mode = 'godef'
@@ -116,8 +133,3 @@ set so=5
  let g:go_highlight_build_constraints = 1
  let g:go_highlight_extra_types = 1
  let g:go_highlight_generate_tags = 1
-
- au FileType go nmap <Leader>dh <Plug>(go-def-split)
- au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
- au FileType go nmap <Leader>dt <Plug>(go-def-tab)
- au FileType go nmap <Leader>gr <Plug>(go-referrers)
