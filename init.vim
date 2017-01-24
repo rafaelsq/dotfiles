@@ -21,9 +21,9 @@ nnoremap <space> zz
 nnoremap <silent> <C-p> :FZF<CR>
 
 " go to next error(quickfix)
-map <C-n> :cn<CR>
+"map <C-n> :cn<CR>
 " go to next error(quickfix)
-map <C-m> :cp<CR>
+"map <C-m> :cp<CR>
 " up and down on splitted lines
 map <Up> gk
 map <Down> gj
@@ -56,7 +56,6 @@ Plug 'zchee/deoplete-go', { 'do': 'make'}
 
  " TypeScript
  Plug 'Quramy/tsuquyomi', { 'for': 'typescript', 'do': 'npm install' } " extended typescript support - works as a client for TSServer
- Plug 'clausreinke/typescript-tools.vim', { 'for': 'typescript' } " typescript tools
  Plug 'leafgarland/typescript-vim', { 'for': 'typescript' } " typescript support
  Plug 'Shougo/vimproc.vim', { 'do': 'make' } " interactive command execution in vim
 
@@ -81,7 +80,8 @@ call plug#end()
 
 colorscheme molokai_dark   " colorscheme
 
-au! BufWritePost .ts,.tsx,.js,.jsx Neomake
+autocmd! BufWritePost *.js,*.jsx Neomake
+autocmd! BufWritePost *.ts,*.tsx Neomake
 au BufRead,BufNewFile *.qtpl set filetype=html
 
 
@@ -116,10 +116,13 @@ au BufRead,BufNewFile *.qtpl set filetype=html
  "let g:tsuquyomi_completion_detail = 1
 
  " eslint
-  "let g:neomake_open_list = 2
+  let g:neomake_open_list = 2
 
   let g:neomake_javascript_enabled_makers = ['eslint']
   let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
+
+  let g:neomake_typescript_enabled_makers = ['tslint']
+  let g:neomake_typescript_tslint_exe = system('PATH=$(npm bin):$PATH && which tslint | tr -d "\n"')
 
 " vim-go
  let g:go_fmt_command = "goimports"
