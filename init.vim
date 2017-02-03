@@ -5,7 +5,7 @@ set nobackup               " Don't create annoying backup files
 set nowritebackup
 set wildmode=list:longest  " no tab cicly
 
-au FileType qf wincmd J                             " quickfix at bottom
+" au FileType qf wincmd J                             " quickfix at bottom
 au FileType go nmap <Leader>dh <Plug>(go-def-split)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>dt <Plug>(go-def-tab)
@@ -82,7 +82,10 @@ colorscheme molokai_dark   " colorscheme
 
 autocmd! BufWritePost *.js,*.jsx Neomake
 autocmd! BufWritePost *.ts,*.tsx Neomake
+autocmd! BufWritePost *.vue Neomake
+
 au BufRead,BufNewFile *.qtpl set filetype=html
+au BufRead,BufNewFile *.vue set filetype=vue
 
 
 " deoplete-go
@@ -117,6 +120,9 @@ au BufRead,BufNewFile *.qtpl set filetype=html
 
  " eslint
   let g:neomake_open_list = 2
+
+  let g:neomake_vue_enabled_makers = ['eslint']
+  let g:neomake_vue_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
 
   let g:neomake_javascript_enabled_makers = ['eslint']
   let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
