@@ -7,6 +7,7 @@ set nowritebackup
 set wildmode=list:longest  " no tab cicly
 set inccommand=split
 set incsearch
+set mouse=a
 
 " au FileType qf wincmd J                             " quickfix at bottom
 au FileType go nmap <Leader>rn <Plug>(go-rename)
@@ -89,7 +90,7 @@ Plug 'w0rp/ale'
 "Plug 'neomake/neomake'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-""Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'vim-airline/vim-airline'
 Plug 'flazz/vim-colorschemes'
 
@@ -168,42 +169,3 @@ nmap <F6> :TagbarToggle<CR>
  let g:go_highlight_build_constraints = 1
  let g:go_highlight_extra_types = 1
  let g:go_highlight_generate_tags = 1
-
-"" Macros
-"let @a='mb/chan \*.*errors.RepositoryError)
-f)%d/chan
-i(/chan
-dw/chan
-vt)cerror'
-"let @b='ma:g/response.* := make(chan/d
-`a'
-"let @c='/async.Go
-ma$%V$%d`add'
-"let @d='ma/cerr
-mm^*NV:perldo s,c?([a-z0-9]+),$1,g
-nT 3x`m/if err := <-cerr;
-dt{d%`a'
-"let @e='ma/response <- 
-vf-lcreturn $a, err/return respo
-dd`a'
-"let @f='ma/close(responseErr)
-dd`a'
-"
-"let @g='/errors\.ConvertToRepositoryError(err.*); e != nil
-f{V%cif err != nil {
-return nil, err
-}'
-"
-"let @i='ma:g/ctx.Log()/d
-`a'
-"let @j='ma:g/log\.IfError/d
-`a'
-"
-"let @x='@a@b@c@e'
-"
-"let @n='@f@ggg100@hgg20@y'
-""let @a='@b@c@d@e'
-""
-"" let @k='nma$%kkk"+Pjjjjjjdd`add'
-""
-""
