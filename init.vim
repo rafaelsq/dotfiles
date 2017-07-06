@@ -48,6 +48,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 "" Gist
+"Plug 'mattn/webapi-vim'
+"Plug 'mattn/gist-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'majutsushi/tagbar'
 
@@ -58,8 +60,13 @@ Plug 'fatih/vim-go'
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
+" TypeScript
+ Plug 'runoshun/tscompletejob' " go to definition, etc
+
+" Autocompletion
+ Plug 'w0rp/ale'
+
 " Others
-Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
