@@ -1,4 +1,4 @@
-syntax on
+"syntax on
 set sts=4 ts=4 sw=4 expandtab smarttab ai smartindent
 set so=5                   " padding on j/k
 set noswapfile             " Don't use swapfile
@@ -17,12 +17,13 @@ au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>gr <Plug>(go-referrers)
 au FileType javascript nmap <C-]> :TernDef<CR>
 
-" close quickfix & Remove search highlight
-nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR>
+" close scratch window, quickfix & Remove search highlight
+nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>
 " Center the screen
 nnoremap <space> zz
 " search on C-p
 nnoremap <silent> <C-p> :FZF<CR>
+map ' ^
 
 " FZF search term
 nnoremap <leader>a :CodeRef<space>
@@ -34,9 +35,7 @@ map <Down> gj
 map k gk
 map j gj
 " Just go out in insert mode
-imap jk <ESC>l
-" prevent p to yank
-vnoremap p "_dP
+imap jj <ESC>l
 
 " Plugins
 "  PluginManager
@@ -61,7 +60,13 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " TypeScript
- Plug 'runoshun/tscompletejob' " go to definition, etc
+ "Plug 'runoshun/tscompletejob' " go to definition, etc
+ Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
+ 
+ "Typescript Plugins
+ Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+ Plug 'Quramy/tsuquyomi', { 'do': 'npm install -g typescript' }
+ Plug 'mhartington/deoplete-typescript'
 
 " Autocompletion
  Plug 'w0rp/ale'
@@ -71,7 +76,10 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
+Plug 'tpope/vim-surround'
+" Plug 'jiangmiao/auto-pairs'
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -80,15 +88,19 @@ call plug#end()
 
 colorscheme molokai_dark   " colorscheme
 
+" airline
+ let g:airline_section_a=''
+
 " ale
- let g:ale_lint_on_text_changed = 'never'
- let g:ale_lint_on_enter = 0
+ "let g:ale_lint_on_text_changed = 'never'
+ "let g:ale_lint_on_enter = 0
 
  " navigate between errors
  nmap <silent> <C-k> <Plug>(ale_previous_wrap)
  nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 nmap <F6> :TagbarToggle<CR>
+nmap <F5> :NERDTreeToggle<CR>
 
 " deoplete-go
  let g:deoplete#enable_at_startup = 1
