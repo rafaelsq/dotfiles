@@ -25,6 +25,10 @@ nnoremap <space> zz
 nnoremap <silent> <C-p> :FZF<CR>
 map ' ^
 
+" prevent p/P to yank
+xnoremap <expr> p 'pgv"'.v:register.'y'
+xnoremap <expr> P 'Pgv"'.v:register.'y'
+
 " FZF search term
 nnoremap <leader>a :CodeRef<space>
 xmap <leader>a "yy:<C-u>CodeRef <c-r>y<CR>
@@ -64,9 +68,9 @@ Plug 'zchee/deoplete-go', { 'do': 'make'}
  Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
  
  "Typescript Plugins
- Plug 'Shougo/vimproc.vim', { 'do': 'make' }
- Plug 'Quramy/tsuquyomi', { 'do': 'npm install -g typescript' }
- Plug 'mhartington/deoplete-typescript'
+ "Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+ "Plug 'Quramy/tsuquyomi', { 'do': 'npm install -g typescript' }
+ "Plug 'mhartington/deoplete-typescript'
 
 " Autocompletion
  Plug 'w0rp/ale'
@@ -94,6 +98,15 @@ colorscheme molokai_dark   " colorscheme
 " ale
  "let g:ale_lint_on_text_changed = 'never'
  "let g:ale_lint_on_enter = 0
+ let g:ale_fixers = {
+ \   'javascript': ['prettier', 'eslint'],
+ \   'TypeScript': ['prettier', 'prettier-eslint'],
+ \}
+
+ " Set this setting in vimrc if you want to fix files automatically on save.
+ " This is off by default.
+ let g:ale_fix_on_save = 1
+ "let g:ale_javascript_prettier_eslint_options = '--single-quote --trailing-comma es6 --no-semi'
 
  " navigate between errors
  nmap <silent> <C-k> <Plug>(ale_previous_wrap)
