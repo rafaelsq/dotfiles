@@ -1,5 +1,5 @@
-"syntax on
-set sts=4 ts=4 sw=4 expandtab smarttab ai smartindent
+set list listchars=tab:‚ñ∏\ ,trail:\ 
+set tabstop=4 shiftwidth=4
 set so=5                   " padding on j/k
 set noswapfile             " Don't use swapfile
 set nobackup               " Don't create annoying backup files
@@ -41,6 +41,10 @@ map j gj
 " Just go out in insert mode
 imap jj <ESC>l
 
+" move line up & down
+nnoremap <C-j> :m +1<CR>=
+nnoremap <C-k> :m -2<CR>=
+
 " Plugins
 "  PluginManager
 "   https://github.com/junegunn/vim-plug
@@ -54,7 +58,8 @@ Plug 'junegunn/fzf.vim'
 "Plug 'mattn/webapi-vim'
 "Plug 'mattn/gist-vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'majutsushi/tagbar'
+
+"Plug 'majutsushi/tagbar'
 
 " GO
 Plug 'fatih/vim-go'
@@ -67,10 +72,10 @@ Plug 'zchee/deoplete-go', { 'do': 'make'}
  "Plug 'runoshun/tscompletejob' " go to definition, etc
  Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
  
- "Typescript Plugins
- "Plug 'Shougo/vimproc.vim', { 'do': 'make' }
- "Plug 'Quramy/tsuquyomi', { 'do': 'npm install -g typescript' }
- "Plug 'mhartington/deoplete-typescript'
+"Typescript Plugins
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Quramy/tsuquyomi', { 'do': 'npm install -g typescript' }
+Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
 
 " Autocompletion
  Plug 'w0rp/ale'
@@ -78,7 +83,7 @@ Plug 'zchee/deoplete-go', { 'do': 'make'}
 " Others
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
+"Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
@@ -93,14 +98,13 @@ call plug#end()
 colorscheme molokai_dark   " colorscheme
 
 " airline
- let g:airline_section_a=''
+ "let g:airline_section_a=''
+ let g:airline_theme='bubblegum'
 
 " ale
- "let g:ale_lint_on_text_changed = 'never'
- "let g:ale_lint_on_enter = 0
  let g:ale_fixers = {
- \   'javascript': ['prettier', 'eslint'],
- \   'TypeScript': ['prettier', 'prettier-eslint'],
+ \   'javascript': ['prettier', 'eslint', 'prettier-eslint'],
+ \   'typescript': ['prettier', 'tslint'],
  \}
 
  " Set this setting in vimrc if you want to fix files automatically on save.
@@ -109,8 +113,8 @@ colorscheme molokai_dark   " colorscheme
  "let g:ale_javascript_prettier_eslint_options = '--single-quote --trailing-comma es6 --no-semi'
 
  " navigate between errors
- nmap <silent> <C-k> <Plug>(ale_previous_wrap)
- nmap <silent> <C-j> <Plug>(ale_next_wrap)
+ "nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+ "nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 nmap <F6> :TagbarToggle<CR>
 nmap <F5> :NERDTreeToggle<CR>
@@ -144,3 +148,18 @@ nmap <F5> :NERDTreeToggle<CR>
  let g:go_highlight_build_constraints = 1
  let g:go_highlight_extra_types = 1
  let g:go_highlight_generate_tags = 1
+
+ " https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
+ " I haven't found how to hide this function (yet)
+"function! RestoreRegister()
+"  let @" = s:restore_reg
+"  return ''
+"endfunction
+"
+"function! s:Repl()
+"    let s:restore_reg = @"
+"    return "p@=RestoreRegister()\<cr>"
+"endfunction
+"
+"" NB: this supports "rp that replaces the selection by the contents of @r
+"vnoremap <silent> <expr> p <sid>Repl()
