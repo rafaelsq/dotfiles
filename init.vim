@@ -1,4 +1,4 @@
-set list listchars=tab:‚ñ∏\ ,trail:\ 
+set list listchars=tab:‚▸\ ,trail:\ 
 set tabstop=4 shiftwidth=4
 set so=5                   " padding on j/k
 set noswapfile             " Don't use swapfile
@@ -68,14 +68,19 @@ Plug 'fatih/vim-go'
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
+" ident
+Plug 'ldx/vim-indentfinder'
+
 " TypeScript
- "Plug 'runoshun/tscompletejob' " go to definition, etc
- Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
- 
-"Typescript Plugins
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Quramy/tsuquyomi', { 'do': 'npm install -g typescript' }
-Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
+ " go to definition, etc
+  "Plug 'runoshun/tscompletejob'
+  "Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
+ " async lib
+  Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+ " client for TSServer
+  Plug 'Quramy/tsuquyomi', { 'do': 'npm install -g typescript' }
+ " native language; know things; super slow
+  "Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
 
 " Autocompletion
  Plug 'w0rp/ale'
@@ -148,18 +153,3 @@ nmap <F5> :NERDTreeToggle<CR>
  let g:go_highlight_build_constraints = 1
  let g:go_highlight_extra_types = 1
  let g:go_highlight_generate_tags = 1
-
- " https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
- " I haven't found how to hide this function (yet)
-"function! RestoreRegister()
-"  let @" = s:restore_reg
-"  return ''
-"endfunction
-"
-"function! s:Repl()
-"    let s:restore_reg = @"
-"    return "p@=RestoreRegister()\<cr>"
-"endfunction
-"
-"" NB: this supports "rp that replaces the selection by the contents of @r
-"vnoremap <silent> <expr> p <sid>Repl()
