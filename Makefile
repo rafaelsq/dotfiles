@@ -1,5 +1,5 @@
 ln: nvim zshrc
-	@echo "done"
+	@echo "Check README.md"
 
 zshrc:
 	echo "source ${PWD}/zshrc" >> ~/.zshrc
