@@ -1,9 +1,14 @@
-ln: nvim zshrc git
+all: nvim zshrc git eslint
 	@echo "Check README.md"
 
 git:
 ifeq ("$(wildcard ~/.gitconfig)", "")
 	ln -s ${PWD}/gitconfig ~/.gitconfig
+endif
+
+eslint:
+ifeq ("$(wildcard ~/.eslintrc)", "")
+	ln -s ${PWD}/eslintrc ~/.eslintrc
 endif
 
 zshrc:
