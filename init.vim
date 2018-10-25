@@ -1,4 +1,6 @@
-set list listchars=tab:‚▸\ ,trail:\ 
+let g:go_version_warning = 0
+
+set list listchars=tab:»\ ,trail:·,nbsp:·
 set tabstop=4 shiftwidth=4
 set so=5                   " padding on j/k
 set noswapfile             " Don't use swapfile
@@ -83,7 +85,7 @@ Plug 'ldx/vim-indentfinder'
   "Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
 
 " Autocompletion
- Plug 'w0rp/ale'
+Plug 'w0rp/ale'
 
 " Others
 Plug 'SirVer/ultisnips'
@@ -116,7 +118,7 @@ colorscheme molokai_dark   " colorscheme
  " This is off by default.
  let g:ale_fix_on_save = 1
  "let g:ale_javascript_prettier_eslint_options = '--single-quote --trailing-comma es6 --no-semi'
-
+ let g:ale_lint_on_text_changed = "normal"
  " navigate between errors
  "nmap <silent> <C-k> <Plug>(ale_previous_wrap)
  "nmap <silent> <C-j> <Plug>(ale_next_wrap)
@@ -153,3 +155,18 @@ nmap <F5> :NERDTreeToggle<CR>
  let g:go_highlight_build_constraints = 1
  let g:go_highlight_extra_types = 1
  let g:go_highlight_generate_tags = 1
+
+ " https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
+ " I haven't found how to hide this function (yet)
+"function! RestoreRegister()
+"  let @" = s:restore_reg
+"  return ''
+"endfunction
+"
+"function! s:Repl()
+"    let s:restore_reg = @"
+"    return "p@=RestoreRegister()\<cr>"
+"endfunction
+"
+"" NB: this supports "rp that replaces the selection by the contents of @r
+"vnoremap <silent> <expr> p <sid>Repl()
