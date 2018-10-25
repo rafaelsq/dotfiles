@@ -1,0 +1,47 @@
+[user]
+    name = Rafael Quintela
+    email = rafaelsq@users.noreply.github.com
+[core]
+    editor = /usr/bin/nvim
+    compression = 1
+[color]
+    ui = true
+    status = auto
+    branch = auto
+    diff = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+[alias]
+    ci = commit
+    st = status -s
+    br = branch
+    co = checkout
+    df = diff
+    lg = log --graph
+    who = sortlog -s --
+    russ = remote update ss
+    prd = pull ss development --rebase
+    prm = pull ss master --rebase
+    rhd = reset --hard ss/development
+    rhm = reset --hard ss/master
+    ru = remote update
+    rh = reset --hard
+[format]
+    pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
+[push]
+	default = matching
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[github]
+	user = rafaelsq
