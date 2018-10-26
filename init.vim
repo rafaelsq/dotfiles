@@ -104,6 +104,9 @@ call plug#end()
 
 colorscheme molokai_dark   " colorscheme
 
+" bg transparent
+hi Normal guibg=NONE ctermbg=None
+
 " airline
  "let g:airline_section_a=''
  let g:airline_theme='bubblegum'
