@@ -15,6 +15,6 @@ alias gcane="git commit --amend --no-edit"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 export GOPATH=~/go1.11
-export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin
+export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin
 
 . /usr/share/autojump/autojump.sh
