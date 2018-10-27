@@ -21,3 +21,6 @@ endif
 ifeq ("$(wildcard ~/.config/nvim/init.vim)", "")
 	ln -s ${PWD}/init.vim ~/.config/nvim/init.vim
 endif
+
+install:
+	./install.sh
