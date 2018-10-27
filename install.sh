@@ -18,3 +18,7 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 
 echo "yarn basics"
 yarn global add parcel eslint prettier-eslint
+
+echo "neovim+"
+pip install neovim
+pip3 install neovim
