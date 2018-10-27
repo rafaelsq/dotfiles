@@ -1,5 +1,11 @@
-all: nvim zshrc git eslint
+defaul:
+	@cho "try make all"
+
+all: install nvim zsh git eslint
 	@echo "Check README.md"
+
+install:
+	./install.sh
 
 git:
 ifeq ("$(wildcard ~/.gitconfig)", "")
@@ -11,7 +17,7 @@ ifeq ("$(wildcard ~/.eslintrc)", "")
 	ln -s ${PWD}/eslintrc ~/.eslintrc
 endif
 
-zshrc:
+zsh:
 	echo "source ${PWD}/zshrc" >> ~/.zshrc
 
 nvim:
@@ -21,6 +27,3 @@ endif
 ifeq ("$(wildcard ~/.config/nvim/init.vim)", "")
 	ln -s ${PWD}/init.vim ~/.config/nvim/init.vim
 endif
-
-install:
-	./install.sh
