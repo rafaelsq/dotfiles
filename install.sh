@@ -17,7 +17,7 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 echo "yarn basics"
-yarn global add parcel eslint prettier-eslint
+yarn global add parcel eslint prettier-eslint eslint-plugin-react 
 
 echo "neovim+"
 pip install neovim
