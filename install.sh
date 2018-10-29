@@ -7,7 +7,7 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
 
 echo "install"
 sudo apt update
-sudo apt install git bison gcc make zsh silversearcher-ag autojump yarn neovim python-dev python-pip python3-dev python3-pip
+sudo apt install git bison gcc make zsh silversearcher-ag autojump yarn neovim python-dev python-pip python3-dev python3-pip aria2
 
 echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
