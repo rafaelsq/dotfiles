@@ -60,7 +60,7 @@ Plug 'junegunn/fzf.vim'
 "" Gist
 "Plug 'mattn/webapi-vim'
 "Plug 'mattn/gist-vim'
-Plug 'sheerun/vim-polyglot'
+"Plug 'sheerun/vim-polyglot' bugou
 
 "Plug 'majutsushi/tagbar'
 
