@@ -1,4 +1,5 @@
 let g:go_version_warning = 0
+set shellcmdflag=-ic " :!
 
 set list listchars=tab:»\ ,trail:·,nbsp:·
 set tabstop=4 shiftwidth=4
