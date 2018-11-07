@@ -1,4 +1,4 @@
-defaul:
+default:
 	@cho "try make all"
 
 all: install nvim zsh git eslint
