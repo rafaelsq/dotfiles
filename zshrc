@@ -1,20 +1,18 @@
 plugins=(
-  git
+  git kubectl
 )
 
-alias pushard="git push origin -f \$(git br | ag '\*' | cut -d ' ' -f 2)"
-alias prd="git remote update ss && git prd"
-alias prm="git remote update ss && git prm"
-alias rhm="git reset --hard ss/master"
-alias rhd="git reset --hard ss/development"
-alias prhm="uss && rhm"
-alias prhd="uss && rhd"
-alias gca="git commit -a --amend"
-alias gcane="git commit --amend --no-edit"
+alias pushard="g push origin -f \$(g br | ag '\*' | cut -d ' ' -f 2)"
+alias prd="g ru ss && g prd"
+alias prm="g ru ss && g prm"
+alias prhm="g ru ss && g rhm"
+alias prhd="g ru ss && g rhd"
+alias gca="g ci -a --amend"
+alias gcane="g ci --amend --no-edit"
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 export GOPATH=~/go1.11
-export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin
+export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin
 
 . /usr/share/autojump/autojump.sh
