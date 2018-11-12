@@ -9,6 +9,7 @@ alias prhm="g ru ss && g rhm"
 alias prhd="g ru ss && g rhd"
 alias gca="g ci -a --amend"
 alias gcane="g ci --amend --no-edit"
+alias cl="printf '\033[2J\033[3J\033[1;1H'"
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
