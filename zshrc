@@ -2,6 +2,7 @@ plugins=(
   git kubectl zsh-autosuggestions
 )
 
+alias push="g push origin \$(g br | ag '\*' | cut -d ' ' -f 2)"
 alias pushard="g push origin -f \$(g br | ag '\*' | cut -d ' ' -f 2)"
 alias prd="g ru ss && g prd"
 alias prm="g ru ss && g prm"
