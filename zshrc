@@ -1,5 +1,5 @@
 plugins=(
-  git kubectl
+  git kubectl zsh-autosuggestions
 )
 
 alias pushard="g push origin -f \$(g br | ag '\*' | cut -d ' ' -f 2)"
