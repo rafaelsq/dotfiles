@@ -9,6 +9,9 @@ echo "install"
 sudo apt update
 sudo apt install git bison gcc make zsh silversearcher-ag autojump yarn neovim python-dev python-pip python3-dev python3-pip
 
+echo "max watches"
+sudo sysctl -w fs.inotify.max_user_watches=1048576 && sysctl -p
+
 echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
