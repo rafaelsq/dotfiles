@@ -15,6 +15,19 @@ alias cl="printf '\033[2J\033[3J\033[1;1H'"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 export GOPATH=~/go1.11
-export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin
+export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/.platform-tools/
+
+export TMPDIR=/tmp
+qq() {
+    clear
+    local gpath="${GOPATH:-$HOME/go}"
+    "${gpath%%:*}/src/github.com/y0ssar1an/q/q.sh" "$@"
+}
+rmqq() {
+    if [[ -f "$TMPDIR/q" ]]; then
+        rm "$TMPDIR/q"
+    fi
+    qq
+}
 
 . /usr/share/autojump/autojump.sh
