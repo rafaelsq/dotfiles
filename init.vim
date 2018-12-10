@@ -1,4 +1,5 @@
 let g:go_version_warning = 0
+set shellcmdflag=-ic " :!
 
 set list listchars=tab:»\ ,trail:·,nbsp:·
 set tabstop=4 shiftwidth=4
@@ -59,7 +60,6 @@ Plug 'junegunn/fzf.vim'
 "" Gist
 "Plug 'mattn/webapi-vim'
 "Plug 'mattn/gist-vim'
-Plug 'sheerun/vim-polyglot'
 
 "Plug 'majutsushi/tagbar'
 
@@ -78,10 +78,10 @@ Plug 'ldx/vim-indentfinder'
   "Plug 'runoshun/tscompletejob'
   "Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
  " async lib
-  Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+  " Plug 'Shougo/vimproc.vim', { 'do': 'make' }
  " client for TSServer
-  Plug 'Quramy/tsuquyomi', { 'do': 'npm install -g typescript' }
- " native language; know things; super slow
+  " Plug 'Quramy/tsuquyomi', { 'do': 'npm install -g typescript' }
+  " native language; know things; super slow
   "Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
 
 " Autocompletion
@@ -95,6 +95,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-surround'
+Plug 'sheerun/vim-polyglot'
 " Plug 'jiangmiao/auto-pairs'
 
 " Git
