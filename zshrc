@@ -2,6 +2,8 @@ plugins=(
   git kubectl zsh-autosuggestions
 )
 
+o(){xdg-open "$*" >/dev/null 2>/dev/null}
+
 alias push="g push origin \$(g br | ag '\*' | cut -d ' ' -f 2)"
 alias pushard="g push origin -f \$(g br | ag '\*' | cut -d ' ' -f 2)"
 alias prd="g ru ss && g prd"
@@ -12,8 +14,9 @@ alias gca="g ci -a --amend"
 alias gcane="g ci --amend --no-edit"
 alias cl="printf '\033[2J\033[3J\033[1;1H'"
 alias m=microk8s.kubectl
+alias pulls='o $(git config remote.ss.url | sed "s/git@\(.*\):\(.*\).git/https:\/\/\1\/\2/")/$1$2pulls'
 
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor --ignore node_modules -g ""'
 
 export GOPATH=~/go1.11
 export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/.platform-tools/
