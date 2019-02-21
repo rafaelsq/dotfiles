@@ -29,13 +29,10 @@
     co = checkout
     df = diff
     lg = log --graph
-    who = sortlog -s --
-    russ = remote update ss
     prd = pull ss development --rebase
     prm = pull ss master --rebase
     rhd = reset --hard ss/development
     rhm = reset --hard ss/master
-    ru = remote update
     rh = reset --hard
 [format]
     pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
