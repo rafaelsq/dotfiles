@@ -1,5 +1,4 @@
-let g:go_version_warning = 0
-set shellcmdflag=-ic " :!
+" let g:go_version_warning = 0
 
 set list listchars=tab:»\ ,trail:·,nbsp:·
 set tabstop=4 shiftwidth=4
@@ -11,6 +10,7 @@ set wildmode=list:longest  " no tab cicly
 set inccommand=split
 set incsearch
 set mouse=a
+set completeopt=noinsert,menuone,noselect " n2mc
 
 " au FileType qf wincmd J                             " quickfix at bottom
 au FileType go nmap <Leader>rn <Plug>(go-rename)
@@ -18,7 +18,9 @@ au FileType go nmap <Leader>dh <Plug>(go-def-split)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>gr <Plug>(go-referrers)
-au FileType javascript nmap <C-]> :TernDef<CR>
+"au FileType javascript nmap <C-]> :TernDef<CR>
+"
+nmap <Leader>m <Plug>(git-messenger)
 
 " close scratch window, quickfix & Remove search highlight
 nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>
@@ -48,6 +50,14 @@ imap jj <ESC>l
 nnoremap <C-j> :m +1<CR>=
 nnoremap <C-k> :m -2<CR>=
 
+inoremap <silent> <expr> <CR> ncm2_neosnippet#expand_or("\<CR>", 'n')
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+" c-j c-k for moving in snippet
+" let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
 " Plugins
 "  PluginManager
 "   https://github.com/junegunn/vim-plug
@@ -57,18 +67,37 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-"" Gist
-"Plug 'mattn/webapi-vim'
-"Plug 'mattn/gist-vim'
-
-"Plug 'majutsushi/tagbar'
+" Gist
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'
 
 " GO
 Plug 'fatih/vim-go'
 
 " autocomplete
-Plug 'Shougo/deoplete.nvim'
-Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'ncm2/ncm2'
+ " require
+ Plug 'roxma/nvim-yarp'
+
+ " plugins
+ Plug 'ncm2/ncm2-bufword'
+ Plug 'ncm2/ncm2-path'
+ Plug 'ncm2/ncm2-syntax'
+  Plug 'Shougo/neco-syntax'
+ Plug 'ncm2/ncm2-neoinclude'
+  Plug 'Shougo/neoinclude.vim'
+ Plug 'ncm2/ncm2-go'
+  Plug 'stamblerre/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+ Plug 'ncm2/ncm2-tern',  {'do': 'yarn'} " js
+ "Plug 'ncm2/nvim-typescript', {'do': './install.sh'} " ts
+ Plug 'ncm2/ncm2-neosnippet'
+  Plug 'honza/vim-snippets'
+  Plug 'Shougo/neosnippet.vim'
+  Plug 'Shougo/neosnippet-snippets'
+ Plug 'ncm2/ncm2-ultisnips'
+  Plug 'SirVer/ultisnips'
+ Plug 'ncm2/float-preview.nvim'
+ Plug 'ncm2/ncm2-jedi' " python
 
 " ident
 Plug 'ldx/vim-indentfinder'
@@ -84,26 +113,36 @@ Plug 'ldx/vim-indentfinder'
   " native language; know things; super slow
   "Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
 
-" Autocompletion
+" lint
 Plug 'w0rp/ale'
 
-" Others
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-"Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
+" status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" styles
 Plug 'flazz/vim-colorschemes'
-Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
-" Plug 'jiangmiao/auto-pairs'
+Plug 'HerringtonDarkholme/yats.vim' " ts.syntax / ncm2
 
 " Git
 Plug 'airblade/vim-gitgutter'
+Plug 'rhysd/git-messenger.vim'
+
+" Others
+"Plug 'SirVer/ultisnips'
+"Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
+Plug 'tpope/vim-surround'
+" Plug 'jiangmiao/auto-pairs'
+"Plug 'majutsushi/tagbar'
 
 call plug#end()
 
-colorscheme molokai_dark   " colorscheme
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" colorscheme
+colorscheme molokai_dark
 
 " bg transparent
 hi Normal guibg=NONE ctermbg=None
@@ -127,23 +166,11 @@ hi Normal guibg=NONE ctermbg=None
  "nmap <silent> <C-k> <Plug>(ale_previous_wrap)
  "nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
-nmap <F6> :TagbarToggle<CR>
-nmap <F5> :NERDTreeToggle<CR>
-
-" deoplete-go
- let g:deoplete#enable_at_startup = 1
-
- " fix conflict with tab below
- let g:UltiSnipsExpandTrigger = "<tab>"
- let g:UltiSnipsJumpForwardTrigger = "<tab>"
- let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
 " Git vim-gitgutter
  set updatetime=250
 
 " FZF
  let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --ignore-dir=vendor'
-
  command! -nargs=* CodeRef call fzf#vim#ag(<q-args>)
 
 " vim-go

@@ -2,7 +2,7 @@
     name = Rafael Quintela
     email = rafaelsq@users.noreply.github.com
 [core]
-    editor = /usr/bin/nvim
+    editor = ~/appimage/nvim.appimage
     compression = 1
 [color]
     ui = true

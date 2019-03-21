@@ -18,8 +18,13 @@ alias pulls='o $(git config remote.ss.url | sed "s/git@\(.*\):\(.*\).git/https:\
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor --ignore node_modules -g ""'
 
-export GOPATH=~/go1.11
-export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/.platform-tools/
+export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/.platform-tools/:~/go/bin/
+alias vim=nvim
+alias nvim=~/appimage/nvim.appimage
+
+path() {
+    export GOPATH=~/gopath
+}
 
 export TMPDIR=/tmp
 qq() {
