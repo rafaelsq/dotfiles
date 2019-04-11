@@ -29,3 +29,7 @@ echo "mkdir -p ~/appimage && chmod +x ~/appimage"
 yarn global add neovim
 pip install neovim
 pip3 install neovim
+
+echo "docker"
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
