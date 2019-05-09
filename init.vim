@@ -1,3 +1,4 @@
+set shellcmdflag=-ic " :!
 " let g:go_version_warning = 0
 
 set list listchars=tab:»\ ,trail:·,nbsp:·
@@ -72,7 +73,8 @@ Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
 
 " GO
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
+ " fix gocode `$ go get -u github.com/stamblerre/gocode`
 
 " autocomplete
 Plug 'ncm2/ncm2'
@@ -162,6 +164,7 @@ hi Normal guibg=NONE ctermbg=None
  let g:ale_fix_on_save = 1
  "let g:ale_javascript_prettier_eslint_options = '--single-quote --trailing-comma es6 --no-semi'
  let g:ale_lint_on_text_changed = "normal"
+ let g:ale_go_langserver_executable = 'gopls'
  " navigate between errors
  "nmap <silent> <C-k> <Plug>(ale_previous_wrap)
  "nmap <silent> <C-j> <Plug>(ale_next_wrap)
@@ -170,13 +173,15 @@ hi Normal guibg=NONE ctermbg=None
  set updatetime=250
 
 " FZF
- let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --ignore-dir=vendor'
+ let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --ignore-dir=vendor --ignore .git'
  command! -nargs=* CodeRef call fzf#vim#ag(<q-args>)
 
 " vim-go
  let g:go_fmt_command = "goimports"
- let g:go_def_mode = 'godef'
- let g:go_list_type = 'quickfixe'
+ "let g:go_def_mode = 'godef'
+ let g:go_def_mode = 'gopls'
+ "let g:go_info_mode = 'gopls'
+ "let g:go_list_type = 'quickfix'
 
  let g:go_highlight_functions = 1
  let g:go_highlight_methods = 1
