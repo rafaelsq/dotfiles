@@ -1,11 +1,13 @@
 # First Run
 
 ```
-$ make install
+$ make
 
 // chrome; download from site
 sudo dpkg -i google-chrome...
 // settings -> extensions -> shortcuts -> media keys
 
-// golang; https://golang.org/dl/
+Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
 ```
