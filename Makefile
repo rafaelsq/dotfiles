@@ -44,15 +44,24 @@ config:
 	@sudo sysctl -w fs.inotify.max_user_watches=1048576 && sysctl -p
 
 links:
-ifeq ("$(wildcard ~/.gitconfig)", "")
-	ln -s ${PWD}/gitconfig ~/.gitconfig
-endif
-ifeq ("$(wildcard ~/.eslintrc)", "")
-	ln -s ${PWD}/eslintrc ~/.eslintrc
-endif
-ifeq ("$(wildcard ~/.config/nvim)", "")
-	@mkdir -p ~/.config/nvim
-endif
-ifeq ("$(wildcard ~/.config/nvim/init.vim)", "")
-	ln -s ${PWD}/init.vim ~/.config/nvim/init.vim
-endif
+	@if [ ! -L "../.gitconfig" ]; then \
+		echo "~/.gitconfig"; \
+		rm -f ../.gitconfig; \
+		ln -s ${PWD}/gitconfig ~/.gitconfig; \
+	fi
+	@if [ ! -L "../.eslintrc" ]; then \
+		echo "~/.eslintrc"; \
+		rm -f ../.eslintrc; \
+		ln -s ${PWD}/eslintrc ~/.eslintrc; \
+	fi
+	@if [ ! -L "../.config/nvim/init.vim" ]; then \
+		echo "~/.config/nvim/init.vim"; \
+		mkdir -p ../.config/nvim; \
+		rm -f ../.config/nvim/init.vim; \
+		ln -s ${PWD}/init.vim ~/.config/nvim/init.vim; \
+	fi
+	@if [ ! -L "../.config/terminator/config" ]; then \
+		echo "~/.config/terminator/config"; \
+		rm -f ../.config/terminator/config; \
+		ln -s ${PWD}/terminator.cfg ~/.config/terminator/config; \
+	fi
