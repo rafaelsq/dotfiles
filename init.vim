@@ -173,14 +173,16 @@ hi Normal guibg=NONE ctermbg=None
  set updatetime=250
 
 " FZF
- let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --ignore-dir=vendor --ignore .git'
+ let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --ignore-dir=vendor'
  command! -nargs=* CodeRef call fzf#vim#ag(<q-args>)
 
 " vim-go
+ " add --ignore-dir=vendor on https://github.com/junegunn/fzf.vim/blob/master/autoload/fzf/vim.vim#L695
  let g:go_fmt_command = "goimports"
  "let g:go_def_mode = 'godef'
- let g:go_def_mode = 'gopls'
- "let g:go_info_mode = 'gopls'
+ "let g:go_def_mode = 'gopls'
+ let g:go_def_mode = 'guru'
+ let g:go_info_mode = 'gopls'
  "let g:go_list_type = 'quickfix'
 
  let g:go_highlight_functions = 1
