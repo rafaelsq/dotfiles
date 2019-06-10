@@ -1,5 +1,4 @@
 set shellcmdflag=-ic " :!
-" let g:go_version_warning = 0
 
 set list listchars=tab:»\ ,trail:·,nbsp:·
 set tabstop=4 shiftwidth=4
@@ -89,7 +88,6 @@ Plug 'ncm2/ncm2'
  Plug 'ncm2/ncm2-neoinclude'
   Plug 'Shougo/neoinclude.vim'
  Plug 'ncm2/ncm2-go'
-  Plug 'stamblerre/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
  Plug 'ncm2/ncm2-tern',  {'do': 'yarn'} " js
  "Plug 'ncm2/nvim-typescript', {'do': './install.sh'} " ts
  Plug 'ncm2/ncm2-neosnippet'
@@ -159,12 +157,13 @@ hi Normal guibg=NONE ctermbg=None
  \   'typescript': ['prettier', 'tslint'],
  \}
 
- " Set this setting in vimrc if you want to fix files automatically on save.
- " This is off by default.
+ let g:ale_linters = {
+ \   'go': ['golangci-lint', 'gopls'],
+ \}
+
  let g:ale_fix_on_save = 1
- "let g:ale_javascript_prettier_eslint_options = '--single-quote --trailing-comma es6 --no-semi'
  let g:ale_lint_on_text_changed = "normal"
- let g:ale_go_langserver_executable = 'gopls'
+
  " navigate between errors
  "nmap <silent> <C-k> <Plug>(ale_previous_wrap)
  "nmap <silent> <C-j> <Plug>(ale_next_wrap)
@@ -179,13 +178,13 @@ hi Normal guibg=NONE ctermbg=None
 " vim-go
  " add --ignore-dir=vendor on https://github.com/junegunn/fzf.vim/blob/master/autoload/fzf/vim.vim#L695
  let g:go_fmt_command = "goimports"
- "let g:go_def_mode = 'godef'
- "let g:go_def_mode = 'gopls'
- let g:go_def_mode = 'guru'
- let g:go_info_mode = 'gopls'
- "let g:go_list_type = 'quickfix'
+ let g:go_metalinter_command = "golangci-lint"
 
+ let g:go_highlight_debug = 1
  let g:go_highlight_functions = 1
+ let g:go_highlight_function_parameters = 1
+ let g:go_highlight_function_calls = 1
+ let g:go_highlight_format_strings = 1
  let g:go_highlight_methods = 1
  let g:go_highlight_fields = 1
  let g:go_highlight_types = 1
@@ -193,18 +192,5 @@ hi Normal guibg=NONE ctermbg=None
  let g:go_highlight_build_constraints = 1
  let g:go_highlight_extra_types = 1
  let g:go_highlight_generate_tags = 1
-
- " https://stackoverflow.com/questions/290465/how-to-paste-over-without-overwriting-register
- " I haven't found how to hide this function (yet)
-"function! RestoreRegister()
-"  let @" = s:restore_reg
-"  return ''
-"endfunction
-"
-"function! s:Repl()
-"    let s:restore_reg = @"
-"    return "p@=RestoreRegister()\<cr>"
-"endfunction
-"
-"" NB: this supports "rp that replaces the selection by the contents of @r
-"vnoremap <silent> <expr> p <sid>Repl()
+ let g:go_highlight_space_tab_error = 1
+ let g:go_highlight_trailing_whitespace_error = 1
