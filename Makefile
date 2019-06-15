@@ -6,6 +6,7 @@ default:
 	@echo "make links"
 	@echo "make yarn"
 	@echo "make nvim"
+	@echo "make docker"
 
 deps:
 	@echo "Installing Dependencies"
@@ -67,3 +68,6 @@ links:
 		rm -f ../.config/terminator/config; \
 		ln -s ${PWD}/terminator.cfg ~/.config/terminator/config; \
 	fi
+
+docker:
+	@xdg-open "https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository"
