@@ -10,7 +10,8 @@ default:
 deps:
 	@echo "Installing Dependencies"
 	@sudo apt update && sudo apt install \
-		curl git bison gcc make zsh silversearcher-ag autojump aria2 xsel
+		curl git bison gcc make zsh silversearcher-ag autojump aria2 xsel \
+		terminator
 
 zsh:
 	@echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"
@@ -62,6 +63,7 @@ links:
 	fi
 	@if [ ! -L "../.config/terminator/config" ]; then \
 		echo "~/.config/terminator/config"; \
+		mkdir -p ../.config/terminator; \
 		rm -f ../.config/terminator/config; \
 		ln -s ${PWD}/terminator.cfg ~/.config/terminator/config; \
 	fi
