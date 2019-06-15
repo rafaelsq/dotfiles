@@ -17,7 +17,6 @@ deps:
 zsh:
 	@echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"
 	@./zsh.sh
-	@echo "source ${PWD}/zshrc" >> ~/.zshrc
 	@echo "you should logout and login again"
 
 go:
@@ -46,6 +45,11 @@ config:
 	@sudo sysctl -w fs.inotify.max_user_watches=1048576 && sysctl -p
 
 links:
+	@if [ ! -L "../.zshrc" ]; then \
+		echo "~/.zshrc"; \
+		rm -f ../.zshrc; \
+		ln -s ${PWD}/zshrc ~/.zshrc; \
+	fi
 	@if [ ! -L "../.gitconfig" ]; then \
 		echo "~/.gitconfig"; \
 		rm -f ../.gitconfig; \

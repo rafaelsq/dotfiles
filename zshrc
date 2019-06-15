@@ -1,6 +1,9 @@
+export ZSH="/home/rafael/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
 plugins=(
   git kubectl zsh-autosuggestions
 )
+source $ZSH/oh-my-zsh.sh
 
 o(){xdg-open "$*" >/dev/null 2>/dev/null}
 
