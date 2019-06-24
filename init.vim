@@ -21,9 +21,11 @@ au FileType go nmap <Leader>gr <Plug>(go-referrers)
 "au FileType javascript nmap <C-]> :TernDef<CR>
 "
 nmap <Leader>m <Plug>(git-messenger)
+nmap <Leader>c :GoCoverage -gcflags=all=-l<CR>
+cab GoCoverage GoCoverage -gcflags=all=-l
 
 " close scratch window, quickfix & Remove search highlight
-nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>
+nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR> :GoCoverageClear<CR>
 " Center the screen
 nnoremap <space> zz
 " search on C-p
