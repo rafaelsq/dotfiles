@@ -8,6 +8,10 @@ default:
 	@echo "make nvim"
 	@echo "make docker"
 
+custom:
+	@echo "Change GoCode"
+	@go get -u github.com/stamblerre/gocode
+
 deps:
 	@echo "Installing Dependencies"
 	@sudo apt update && sudo apt install \
