@@ -21,7 +21,7 @@ au FileType go nmap <Leader>gr <Plug>(go-referrers)
 "au FileType javascript nmap <C-]> :TernDef<CR>
 "
 nmap <Leader>m <Plug>(git-messenger)
-nmap <Leader>c :GoCoverage -gcflags=all=-l<CR>
+nmap <Leader>c :GoCoverage<CR>
 cab GoCoverage GoCoverage -gcflags=all=-l
 
 " close scratch window, quickfix & Remove search highlight
@@ -47,6 +47,9 @@ map k gk
 map j gj
 " Just go out in insert mode
 imap jj <ESC>l
+
+" annoying
+cab W w
 
 " move line up & down
 nnoremap <C-j> :m +1<CR>=
@@ -91,7 +94,12 @@ Plug 'ncm2/ncm2'
   Plug 'Shougo/neoinclude.vim'
  Plug 'ncm2/ncm2-go'
  Plug 'ncm2/ncm2-tern',  {'do': 'yarn'} " js
- "Plug 'ncm2/nvim-typescript', {'do': './install.sh'} " ts
+ Plug 'ncm2/nvim-typescript', {'do': './install.sh'} " ts
+  Plug 'mhartington/nvim-typescript'
+ " For async completion
+  Plug 'Shougo/deoplete.nvim'
+ " For Denite features
+  Plug 'Shougo/denite.nvim'
  Plug 'ncm2/ncm2-neosnippet'
   Plug 'honza/vim-snippets'
   Plug 'Shougo/neosnippet.vim'
