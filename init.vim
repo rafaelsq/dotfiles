@@ -168,7 +168,7 @@ hi Normal guibg=NONE ctermbg=None
  \}
 
  let g:ale_linters = {
- \   'go': ['golangci-lint', 'gopls'],
+ \   'go': ['gopls'],
  \}
 
  let g:ale_fix_on_save = 1
