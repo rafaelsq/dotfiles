@@ -16,7 +16,7 @@ deps:
 	@echo "Installing Dependencies"
 	@sudo apt update && sudo apt install \
 		curl git bison gcc make zsh silversearcher-ag autojump aria2 xsel \
-		terminator htop
+		terminator htop python3-pip
 
 zsh:
 	@echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"
@@ -28,13 +28,19 @@ go:
 
 nvim:
 	@echo "Neovim"
-	@yarn global add neovim
-	@mkdir -p ~/appimage
-	@xdg-open https://github.com/neovim/neovim/releases
-	@chmod +x ~/appimage/nvim.appimage
-	@echo "plug - https://github.com/junegunn/vim-plug"
-	@curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	@yarn global add neovim typescript
+	@which pip3 > /dev/null || pip3 install neovim
+	@if [ ! -d "../appimage" ]; then \
+		mkdir -p ~/appimage; \
+	fi
+	@if [ ! -f "../appimage/nvim.appimage" ]; then \
+		xdg-open https://github.com/neovim/neovim/releases; \
+	else \
+		chmod +x ~/appimage/nvim.appimage; \
+		echo "plug - https://github.com/junegunn/vim-plug"; \
+		curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+			https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim; \
+	fi
 
 yarn:
 	@echo "yarn https://yarnpkg.com/pt-BR/docs/install"
