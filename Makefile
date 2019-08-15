@@ -70,6 +70,11 @@ links:
 		rm -f ../.eslintrc; \
 		ln -s ${PWD}/eslintrc ~/.eslintrc; \
 	fi
+	@if [ ! -L "../.prettierrc" ]; then \
+		echo "~/.prettierrc"; \
+		rm -f ../.prettierrc; \
+		ln -s ${PWD}/prettierrc ~/.prettierrc; \
+	fi
 	@if [ ! -L "../.config/nvim/init.vim" ]; then \
 		echo "~/.config/nvim/init.vim"; \
 		mkdir -p ../.config/nvim; \

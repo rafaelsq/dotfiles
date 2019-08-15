@@ -106,7 +106,7 @@ Plug 'ncm2/ncm2'
   Plug 'Shougo/neosnippet-snippets'
  Plug 'ncm2/ncm2-ultisnips'
   Plug 'SirVer/ultisnips'
- Plug 'ncm2/float-preview.nvim'
+ "Plug 'ncm2/float-preview.nvim'
  Plug 'ncm2/ncm2-jedi' " python
 
 " ident
