@@ -19,7 +19,7 @@ alias kb='pod=$(k get pods | cut -f1 -d" " | fzf); k exec -ti $pod bash || k exe
 
 # exports
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor --ignore node_modules -g ""'
-export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/.platform-tools/:~/go/bin/
+export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/.platform-tools/:~/go/bin/:~/.local/bin/
 export TMPDIR=/tmp
 
 # funcs
