@@ -94,8 +94,8 @@ Plug 'ncm2/ncm2'
   Plug 'Shougo/neoinclude.vim'
  Plug 'ncm2/ncm2-go'
  Plug 'ncm2/ncm2-tern',  {'do': 'yarn'} " js
- Plug 'ncm2/nvim-typescript', {'do': './install.sh'} " ts
-  Plug 'mhartington/nvim-typescript'
+ "Plug 'ncm2/nvim-typescript', {'do': './install.sh'} " ts
+  "Plug 'mhartington/nvim-typescript'
  " For async completion
   Plug 'Shougo/deoplete.nvim'
  " For Denite features
