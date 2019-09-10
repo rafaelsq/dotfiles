@@ -36,14 +36,14 @@ nvim:
 	@if [ ! -d "../appimage" ]; then \
 		mkdir -p ~/appimage; \
 	fi
-	@if [ ! -f "../appimage/nvim.appimage" ]; then \
-		xdg-open https://github.com/neovim/neovim/releases; \
-	else \
-		chmod +x ~/appimage/nvim.appimage; \
-		echo "plug - https://github.com/junegunn/vim-plug"; \
-		curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-			https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim; \
-	fi
+	@rm ~/appimage/nvim.appimage &&\
+		curl --silent https://github.com/neovim/neovim/releases |\
+		ag -o '/v[0-9\.]+/nvim.appimage' | head -n 1 |\
+		xargs -I@ curl -L "https://github.com/neovim/neovim/releases/download@" -o ~/appimage/nvim.appimage
+	@chmod +x ~/appimage/nvim.appimage
+	@echo "plug - https://github.com/junegunn/vim-plug"
+	@curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 yarn:
 	@echo "yarn https://yarnpkg.com/pt-BR/docs/install"
