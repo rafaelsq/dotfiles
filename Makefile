@@ -24,7 +24,10 @@ zsh:
 	@echo "you should logout and login again"
 
 go:
-	@xdg-open https://golang.org/dl/
+	@sudo rm -rf /usr/local/go && curl --silent https://golang.org/dl/ 2>&1 |\
+		ag -o 'https://dl.google.com/go/go([0-9.]+).linux-amd64.tar.gz' |\
+		head -n 1 |\
+		xargs -I@ sh -c 'curl -O @; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
 
 nvim:
 	@echo "Neovim"
