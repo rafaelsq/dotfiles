@@ -24,6 +24,7 @@ deps:
 		terminator htop python3-pip
 
 zsh:
+	@echo "ZSH"
 	@if ! which zsh > /dev/null; then \
 		echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"; \
 		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"; \
@@ -44,9 +45,7 @@ nvim:
 	@echo "Neovim"
 	@yarn global add neovim typescript
 	@which pip3 > /dev/null || pip3 install neovim
-	@if [ ! -d "~/appimage" ]; then \
-		mkdir -p ~/appimage; \
-	fi
+	@mkdir -p ~/appimage
 	@rm ~/appimage/nvim.appimage &&\
 		curl --silent https://github.com/neovim/neovim/releases |\
 		ag -o '/v[0-9\.]+/nvim.appimage' | head -n 1 |\
@@ -69,38 +68,15 @@ config:
 	@sudo sysctl -w fs.inotify.max_user_watches=1048576 && sysctl -p
 
 links:
-	@if [ ! -L "~/.zshrc" ]; then \
-		echo "~/.zshrc"; \
-		rm -f ~/.zshrc; \
-		ln -s ${PWD}/zshrc ~/.zshrc; \
-	fi
-	@if [ ! -L "~/.gitconfig" ]; then \
-		echo "~/.gitconfig"; \
-		rm -f ~/.gitconfig; \
-		ln -s ${PWD}/gitconfig ~/.gitconfig; \
-	fi
-	@if [ ! -L "~/.eslintrc" ]; then \
-		echo "~/.eslintrc"; \
-		rm -f ~/.eslintrc; \
-		ln -s ${PWD}/eslintrc ~/.eslintrc; \
-	fi
-	@if [ ! -L "~/.prettierrc" ]; then \
-		echo "~/.prettierrc"; \
-		rm -f ~/.prettierrc; \
-		ln -s ${PWD}/prettierrc ~/.prettierrc; \
-	fi
-	@if [ ! -L "~/.config/nvim/init.vim" ]; then \
-		echo "~/.config/nvim/init.vim"; \
-		mkdir -p ~/.config/nvim; \
-		rm -f ~/.config/nvim/init.vim; \
-		ln -s ${PWD}/init.vim ~/.config/nvim/init.vim; \
-	fi
-	@if [ ! -L "~/.config/terminator/config" ]; then \
-		echo "~/.config/terminator/config"; \
-		mkdir -p ~/.config/terminator; \
-		rm -f ~/.config/terminator/config; \
-		ln -s ${PWD}/terminator.cfg ~/.config/terminator/config; \
-	fi
+	@echo "links"
+	@ln -sf ${PWD}/zshrc ~/.zshrc
+	@ln -sf ${PWD}/gitconfig ~/.gitconfig
+	@ln -sf ${PWD}/eslintrc ~/.eslintrc
+	@ln -sf ${PWD}/prettierrc ~/.prettierrc
+	@mkdir -p ~/.config/nvim
+	@ln -sf ${PWD}/init.vim ~/.config/nvim/init.vim
+	@mkdir -p ~/.config/terminator
+	@ln -sf ${PWD}/terminator.cfg ~/.config/terminator/config
 
 docker:
 	@sh -c "$$(curl -fsSL https://get.docker.com)"
