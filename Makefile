@@ -19,9 +19,15 @@ deps:
 		terminator htop python3-pip
 
 zsh:
-	@echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"
-	@./zsh.sh
-	@echo "you should logout and login again"
+	@if ! which zsh > /dev/null; then \
+		echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"; \
+		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"; \
+		echo "you should logout and login again"; \
+	fi
+	@if [ ! -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then \
+		echo "zsh autosuggestions"; \
+		git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions; \
+	fi
 
 go:
 	@sudo rm -rf /usr/local/go && curl --silent https://golang.org/dl/ 2>&1 |\
