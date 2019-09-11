@@ -44,7 +44,7 @@ nvim:
 	@echo "Neovim"
 	@yarn global add neovim typescript
 	@which pip3 > /dev/null || pip3 install neovim
-	@if [ ! -d "../appimage" ]; then \
+	@if [ ! -d "~/appimage" ]; then \
 		mkdir -p ~/appimage; \
 	fi
 	@rm ~/appimage/nvim.appimage &&\
@@ -69,36 +69,36 @@ config:
 	@sudo sysctl -w fs.inotify.max_user_watches=1048576 && sysctl -p
 
 links:
-	@if [ ! -L "../.zshrc" ]; then \
+	@if [ ! -L "~/.zshrc" ]; then \
 		echo "~/.zshrc"; \
-		rm -f ../.zshrc; \
+		rm -f ~/.zshrc; \
 		ln -s ${PWD}/zshrc ~/.zshrc; \
 	fi
-	@if [ ! -L "../.gitconfig" ]; then \
+	@if [ ! -L "~/.gitconfig" ]; then \
 		echo "~/.gitconfig"; \
-		rm -f ../.gitconfig; \
+		rm -f ~/.gitconfig; \
 		ln -s ${PWD}/gitconfig ~/.gitconfig; \
 	fi
-	@if [ ! -L "../.eslintrc" ]; then \
+	@if [ ! -L "~/.eslintrc" ]; then \
 		echo "~/.eslintrc"; \
-		rm -f ../.eslintrc; \
+		rm -f ~/.eslintrc; \
 		ln -s ${PWD}/eslintrc ~/.eslintrc; \
 	fi
-	@if [ ! -L "../.prettierrc" ]; then \
+	@if [ ! -L "~/.prettierrc" ]; then \
 		echo "~/.prettierrc"; \
-		rm -f ../.prettierrc; \
+		rm -f ~/.prettierrc; \
 		ln -s ${PWD}/prettierrc ~/.prettierrc; \
 	fi
-	@if [ ! -L "../.config/nvim/init.vim" ]; then \
+	@if [ ! -L "~/.config/nvim/init.vim" ]; then \
 		echo "~/.config/nvim/init.vim"; \
-		mkdir -p ../.config/nvim; \
-		rm -f ../.config/nvim/init.vim; \
+		mkdir -p ~/.config/nvim; \
+		rm -f ~/.config/nvim/init.vim; \
 		ln -s ${PWD}/init.vim ~/.config/nvim/init.vim; \
 	fi
-	@if [ ! -L "../.config/terminator/config" ]; then \
+	@if [ ! -L "~/.config/terminator/config" ]; then \
 		echo "~/.config/terminator/config"; \
-		mkdir -p ../.config/terminator; \
-		rm -f ../.config/terminator/config; \
+		mkdir -p ~/.config/terminator; \
+		rm -f ~/.config/terminator/config; \
 		ln -s ${PWD}/terminator.cfg ~/.config/terminator/config; \
 	fi
 
