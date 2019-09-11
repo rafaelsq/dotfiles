@@ -7,10 +7,15 @@ default:
 	@echo "make yarn"
 	@echo "make nvim"
 	@echo "make docker"
+	@echo "make fix"
 
 custom:
 	@echo "Change GoCode"
 	@go get -u github.com/stamblerre/gocode
+
+fix:
+	@echo "Fix neovim ctrl+p so it ignores the vendor/node directories"
+	@sed -i'' 's/ag --no/ag --ignore-dir=vendor --ignore-dir=node_modules --no/' ~/.config/nvim/plugged/fzf.vim/autoload/fzf/vim.vim
 
 deps:
 	@echo "Installing Dependencies"
