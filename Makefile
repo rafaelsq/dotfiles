@@ -103,4 +103,4 @@ links:
 	fi
 
 docker:
-	@xdg-open "https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository"
+	@sh -c "$$(curl -fsSL https://get.docker.com)"
