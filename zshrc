@@ -37,6 +37,10 @@ qq() {
     "${gpath%%:*}/src/github.com/y0ssar1an/q/q.sh" "$@"
 }
 
+# make <tab>
+zstyle ':completion:*:*:make:*' tag-order 'targets'
+autoload -U compinit && compinit
+
 # others
 . /usr/share/autojump/autojump.sh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
