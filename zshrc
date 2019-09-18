@@ -26,6 +26,7 @@ export TMPDIR=/tmp
 o(){xdg-open "$*" >/dev/null 2>/dev/null}
 gop(){export GOPATH=~/gopath;}
 port() {lsof -i ":$1" | ag LISTEN}
+pf(){ k port-forward $2 $1; }
 
 qq() {
     if [[ -f "$TMPDIR/q" ]]; then
