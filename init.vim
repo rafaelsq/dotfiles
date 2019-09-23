@@ -1,6 +1,6 @@
 set shellcmdflag=-ic " :!
 
-set list listchars=tab:»\ ,trail:·,nbsp:·
+set list listchars=tab:»\ ,trail:·
 set tabstop=4 shiftwidth=4
 set so=5                   " padding on j/k
 set noswapfile             " Don't use swapfile
