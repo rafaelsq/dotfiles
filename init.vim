@@ -11,6 +11,7 @@ set inccommand=split
 set incsearch
 set mouse=a
 set completeopt=noinsert,menuone,noselect " n2mc
+set shortmess+=c " n2mc
 
 " au FileType qf wincmd J                             " quickfix at bottom
 au FileType go nmap <Leader>rn <Plug>(go-rename)
@@ -52,8 +53,8 @@ imap jj <ESC>l
 cab W w
 
 " move line up & down
-nnoremap <C-j> :m +1<CR>=
-nnoremap <C-k> :m -2<CR>=
+nnoremap <leader>j :m +1<CR>=<CR>
+nnoremap <leader>k :m -2<CR>=<CR>
 
 inoremap <silent> <expr> <CR> ncm2_neosnippet#expand_or("\<CR>", 'n')
 inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
@@ -108,6 +109,7 @@ Plug 'ncm2/ncm2'
   Plug 'SirVer/ultisnips'
  "Plug 'ncm2/float-preview.nvim'
  Plug 'ncm2/ncm2-jedi' " python
+ Plug 'ncm2/ncm2-html-subscope' " html
 
 " ident
 Plug 'ldx/vim-indentfinder'
