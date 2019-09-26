@@ -167,10 +167,12 @@ hi Normal guibg=NONE ctermbg=None
  let g:ale_fixers = {
  \   'javascript': ['prettier', 'eslint', 'prettier-eslint'],
  \   'typescript': ['prettier', 'tslint'],
+ \   'python': ['autopep8', 'yapf'],
  \}
 
  let g:ale_linters = {
  \   'go': ['gopls'],
+ \   'py': ['flake8', 'pylint'],
  \}
 
  let g:ale_fix_on_save = 1

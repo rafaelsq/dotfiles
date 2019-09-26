@@ -3,6 +3,7 @@ default:
 	@echo "make deps"
 	@echo "make zsh"
 	@echo "make go"
+	@echo "make py"
 	@echo "make links"
 	@echo "make yarn"
 	@echo "make nvim"
@@ -40,6 +41,9 @@ go:
 		ag -o 'https://dl.google.com/go/go([0-9.]+).linux-amd64.tar.gz' |\
 		head -n 1 |\
 		xargs -I@ sh -c 'curl -O @; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
+
+py:
+	@pip3 install jedi autopep8 yapf flake8 pylint
 
 nvim:
 	@echo "Neovim"
