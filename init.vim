@@ -50,8 +50,6 @@ map <Up> gk
 map <Down> gj
 map k gk
 map j gj
-" Just go out in insert mode
-imap jj <ESC>l
 
 " annoying
 cab W w
