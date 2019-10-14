@@ -20,6 +20,10 @@ au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>gr <Plug>(go-referrers)
 "au FileType javascript nmap <C-]> :TernDef<CR>
+au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+au Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')"
 "
 nmap <Leader>m <Plug>(git-messenger)
 nmap <Leader>c :GoCoverage<CR>
