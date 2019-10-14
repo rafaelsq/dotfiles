@@ -40,6 +40,8 @@ map ' ^
 " prevent p/P to yank
 xnoremap <expr> p 'pgv"'.v:register.'y'
 xnoremap <expr> P 'Pgv"'.v:register.'y'
+xnoremap <leader>y "+y
+nnoremap <leader>p "+pa
 
 " FZF search term
 nnoremap <leader>a :CodeRef<space>
