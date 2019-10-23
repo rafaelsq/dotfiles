@@ -120,7 +120,7 @@ Plug 'ncm2/ncm2'
  Plug 'ncm2/ncm2-html-subscope' " html
 
 " ident
-Plug 'ldx/vim-indentfinder'
+Plug 'tpope/vim-sleuth'
 
 " TypeScript
  " go to definition, etc
