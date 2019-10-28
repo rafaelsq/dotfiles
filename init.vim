@@ -53,8 +53,12 @@ map <Down> gj
 map k gk
 map j gj
 
-" annoying
+" annoying :W
 cab W w
+
+" keep block selection
+vmap < <gv
+vmap > >gv
 
 " move line up & down
 nnoremap <leader>j :m +1<CR>=<CR>
