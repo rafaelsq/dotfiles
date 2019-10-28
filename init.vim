@@ -61,8 +61,10 @@ vmap < <gv
 vmap > >gv
 
 " move line up & down
-nnoremap <leader>j :m +1<CR>=<CR>
-nnoremap <leader>k :m -2<CR>=<CR>
+nnoremap <leader>j :m .+1<CR>==
+nnoremap <leader>k :m .-2<CR>==
+vnoremap <leader>j :m '>+1<CR>gv=gv
+vnoremap <leader>k :m '<-2<CR>gv=gv
 
 inoremap <silent> <expr> <CR> ncm2_neosnippet#expand_or("\<CR>", 'n')
 inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
