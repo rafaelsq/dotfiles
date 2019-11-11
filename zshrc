@@ -24,6 +24,9 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor --ignore n
 export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/.platform-tools/:~/go/bin/:~/.local/bin/
 export TMPDIR=/tmp
 
+# fix tmux colors
+export TERM=screen-256color
+
 # funcs
 o(){xdg-open "$*" >/dev/null 2>/dev/null}
 gop(){export GOPATH=~/gopath;}

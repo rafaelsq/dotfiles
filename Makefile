@@ -77,6 +77,9 @@ links:
 	@ln -sf ${PWD}/gitconfig ~/.gitconfig
 	@ln -sf ${PWD}/eslintrc ~/.eslintrc
 	@ln -sf ${PWD}/prettierrc ~/.prettierrc
+	@ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
+	@mkdir -p ~/.config/alacritty
+	@ln -sf ${PWD}/alacritty.yml ~/.config/alacritty/alacritty.yml
 	@mkdir -p ~/.config/nvim
 	@ln -sf ${PWD}/init.vim ~/.config/nvim/init.vim
 	@mkdir -p ~/.config/terminator
