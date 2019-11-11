@@ -175,8 +175,26 @@ hi Normal guibg=NONE ctermbg=None
 
 " airline
  "let g:airline_section_a=''
- let g:airline_theme='bubblegum'
-
+ let g:airline_theme='term'
+ let g:airline_powerline_fonts = 1
+ let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+ let g:airline#extensions#wordcount#format = '%d words'
+ let g:airline_section_z = '%3p%% %3l/%L:%3v'
+ let g:airline_section_b = ''
+ let g:airline_skip_empty_sections = 1
+ let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ '' : 'V',
+    \ 's'  : 'S',
+    \ }
+"let g:airline#extensions#branch#enabled = 1
+"
 " ale
  let g:ale_fixers = {
  \   'javascript': ['prettier', 'eslint', 'prettier-eslint'],
