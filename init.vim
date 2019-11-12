@@ -44,8 +44,10 @@ xnoremap <leader>y "+y
 nnoremap <leader>p "+pa
 
 " FZF search term
-nnoremap <leader>a :CodeRef<space>
-xmap <leader>a "yy:<C-u>CodeRef <c-r>y<CR>
+ " select word under cursor
+ xmap <leader>a "yy:Ag <c-r>y<cr>
+ " search selection
+ nmap <leader>a :Ag <c-r><c-w><cr>
 
 " up and down on splitted lines
 map <Up> gk
