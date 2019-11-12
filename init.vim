@@ -218,7 +218,7 @@ hi Normal guibg=NONE ctermbg=None
  set updatetime=250
 
 " FZF
- let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --hidden --ignore-dir=vendor --ignore-dir=node_modules'
+ let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --hidden --ignore-dir=vendor --ignore-dir=node_modules --ignore-dir=.git'
  command! -nargs=* CodeRef call fzf#vim#ag(<q-args>)
 
 " vim-go
