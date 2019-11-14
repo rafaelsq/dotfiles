@@ -25,7 +25,7 @@ window:
   #
   # Specified in number of pixels.
   # If the position is not set, the window manager will handle the placement.
-  #position:
+  position:
     x: 0
     y: 0
 
@@ -87,7 +87,7 @@ scrolling:
   faux_multiplier: 3
 
   # Scroll to the bottom when new text is written to the terminal.
-  auto_scroll: false
+  auto_scroll: true
 
 # Spaces per Tab (changes require restart)
 #
@@ -100,43 +100,9 @@ tabspaces: 8
 
 # Font configuration (changes require restart)
 font:
-  # Normal (roman) font face
-  #normal:
-    # Font family
-    #
-    # Default:
-    #   - (macOS) Menlo
-    #   - (Linux) monospace
-    #   - (Windows) Consolas
-    # family: monospace
-    #family: ubuntu mono
-
-    # The `style` can be specified to pick a specific face.
-    #style: Regular
-
-  # Bold font face
-  #bold:
-    # Font family
-    #
-    # If the bold family is not specified, it will fall back to the
-    # value specified for the normal font.
-    # family: monospace
-    #family: ubuntu mono
-
-    # The `style` can be specified to pick a specific face.
-    #style: Bold
-
-  # Italic font face
-  #italic:
-    # Font family
-    #
-    # If the italic family is not specified, it will fall back to the
-    # value specified for the normal font.
-    # family: monospace
-    #family: ubuntu mono
-
-    # The `style` can be specified to pick a specific face.
-    #style: Italic
+  normal:
+    family: Hack
+    style: Regular
 
   # Point size
   size: 11.0
@@ -168,7 +134,7 @@ font:
   #
   # This is a global setting and will require a log out or restart to take
   # effect.
-  use_thin_strokes: true
+  use_thin_strokes: false
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
@@ -177,7 +143,7 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    background: '0x000000'
+    background: '0x101010'
     foreground: '0xeaeaea'
 
     # Bright and dim foreground colors
@@ -281,7 +247,7 @@ visual_bell:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 1.0
+background_opacity: 0.9
 
 # Mouse bindings
 #
