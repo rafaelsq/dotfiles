@@ -142,11 +142,12 @@ Plug 'tpope/vim-sleuth'
   "Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
 
 " lint
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 
 " status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+ Plug 'tpope/vim-fugitive' " git info
 
 " styles
 Plug 'flazz/vim-colorschemes'
@@ -161,7 +162,6 @@ Plug 'rhysd/git-messenger.vim'
 "Plug 'SirVer/ultisnips'
 "Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'tpope/vim-surround'
-" Plug 'jiangmiao/auto-pairs'
 "Plug 'majutsushi/tagbar'
 
 call plug#end()
@@ -182,7 +182,7 @@ hi Normal guibg=NONE ctermbg=None
  let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
  let g:airline#extensions#wordcount#format = '%d words'
  let g:airline_section_z = '%3p%% %3l/%L:%3v'
- let g:airline_section_b = ''
+ "let g:airline_section_b = ''
  let g:airline_skip_empty_sections = 1
  let g:airline_mode_map = {
     \ '__' : '-',
