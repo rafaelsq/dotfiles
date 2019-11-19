@@ -1,3 +1,46 @@
+" Plugins
+"  PluginManager
+"   https://github.com/junegunn/vim-plug
+call plug#begin('~/.config/nvim/plugged')
+
+ " Plug 'ctrlpvim/ctrlp.vim'
+ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+ Plug 'junegunn/fzf.vim'
+
+ " Go
+ Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
+  " fix gocode `$ go get -u github.com/stamblerre/gocode`
+
+ " ident
+ Plug 'tpope/vim-sleuth'
+
+ " Autocomplete
+ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+ " lint/lsp
+ Plug 'dense-analysis/ale'
+
+ " status bar
+ Plug 'vim-airline/vim-airline'
+ Plug 'vim-airline/vim-airline-themes'
+  Plug 'tpope/vim-fugitive' " git info
+
+ " styles
+ Plug 'flazz/vim-colorschemes'
+ Plug 'sheerun/vim-polyglot'
+
+ " Git
+ Plug 'airblade/vim-gitgutter'
+ Plug 'rhysd/git-messenger.vim'
+
+ " Others
+ Plug 'SirVer/ultisnips'
+ Plug 'honza/vim-snippets'
+ Plug 'tpope/vim-surround'
+
+call plug#end()
+
+
 set shellcmdflag=-ic " :!
 
 set list listchars=tab:»\ ,trail:·
@@ -10,32 +53,25 @@ set wildmode=list:longest  " no tab cicly
 set inccommand=split
 set incsearch
 set mouse=a
-set completeopt=noinsert,menuone,noselect " n2mc
-set shortmess+=c " n2mc
 
-" au FileType qf wincmd J                             " quickfix at bottom
-au FileType go nmap <Leader>rn <Plug>(go-rename)
-au FileType go nmap <Leader>dh <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-au FileType go nmap <Leader>gr <Plug>(go-referrers)
-"au FileType javascript nmap <C-]> :TernDef<CR>
 au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
 au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
 au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
 au Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')"
-"
-nmap <Leader>m <Plug>(git-messenger)
+
 nmap <Leader>c :GoCoverage<CR>
 cab GoCoverage GoCoverage -gcflags=all=-l
 
+" git
+nmap <Leader>m <Plug>(git-messenger)
+
 " close scratch window, quickfix & Remove search highlight
 nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR> :GoCoverageClear<CR>
+
 " Center the screen
 nnoremap <space> zz
-" search on C-p
-nnoremap <silent> <C-p> :FZF<CR>
-map ' ^
+
+"map ' ^
 
 " prevent p/P to yank
 xnoremap <expr> p 'pgv"'.v:register.'y'
@@ -44,6 +80,8 @@ xnoremap <leader>y "+y
 nnoremap <leader>p "+pa
 
 " FZF search term
+ " search on ctrl+p
+ nnoremap <silent> <C-p> :FZF<CR>
  " select word under cursor
  xmap <leader>a "yy:Ag <c-r>y<cr>
  " search selection
@@ -59,17 +97,14 @@ map j gj
 cab W w
 
 " keep block selection
-vmap < <gv
-vmap > >gv
+"vmap < <gv
+"vmap > >gv
 
 " move line up & down
 nnoremap <leader>j :m .+1<CR>==
 nnoremap <leader>k :m .-2<CR>==
 vnoremap <leader>j :m '>+1<CR>gv=gv
 vnoremap <leader>k :m '<-2<CR>gv=gv
-
-inoremap <silent> <expr> <CR> ncm2_neosnippet#expand_or("\<CR>", 'n')
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 
 " Open current file on github
 nnoremap <leader>g :!o `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%<CR><CR><CR>
@@ -80,94 +115,6 @@ vnoremap <leader>o <ESC>:!o `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#
 let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
-" Plugins
-"  PluginManager
-"   https://github.com/junegunn/vim-plug
-call plug#begin('~/.config/nvim/plugged')
-
-" Plug 'ctrlpvim/ctrlp.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-
-" Gist
-Plug 'mattn/webapi-vim'
-Plug 'mattn/gist-vim'
-
-" GO
-Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
- " fix gocode `$ go get -u github.com/stamblerre/gocode`
-
-" autocomplete
-Plug 'ncm2/ncm2'
- " require
- Plug 'roxma/nvim-yarp'
-
- " plugins
- Plug 'ncm2/ncm2-bufword'
- Plug 'ncm2/ncm2-path'
- Plug 'ncm2/ncm2-syntax'
-  Plug 'Shougo/neco-syntax'
- Plug 'ncm2/ncm2-neoinclude'
-  Plug 'Shougo/neoinclude.vim'
- Plug 'ncm2/ncm2-go'
- Plug 'ncm2/ncm2-tern',  {'do': 'yarn'} " js
- "Plug 'ncm2/nvim-typescript', {'do': './install.sh'} " ts
-  "Plug 'mhartington/nvim-typescript'
- " For async completion
-  Plug 'Shougo/deoplete.nvim'
- " For Denite features
-  Plug 'Shougo/denite.nvim'
- Plug 'ncm2/ncm2-neosnippet'
-  Plug 'honza/vim-snippets'
-  Plug 'Shougo/neosnippet.vim'
-  Plug 'Shougo/neosnippet-snippets'
- Plug 'ncm2/ncm2-ultisnips'
-  Plug 'SirVer/ultisnips'
- "Plug 'ncm2/float-preview.nvim'
- Plug 'ncm2/ncm2-jedi' " python
- Plug 'ncm2/ncm2-html-subscope' " html
-
-" ident
-Plug 'tpope/vim-sleuth'
-
-" TypeScript
- " go to definition, etc
-  "Plug 'runoshun/tscompletejob'
-  "Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
- " async lib
-  " Plug 'Shougo/vimproc.vim', { 'do': 'make' }
- " client for TSServer
-  " Plug 'Quramy/tsuquyomi', { 'do': 'npm install -g typescript' }
-  " native language; know things; super slow
-  "Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
-
-" lint
-Plug 'dense-analysis/ale'
-
-" status bar
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
- Plug 'tpope/vim-fugitive' " git info
-
-" styles
-Plug 'flazz/vim-colorschemes'
-Plug 'sheerun/vim-polyglot'
-Plug 'HerringtonDarkholme/yats.vim' " ts.syntax / ncm2
-
-" Git
-Plug 'airblade/vim-gitgutter'
-Plug 'rhysd/git-messenger.vim'
-
-" Others
-"Plug 'SirVer/ultisnips'
-"Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
-Plug 'tpope/vim-surround'
-"Plug 'majutsushi/tagbar'
-
-call plug#end()
-
-" enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " colorscheme
 colorscheme molokai_dark
@@ -196,17 +143,40 @@ hi Normal guibg=NONE ctermbg=None
     \ 's'  : 'S',
     \ }
 "let g:airline#extensions#branch#enabled = 1
-"
-" ale
+
+" Ale
+let g:airline#extensions#ale#enabled = 1 " enable LSP
+
+"let g:ale_completion_enabled = 1 " use ale autocomplete
+ "set omnifunc=ale#completion#OmniFunc
+ "set completeopt=noinsert,menuone,noselect
+
+" map
+nmap gd :ALEGoToDefinition<CR>
+nmap <Leader>dh :ALEGoToDefinitionInSplit<CR>
+nmap <Leader>dv :ALEGoToDefinitionInVSplit<CR>
+nmap <Leader>dt :ALEGoToDefinitionInTab<CR>
+nmap <Leader>gr :ALEFindReferences<CR>
+nmap <Leader>i :ALEHover<CR>
+
+" next err
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
  let g:ale_fixers = {
  \   'javascript': ['prettier', 'eslint', 'prettier-eslint'],
  \   'typescript': ['prettier', 'tslint'],
+ \   'typescriptreact': ['prettier', 'tslint'],
  \   'python': ['autopep8', 'yapf'],
+ \   'graphql': ['prettier'],
+ \   'json': ['prettier'],
  \}
 
  let g:ale_linters = {
- \   'go': ['gopls'],
+ \   'go': ['gopls', 'golangci-lint'],
  \   'py': ['flake8', 'pylint'],
+ \   'typescript': ['tsserver'],
+ \   'typescriptreact': ['tsserver'],
+ \   'javascript': ['eslint'],
  \}
 
  let g:ale_fix_on_save = 1
@@ -215,6 +185,10 @@ hi Normal guibg=NONE ctermbg=None
  " navigate between errors
  "nmap <silent> <C-k> <Plug>(ale_previous_wrap)
  "nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+" Deoplete autocomplete
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#source('_', 'ale') " use ale LSP
 
 " Git vim-gitgutter
  set updatetime=250
