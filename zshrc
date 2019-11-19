@@ -1,5 +1,5 @@
 export ZSH="/home/rafael/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="nuts"
 plugins=(
   git kubectl zsh-autosuggestions
 )

@@ -35,6 +35,11 @@ zsh:
 		echo "zsh autosuggestions"; \
 		git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions; \
 	fi
+	@mkdir -p ~/src/rafaelsq
+	@if [ ! -d ~/src/rafaelsq/nuts.zsh-theme ]; then \
+		echo "Nuts Theme" \
+		cd ~/src/rafaelsq && git clone git@github.com:rafaelsq/nuts.zsh-theme.git && cd nuts.zsh-theme && make; \
+	fi
 
 go:
 	@sudo rm -rf /usr/local/go && curl --silent https://golang.org/dl/ 2>&1 |\
