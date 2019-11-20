@@ -55,10 +55,13 @@ nvim:
 	@yarn global add neovim typescript
 	@which pip3 > /dev/null || pip3 install neovim
 	@mkdir -p ~/appimage
-	@rm ~/appimage/nvim.appimage &&\
-		curl --silent https://github.com/neovim/neovim/releases |\
+	@curl --silent https://github.com/neovim/neovim/releases |\
 		ag -o '/v[0-9\.]+/nvim.appimage' | head -n 1 |\
-		xargs -I@ curl -L "https://github.com/neovim/neovim/releases/download@" -o ~/appimage/nvim.appimage
+		xargs -I@ curl -L "https://github.com/neovim/neovim/releases/download@" -o ~/appimage/nvim.appimage_new
+	@if [ -f ~/appimage/nvim.appimage_new ]; then \
+		[ -f ~/appimage/nvim.appimage ] && mv ~/appimage/nvim.appimage ~/appimage/nvim.appimage$$(date +_%d_%m);\
+		mv ~/appimage/nvim.appimage_new ~/appimage/nvim.appimage; \
+	fi
 	@chmod +x ~/appimage/nvim.appimage
 	@echo "plug - https://github.com/junegunn/vim-plug"
 	@curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
