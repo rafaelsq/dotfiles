@@ -37,8 +37,8 @@ zsh:
 	fi
 	@mkdir -p ~/src/rafaelsq
 	@if [ ! -d ~/src/rafaelsq/nuts.zsh-theme ]; then \
-		echo "Nuts Theme" \
-		cd ~/src/rafaelsq && git clone git@github.com:rafaelsq/nuts.zsh-theme.git && cd nuts.zsh-theme && make; \
+		echo "Nuts Theme"; \
+		git clone git@github.com:rafaelsq/nuts.zsh-theme.git ~/src/rafaelsq/nuts.zsh-theme && cd ~/src/rafaelsq/nuts.zsh-theme && make; \
 	fi
 
 go:
