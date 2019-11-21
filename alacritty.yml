@@ -340,6 +340,12 @@ live_config_reload: true
 #  args:
 #    - --login
 
+shell:
+  program: /bin/zsh
+  args:
+    - -c
+    - "tmux"
+
 # Startup directory
 #
 # Directory the shell is started in. If this is unset, or `None`, the working
