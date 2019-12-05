@@ -1,3 +1,5 @@
+GO_BKP=~/bk.`go version 2>&1 | ag -o 'go([0-9\.]+)'`
+
 default:
 	@echo "make config"
 	@echo "make deps"
@@ -42,7 +44,11 @@ zsh:
 	fi
 
 go:
-	@sudo rm -rf /usr/local/go && curl --silent https://golang.org/dl/ 2>&1 |\
+	@if which go > /dev/null; then \
+		echo back-up at ${GO_BKP};\
+		sudo mv /usr/local/go ${GO_BKP};\
+	fi
+	@curl --silent https://golang.org/dl/ 2>&1 |\
 		ag -o 'https://dl.google.com/go/go([0-9.]+).linux-amd64.tar.gz' |\
 		head -n 1 |\
 		xargs -I@ sh -c 'curl -O @; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
