@@ -25,7 +25,7 @@ export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/.platform
 export TMPDIR=/tmp
 
 # fix tmux colors
-export TERM=screen-256color
+#export TERM=screen-256color
 
 # funcs
 o(){xdg-open "$*" >/dev/null 2>/dev/null}
