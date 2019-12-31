@@ -169,6 +169,8 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
  \   'python': ['autopep8', 'yapf'],
  \   'graphql': ['prettier'],
  \   'json': ['prettier'],
+ \   'sass': ['prettier'],
+ \   'html': ['prettier'],
  \}
 
  let g:ale_linters = {
