@@ -6,13 +6,6 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # alias
-alias push="g push origin \$(g br | ag '\*' | cut -d ' ' -f 2)"
-alias pushard="g push origin -f \$(g br | ag '\*' | cut -d ' ' -f 2)"
-alias prm="g prm"
-alias prd="g prd"
-alias gca="g ci -a --amend"
-alias gcane="g ci --amend --no-edit"
-alias gacp="ga . && gcane && pushard"
 alias cl="printf '\033[2J\033[3J\033[1;1H'"
 alias vim=nvim
 alias nvim=~/appimage/nvim.appimage

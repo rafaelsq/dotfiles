@@ -29,10 +29,6 @@
     co = checkout
     df = diff
     lg = log --graph
-    prd = pull ss development --rebase
-    prm = pull ss master --rebase
-    rhd = reset --hard ss/development
-    rhm = reset --hard ss/master
     rh = reset --hard
     ru = remote update
     url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
