@@ -27,6 +27,7 @@ deps:
 		terminator htop python3-pip
 
 zsh:
+	✦
 	@echo "ZSH"
 	@if ! which zsh > /dev/null; then \
 		echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"; \
@@ -79,7 +80,7 @@ yarn:
 	@echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 	@sudo apt update && sudo apt install -y yarn
 	@echo "yarn basics"
-	@yarn global add parcel eslint prettier-eslint eslint-plugin-react
+	@yarn global add parcel eslint prettier prettier-eslint-cli eslint-plugin-react eslint-plugin-vue
 
 config:
 	@echo "max watches"

@@ -2,7 +2,6 @@
 "  PluginManager
 "   https://github.com/junegunn/vim-plug
 call plug#begin('~/.config/nvim/plugged')
-
  " Plug 'ctrlpvim/ctrlp.vim'
  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
  Plug 'junegunn/fzf.vim'
@@ -38,21 +37,71 @@ call plug#begin('~/.config/nvim/plugged')
  Plug 'honza/vim-snippets'
  Plug 'tpope/vim-surround'
 
+ " auto set paste
+ Plug 'ConradIrwin/vim-bracketed-paste'
+
+ " auto close things
+ "Plug 'Raimondi/delimitMate'
+
 call plug#end()
 
+autocmd BufEnter *.vue set filetype=html
 
-set shellcmdflag=-ic " :!
+" disable match parans
+let g:loaded_matchparen=1
 
+set shellcmdflag=-ic            " :!
+set encoding=utf-8              " set default encoding to UTF-8
+"set wildmode=list:longest      " no tab cicly
 set list listchars=tab:»\ ,trail:·
 set tabstop=4 shiftwidth=4
-set so=5                   " padding on j/k
-set noswapfile             " Don't use swapfile
-set nobackup               " Don't create annoying backup files
-set nowritebackup
-set wildmode=list:longest  " no tab cicly
-set inccommand=split
-set incsearch
-set mouse=a
+set so=5                        " padding on j/k
+set autoread                    " automatically reread changed files without asking me anything
+set autoindent
+set backspace=indent,eol,start  " makes backspace key more powerful.
+set incsearch                   " shows the match while typing
+set hlsearch                    " highlight found searches
+set mouse=a                     " enable mouse mode
+set noerrorbells                " no beeps
+set nonumber                    " no line numbers
+set showcmd                     " show me what I'm typing
+set noswapfile                  " don't use swapfile
+set nobackup                    " don't create annoying backup files
+set splitright                  " split vertical windows right to the current windows
+" set splitbelow                  " split horizontal windows below to the current windows
+set hidden
+set fileformats=unix,dos,mac    " prefer Unix over Windows over OS 9 formats
+set noshowmatch                 " do not show matching brackets by flickering
+set noshowmode                  " we show the mode with airline or lightline
+set ignorecase                  " search case insensitive...
+set smartcase                   " ... but not it begins with upper case
+set completeopt=menu,menuone
+set nocursorcolumn              " speed up syntax highlighting
+set nocursorline
+set updatetime=300
+set pumheight=10                " completion window max size
+set conceallevel=2              " concealed text is completely hidden
+set shortmess+=c                " Shut off completion messages
+set lazyredraw
+
+"http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
+set clipboard^=unnamed
+set clipboard^=unnamedplus
+
+" increase max memory to show syntax highlighting for large files
+set maxmempattern=20000
+
+" ~/.viminfo needs to be writable and readable. Set oldfiles to 1000 last
+" recently opened files, :FzfHistory uses it
+set viminfo='1000
+
+if has('persistent_undo')
+  set undofile
+  set undodir=~/.cache/vim
+endif
+
+" Do not show q: window
+map q: :q
 
 au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
 au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
@@ -116,8 +165,13 @@ let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
 
-" colorscheme
-colorscheme molokai_dark
+" color
+syntax enable
+set t_Co=256
+set background=dark
+let g:molokai_original = 1
+let g:rehash256 = 1
+colorscheme molokai
 
 " bg transparent
 hi Normal guibg=NONE ctermbg=None
@@ -170,7 +224,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
  \   'graphql': ['prettier'],
  \   'json': ['prettier'],
  \   'sass': ['prettier'],
- \   'html': ['prettier'],
+ \   'html': ['prettier-eslint'],
  \}
 
  let g:ale_linters = {
@@ -179,6 +233,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
  \   'typescript': ['tsserver'],
  \   'typescriptreact': ['tsserver'],
  \   'javascript': ['eslint'],
+ \   'html': ['prettier-eslint'],
  \}
 
  let g:ale_fix_on_save = 1
@@ -191,6 +246,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " Deoplete autocomplete
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#source('_', 'ale') " use ale LSP
+"call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 
 " Git vim-gitgutter
  set updatetime=250
