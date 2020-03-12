@@ -78,7 +78,7 @@ set smartcase                   " ... but not it begins with upper case
 set completeopt=menu,menuone
 set nocursorcolumn              " speed up syntax highlighting
 set nocursorline
-set updatetime=300
+set updatetime=200              " gutter, go auto type uses it
 set pumheight=10                " completion window max size
 set conceallevel=2              " concealed text is completely hidden
 set shortmess+=c                " Shut off completion messages
@@ -246,10 +246,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " Deoplete autocomplete
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#source('_', 'ale') " use ale LSP
-"call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
-
-" Git vim-gitgutter
- set updatetime=250
+call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 
 " FZF
  let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --hidden --ignore-dir=vendor --ignore-dir=node_modules --ignore-dir=.git'
@@ -259,6 +256,9 @@ call deoplete#custom#source('_', 'ale') " use ale LSP
  " add --ignore-dir=vendor on https://github.com/junegunn/fzf.vim/blob/master/autoload/fzf/vim.vim#L695
  let g:go_fmt_command = "goimports"
  let g:go_metalinter_command = "golangci-lint"
+
+ " let g:go_auto_sameids = 1
+ " let g:go_auto_type_info = 1
 
  let g:go_highlight_debug = 1
  let g:go_highlight_functions = 1
@@ -274,3 +274,11 @@ call deoplete#custom#source('_', 'ale') " use ale LSP
  let g:go_highlight_generate_tags = 1
  let g:go_highlight_space_tab_error = 1
  let g:go_highlight_trailing_whitespace_error = 1
+
+au FileType go nmap <C-]> <Plug>(go-def)
+au FileType go nmap <Leader>rn <Plug>(go-rename)
+au FileType go nmap <Leader>dh <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>gr <Plug>(go-referrers)
+au FileType go nmap <silent><C-k> <Plug>(go-info)
