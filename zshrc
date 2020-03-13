@@ -14,7 +14,7 @@ alias grom="gfo master && groh"
 
 # exports
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor --ignore node_modules -g ""'
-export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/go/bin/:~/.local/bin/:/snap/bin
+export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/go/bin/:~/.local/bin/:/snap/bin:/usr/local/node/bin
 export TMPDIR=/tmp
 
 # fix tmux colors
