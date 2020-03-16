@@ -1,6 +1,10 @@
 [user]
     name = Rafael Quintela
     email = rafaelsq@users.noreply.github.com
+
+[github]
+    user = rafaelsq
+
 [core]
     editor = ~/appimage/nvim.appimage
     compression = 1
@@ -35,8 +39,8 @@
 [format]
     pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
 [push]
-	default = matching
+    default = matching
 [url "git@github.com:"]
-	insteadOf = https://github.com/
-[github]
-	user = rafaelsq
+    insteadOf = https://github.com/
+[include]
+    path = ~/.gitconfig_private

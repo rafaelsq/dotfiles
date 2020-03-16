@@ -203,7 +203,7 @@ let g:airline#extensions#ale#enabled = 1 " enable LSP
 
 "let g:ale_completion_enabled = 1 " use ale autocomplete
  "set omnifunc=ale#completion#OmniFunc
- "set completeopt=noinsert,menuone,noselect
+ set completeopt=noinsert,menuone,noselect
 
 " map
 nmap gd :ALEGoToDefinition<CR>

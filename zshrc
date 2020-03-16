@@ -40,6 +40,8 @@ zstyle ':completion:*:*:make:*' tag-order 'targets'
 autoload -U compinit && compinit
 
 # others
+export GPG_TTY=$(tty)
+
 . /usr/share/autojump/autojump.sh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
