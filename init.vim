@@ -16,8 +16,15 @@ call plug#begin('~/.config/nvim/plugged')
  " Autocomplete
  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
+ " native lsp
+ Plug 'neovim/nvim-lsp'
+
+  " deoplete integration
+  Plug 'Shougo/deoplete-lsp'
+
  " lint/lsp
  Plug 'dense-analysis/ale'
+
 
  " status bar
  Plug 'vim-airline/vim-airline'
@@ -75,7 +82,7 @@ set noshowmatch                 " do not show matching brackets by flickering
 set noshowmode                  " we show the mode with airline or lightline
 set ignorecase                  " search case insensitive...
 set smartcase                   " ... but not it begins with upper case
-set completeopt=menu,menuone
+"set completeopt=menu,menuone
 set nocursorcolumn              " speed up syntax highlighting
 set nocursorline
 set updatetime=200              " gutter, go auto type uses it
@@ -199,19 +206,22 @@ hi Normal guibg=NONE ctermbg=None
 "let g:airline#extensions#branch#enabled = 1
 
 " Ale
-let g:airline#extensions#ale#enabled = 1 " enable LSP
+let g:airline#extensions#ale#enabled = 1
 
-"let g:ale_completion_enabled = 1 " use ale autocomplete
- "set omnifunc=ale#completion#OmniFunc
- set completeopt=noinsert,menuone,noselect
+"let g:ale_completion_enabled = 1 " enable LSP autocomplete
+"set omnifunc=ale#completion#OmniFunc
+"set completeopt=noinsert,menuone,noselect
+
+" deoplete with ale
+" call deoplete#custom#source('_', 'ale') " use ale LSP
 
 " map
-nmap gd :ALEGoToDefinition<CR>
-nmap <Leader>dh :ALEGoToDefinitionInSplit<CR>
-nmap <Leader>dv :ALEGoToDefinitionInVSplit<CR>
-nmap <Leader>dt :ALEGoToDefinitionInTab<CR>
-nmap <Leader>gr :ALEFindReferences<CR>
-nmap <Leader>i :ALEHover<CR>
+" nmap gd :ALEGoToDefinition<CR>
+" nmap <Leader>dh :ALEGoToDefinitionInSplit<CR>
+" nmap <Leader>dv :ALEGoToDefinitionInVSplit<CR>
+" nmap <Leader>dt :ALEGoToDefinitionInTab<CR>
+" nmap <Leader>gr :ALEFindReferences<CR>
+" nmap <Leader>i :ALEHover<CR>
 
 " next err
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
@@ -245,14 +255,28 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " Deoplete autocomplete
 let g:deoplete#enable_at_startup = 1
-call deoplete#custom#source('_', 'ale') " use ale LSP
-call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
+
+"set completeopt+=noinsert
+
+" nvim-lsp
+lua require'nvim_lsp'.gopls.setup{}
+lua require'nvim_lsp'.tsserver.setup{}
+lua require'nvim_lsp'.pyls.setup{}
+lua require'nvim_lsp'.html.setup{}
+lua require'nvim_lsp'.vuels.setup{}
+lua require'nvim_lsp'.yamlls.setup{}
+lua require'nvim_lsp'.dockerls.setup{}
+lua require'nvim_lsp'.jsonls.setup{}
+lua require'nvim_lsp'.vimls.setup{}
 
 " FZF
  let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --hidden --ignore-dir=vendor --ignore-dir=node_modules --ignore-dir=.git'
  command! -nargs=* CodeRef call fzf#vim#ag(<q-args>)
 
 " vim-go
+ " deoplete with vim-go
+ "call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
+ "
  " add --ignore-dir=vendor on https://github.com/junegunn/fzf.vim/blob/master/autoload/fzf/vim.vim#L695
  let g:go_fmt_command = "goimports"
  let g:go_metalinter_command = "golangci-lint"

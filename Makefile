@@ -55,7 +55,7 @@ go:
 		xargs -I@ sh -c 'curl -O @; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
 
 py:
-	@pip3 install jedi autopep8 yapf flake8 pylint
+	@pip3 install jedi autopep8 yapf flake8 pylint python-language-server
 
 nvim:
 	@echo "Neovim"
@@ -80,7 +80,7 @@ yarn:
 	@echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 	@sudo apt update && sudo apt install -y yarn
 	@echo "yarn basics"
-	@yarn global add parcel eslint prettier prettier-eslint-cli eslint-plugin-react eslint-plugin-vue
+	@yarn global add parcel eslint prettier prettier-eslint-cli eslint-plugin-react eslint-plugin-vue vscode-html-languageserver-bin vls yaml-language-server dockerfile-language-server-nodejs vscode-json-languageserver
 
 config:
 	@echo "max watches"
