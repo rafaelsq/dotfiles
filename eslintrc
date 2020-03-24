@@ -3,7 +3,6 @@
     env: {
         browser: true,
     },
-    parser: 'typescript-eslint-parser',
     parserOptions: {
         jsx: true,
         ecmaVersion: 9,
@@ -18,7 +17,7 @@
         'comma-dangle': ['error', 'always-multiline'],
         'no-extra-parens': ['error', 'all'],
         'quotes': ['error', 'single'],
-        'semi': ['error', 'always'],
+        'semi': ['error', 'never'],
         'quote-props': ['error', 'consistent-as-needed'],
     },
 }

@@ -1,3 +1,5 @@
+GO_BKP=~/bk.`go version 2>&1 | ag -o 'go([0-9\.]+)'`
+
 default:
 	@echo "make config"
 	@echo "make deps"
@@ -25,6 +27,7 @@ deps:
 		terminator htop python3-pip
 
 zsh:
+	✦
 	@echo "ZSH"
 	@if ! which zsh > /dev/null; then \
 		echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"; \
@@ -37,12 +40,16 @@ zsh:
 	fi
 	@mkdir -p ~/src/rafaelsq
 	@if [ ! -d ~/src/rafaelsq/nuts.zsh-theme ]; then \
-		echo "Nuts Theme" \
-		cd ~/src/rafaelsq && git clone git@github.com:rafaelsq/nuts.zsh-theme.git && cd nuts.zsh-theme && make; \
+		echo "Nuts Theme"; \
+		git clone git@github.com:rafaelsq/nuts.zsh-theme.git ~/src/rafaelsq/nuts.zsh-theme && cd ~/src/rafaelsq/nuts.zsh-theme && make; \
 	fi
 
 go:
-	@sudo rm -rf /usr/local/go && curl --silent https://golang.org/dl/ 2>&1 |\
+	@if which go > /dev/null; then \
+		echo back-up at ${GO_BKP};\
+		sudo mv /usr/local/go ${GO_BKP};\
+	fi
+	@curl --silent https://golang.org/dl/ 2>&1 |\
 		ag -o 'https://dl.google.com/go/go([0-9.]+).linux-amd64.tar.gz' |\
 		head -n 1 |\
 		xargs -I@ sh -c 'curl -O @; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
@@ -55,10 +62,13 @@ nvim:
 	@yarn global add neovim typescript
 	@which pip3 > /dev/null || pip3 install neovim
 	@mkdir -p ~/appimage
-	@rm ~/appimage/nvim.appimage &&\
-		curl --silent https://github.com/neovim/neovim/releases |\
+	@curl --silent https://github.com/neovim/neovim/releases |\
 		ag -o '/v[0-9\.]+/nvim.appimage' | head -n 1 |\
-		xargs -I@ curl -L "https://github.com/neovim/neovim/releases/download@" -o ~/appimage/nvim.appimage
+		xargs -I@ curl -L "https://github.com/neovim/neovim/releases/download@" -o ~/appimage/nvim.appimage_new
+	@if [ -f ~/appimage/nvim.appimage_new ]; then \
+		[ -f ~/appimage/nvim.appimage ] && mv ~/appimage/nvim.appimage ~/appimage/nvim.appimage$$(date +_%d_%m);\
+		mv ~/appimage/nvim.appimage_new ~/appimage/nvim.appimage; \
+	fi
 	@chmod +x ~/appimage/nvim.appimage
 	@echo "plug - https://github.com/junegunn/vim-plug"
 	@curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
@@ -70,7 +80,7 @@ yarn:
 	@echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 	@sudo apt update && sudo apt install -y yarn
 	@echo "yarn basics"
-	@yarn global add parcel eslint prettier-eslint eslint-plugin-react
+	@yarn global add parcel eslint prettier prettier-eslint-cli eslint-plugin-react eslint-plugin-vue
 
 config:
 	@echo "max watches"

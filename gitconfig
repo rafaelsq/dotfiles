@@ -1,6 +1,10 @@
 [user]
     name = Rafael Quintela
     email = rafaelsq@users.noreply.github.com
+
+[github]
+    user = rafaelsq
+
 [core]
     editor = ~/appimage/nvim.appimage
     compression = 1
@@ -29,18 +33,14 @@
     co = checkout
     df = diff
     lg = log --graph
-    prd = pull ss development --rebase
-    prm = pull ss master --rebase
-    rhd = reset --hard ss/development
-    rhm = reset --hard ss/master
     rh = reset --hard
     ru = remote update
     url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
 [format]
     pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
 [push]
-	default = matching
+    default = matching
 [url "git@github.com:"]
-	insteadOf = https://github.com/
-[github]
-	user = rafaelsq
+    insteadOf = https://github.com/
+[include]
+    path = ~/.gitconfig_private
