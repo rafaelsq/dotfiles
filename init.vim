@@ -52,8 +52,6 @@ call plug#begin('~/.config/nvim/plugged')
 
 call plug#end()
 
-autocmd BufEnter *.vue set filetype=html
-
 " disable match parans
 let g:loaded_matchparen=1
 
@@ -238,7 +236,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
  \}
 
  let g:ale_linters = {
- \   'go': ['gopls', 'golangci-lint'],
+ \   'go': ['golangci-lint'],
  \   'py': ['flake8', 'pylint'],
  \   'typescript': ['tsserver'],
  \   'typescriptreact': ['tsserver'],
@@ -269,6 +267,8 @@ lua require'nvim_lsp'.dockerls.setup{}
 lua require'nvim_lsp'.jsonls.setup{}
 lua require'nvim_lsp'.vimls.setup{}
 
+autocmd Filetype go,javascript,typescript,python,html,vue,yaml,dockerfile,json,vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
+
 " FZF
  let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --hidden --ignore-dir=vendor --ignore-dir=node_modules --ignore-dir=.git'
  command! -nargs=* CodeRef call fzf#vim#ag(<q-args>)
@@ -298,6 +298,7 @@ lua require'nvim_lsp'.vimls.setup{}
  let g:go_highlight_generate_tags = 1
  let g:go_highlight_space_tab_error = 1
  let g:go_highlight_trailing_whitespace_error = 1
+ let g:go_code_completion_enabled = 0
 
 au FileType go nmap <C-]> <Plug>(go-def)
 au FileType go nmap <Leader>rn <Plug>(go-rename)
