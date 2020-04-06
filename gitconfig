@@ -32,7 +32,7 @@
     br = branch
     co = checkout
     df = diff
-    lg = log --graph
+    lg = log --graph  --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue[%G?] %cn %Cred%d %Creset%s'
     rh = reset --hard
     ru = remote update
     url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
