@@ -225,6 +225,7 @@ let g:airline#extensions#ale#enabled = 1
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
  let g:ale_fixers = {
+ \   'vue': ['prettier', 'eslint', 'prettier-eslint'],
  \   'javascript': ['prettier', 'eslint', 'prettier-eslint'],
  \   'typescript': ['prettier', 'tslint'],
  \   'typescriptreact': ['prettier', 'tslint'],
