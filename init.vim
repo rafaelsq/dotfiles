@@ -300,10 +300,29 @@ autocmd Filetype go,javascript,typescript,python,html,vue,yaml,dockerfile,json,v
  let g:go_highlight_trailing_whitespace_error = 1
  let g:go_code_completion_enabled = 0
 
-au FileType go nmap <C-]> <Plug>(go-def)
-au FileType go nmap <Leader>rn <Plug>(go-rename)
-au FileType go nmap <Leader>dh <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-au FileType go nmap <Leader>gr <Plug>(go-referrers)
-au FileType go nmap <silent><C-k> <Plug>(go-info)
+nnoremap <silent> <Leader>dv <C-w>v <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <Leader>dh <C-w>s <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gd                <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]>             <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K                 <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD                <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k>             <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD               <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr                <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0                <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gf                <cmd>lua vim.lsp.buf.formatting()<CR>
+nnoremap <silent> rn                <cmd>lua vim.lsp.buf.rename()<CR>
+
+" Lsp Colors
+hi LspDiagnosticsError                 ctermfg=red
+hi LspDiagnosticsWarning               ctermfg=yellow
+hi LspDiagnosticsInformation           ctermfg=blue
+hi LspDiagnosticsHint                  ctermfg=blue
+hi LspDiagnosticsUnderline               guisp=white  gui=undercurl
+hi LspDiagnosticsUnderlineError          guisp=red    gui=undercurl
+hi LspDiagnosticsUnderlineWarning        guisp=yellow gui=undercurl
+hi LspDiagnosticsUnderlineInformation    guisp=blue   gui=undercurl
+hi LspDiagnosticsUnderlineHint           guisp=blue   gui=undercurl
+hi LspReferenceText                     ctermbg=gray  gui=bold,italic
+hi LspReferenceRead                     ctermbg=gray  gui=bold,italic
+hi LspReferenceWrite                    ctermbg=gray  gui=bold,italic
