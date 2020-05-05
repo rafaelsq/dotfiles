@@ -171,12 +171,18 @@ let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
 
 " color
-syntax enable
+syntax on
 set t_Co=256
 set background=dark
 let g:molokai_original = 1
 let g:rehash256 = 1
 colorscheme molokai
+
+" line number with highlight
+set number
+set cursorline
+hi clear CursorLine
+hi CursorLineNR ctermfg=White
 
 " bg transparent
 hi Normal guibg=NONE ctermbg=None
