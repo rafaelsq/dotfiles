@@ -60,10 +60,12 @@ py:
 nvim:
 	@echo "Neovim"
 	@yarn global add neovim typescript
-	@which pip3 > /dev/null || pip3 install neovim
+	@which pip3 > /dev/null && pip3 install neovim || echo "no pip3 found"
+	@which pip2 > /dev/null && pip2 install neovim || echo "no pip2 found"
 	@mkdir -p ~/appimage
+	# ag -o '/v[0-9\.]+/nvim.appimage' | head -n 1 |
 	@curl --silent https://github.com/neovim/neovim/releases |\
-		ag -o '/v[0-9\.]+/nvim.appimage' | head -n 1 |\
+		ag -o '/nightly/nvim.appimage' | head -n 1 |\
 		xargs -I@ curl -L "https://github.com/neovim/neovim/releases/download@" -o ~/appimage/nvim.appimage_new
 	@if [ -f ~/appimage/nvim.appimage_new ]; then \
 		[ -f ~/appimage/nvim.appimage ] && mv ~/appimage/nvim.appimage ~/appimage/nvim.appimage$$(date +_%d_%m);\
