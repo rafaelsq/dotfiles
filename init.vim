@@ -68,7 +68,6 @@ set incsearch                   " shows the match while typing
 set hlsearch                    " highlight found searches
 set mouse=a                     " enable mouse mode
 set noerrorbells                " no beeps
-set nonumber                    " no line numbers
 set showcmd                     " show me what I'm typing
 set noswapfile                  " don't use swapfile
 set nobackup                    " don't create annoying backup files
@@ -81,8 +80,7 @@ set noshowmode                  " we show the mode with airline or lightline
 set ignorecase                  " search case insensitive...
 set smartcase                   " ... but not it begins with upper case
 "set completeopt=menu,menuone
-set nocursorcolumn              " speed up syntax highlighting
-set nocursorline
+"set nocursorcolumn              " speed up syntax highlighting
 set updatetime=200              " gutter, go auto type uses it
 set pumheight=10                " completion window max size
 set conceallevel=2              " concealed text is completely hidden
@@ -182,7 +180,7 @@ colorscheme molokai
 set number
 set cursorline
 hi clear CursorLine
-hi CursorLineNR ctermfg=White
+hi CursorLineNR ctermfg=gray ctermbg=None
 
 " bg transparent
 hi Normal guibg=NONE ctermbg=None
