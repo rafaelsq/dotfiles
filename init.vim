@@ -106,10 +106,10 @@ endif
 " Do not show q: window
 map q: :q
 
-au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-au Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')"
+"au Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+"au Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+"au Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+"au Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')"
 
 nmap <Leader>c :GoCoverage<CR>
 cab GoCoverage GoCoverage -gcflags=all=-l
@@ -242,6 +242,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
  \   'html': ['prettier-eslint'],
  \}
 
+ "\   'go': ['gofmt', 'goimports', 'remove_trailing_lines', 'trim_whitespace'],
  let g:ale_linters = {
  \   'go': ['golangci-lint'],
  \   'py': ['flake8', 'pylint'],
@@ -264,7 +265,7 @@ let g:deoplete#enable_at_startup = 1
 "set completeopt+=noinsert
 
 " nvim-lsp
-lua require'nvim_lsp'.gopls.setup{}
+"lua require'nvim_lsp'.gopls.setup{}
 lua require'nvim_lsp'.tsserver.setup{}
 lua require'nvim_lsp'.pyls.setup{}
 lua require'nvim_lsp'.html.setup{}
@@ -274,7 +275,8 @@ lua require'nvim_lsp'.dockerls.setup{}
 lua require'nvim_lsp'.jsonls.setup{}
 lua require'nvim_lsp'.vimls.setup{}
 
-autocmd Filetype go,javascript,typescript,python,html,vue,yaml,dockerfile,json,vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
+autocmd Filetype javascript,typescript,python,html,vue,yaml,dockerfile,json,vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
+"autocmd Filetype go,javascript,typescript,python,html,vue,yaml,dockerfile,json,vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 " FZF
  let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --hidden --ignore-dir=vendor --ignore-dir=node_modules --ignore-dir=.git'
@@ -283,10 +285,11 @@ autocmd Filetype go,javascript,typescript,python,html,vue,yaml,dockerfile,json,v
 " vim-go
  " deoplete with vim-go
  "call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
- "
+
  " add --ignore-dir=vendor on https://github.com/junegunn/fzf.vim/blob/master/autoload/fzf/vim.vim#L695
  let g:go_fmt_command = "goimports"
  let g:go_metalinter_command = "golangci-lint"
+
 
  " let g:go_auto_sameids = 1
  " let g:go_auto_type_info = 1
@@ -305,7 +308,7 @@ autocmd Filetype go,javascript,typescript,python,html,vue,yaml,dockerfile,json,v
  let g:go_highlight_generate_tags = 1
  let g:go_highlight_space_tab_error = 1
  let g:go_highlight_trailing_whitespace_error = 1
- let g:go_code_completion_enabled = 0
+ let g:go_code_completion_enabled = 1
 
 nnoremap <silent> <Leader>dv <C-w>v <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <Leader>dh <C-w>s <cmd>lua vim.lsp.buf.definition()<CR>
