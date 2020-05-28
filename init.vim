@@ -180,10 +180,12 @@ colorscheme molokai
 set number
 set cursorline
 hi clear CursorLine
-hi CursorLineNR ctermfg=gray ctermbg=None
+hi CursorLineNR ctermfg=gray ctermbg=None ctermbg=None guibg=None
 
-" bg transparent
-hi Normal guibg=NONE ctermbg=None
+" bg and signColumn transparent
+hi clear SignColumn
+hi Normal guibg=None ctermbg=None
+hi LineNr ctermbg=None
 
 " airline
  "let g:airline_section_a=''
