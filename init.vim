@@ -147,6 +147,8 @@ map j gj
 
 " annoying :W
 cab W w
+cab w w!
+cab q q!
 
 " keep block selection
 "vmap < <gv
