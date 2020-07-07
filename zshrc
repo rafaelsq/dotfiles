@@ -23,10 +23,9 @@ export TMPDIR=/tmp
 
 # funcs
 o(){xdg-open "$*" >/dev/null 2>/dev/null}
-gop(){export GOPATH=~/gopath;}
 port() {lsof -i ":$1" | ag LISTEN}
 pf(){ k port-forward $2 $1; }
-
+eff() {export $(cat $1 | ag -v '#' | xargs)}
 qq() {
     clear
 
