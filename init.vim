@@ -26,7 +26,7 @@ call plug#begin('~/.config/nvim/plugged')
   "Plug 'Shougo/deoplete-lsp'
 
  " lint/lsp
- Plug 'dense-analysis/ale'
+ "Plug 'dense-analysis/ale'
 
 
  " status bar
@@ -529,3 +529,5 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+autocmd BufWritePre * :call CocAction('runCommand', 'editor.action.organizeImport') | call CocAction('format')
