@@ -139,6 +139,7 @@ colorscheme molokai
 " line number with highlight
 set number
 set cursorline
+set signcolumn=yes
 hi clear CursorLine
 hi CursorLineNR ctermfg=gray ctermbg=None ctermbg=None guibg=None
 
