@@ -215,3 +215,13 @@ set completeopt=menuone,noinsert,noselect,preview
 
 autocmd BufWritePre *.go :LspDocumentFormatSync
 autocmd BufWritePre *.go call execute('LspCodeActionSync source.organizeImports')
+
+let g:lsp_signs_enabled = 0
+let g:lsp_diagnostics_echo_cursor = 1
+
+hi Error ctermfg=red ctermbg=none
+
+hi LspHintText        ctermfg=darkblue
+hi LspInformationText ctermfg=blue
+hi LspWarningText     ctermfg=darkyellow
+hi LspErrorText       ctermfg=darkred
