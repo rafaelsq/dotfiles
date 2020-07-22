@@ -225,3 +225,4 @@ hi LspHintText        ctermfg=darkblue
 hi LspInformationText ctermfg=blue
 hi LspWarningText     ctermfg=darkyellow
 hi LspErrorText       ctermfg=darkred
+hi LspWarningHighlight ctermfg=none ctermbg=none
