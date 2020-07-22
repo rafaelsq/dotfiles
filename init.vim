@@ -196,7 +196,7 @@ nnoremap <silent> <Leader>dh <C-w>s :LspDefinition<CR>
 nnoremap <silent> gd :LspDefinition<CR>
 nnoremap <silent> gr :LspReferences<CR>
 nnoremap <silent> gi :LspImplementation<CR>
-nnoremap <silent> gt :LspTypeDefinition<CR>
+nnoremap <silent> gD :LspTypeDefinition<CR>
 nnoremap <silent> <leader>rn :LspRename<CR>
 nnoremap <silent> [g :LspPreviousDiagnostic<CR>
 nnoremap <silent> ]g :LspNextDiagnostic<CR>
