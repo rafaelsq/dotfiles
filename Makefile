@@ -50,9 +50,9 @@ go:
 		sudo mv /usr/local/go ${GO_BKP};\
 	fi
 	@curl --silent https://golang.org/dl/ 2>&1 |\
-		ag -o 'https://dl.google.com/go/go([0-9.]+).linux-amd64.tar.gz' |\
+		ag -o '/go([0-9.]+).linux-amd64.tar.gz' |\
 		head -n 1 |\
-		xargs -I@ sh -c 'curl -O @; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
+		xargs -I@ sh -c 'curl -O https://dl.google.com/go@; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
 
 py:
 	@pip3 install jedi autopep8 yapf flake8 pylint python-language-server
