@@ -219,10 +219,9 @@ autocmd BufWritePre *.go call execute('LspCodeActionSync source.organizeImports'
 let g:lsp_signs_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 1
 
-hi Error ctermfg=red ctermbg=none
-
-hi LspHintText        ctermfg=darkblue
-hi LspInformationText ctermfg=blue
-hi LspWarningText     ctermfg=darkyellow
-hi LspErrorText       ctermfg=darkred
+hi LspHintText         ctermfg=darkblue
+hi LspInformationText  ctermfg=blue
+hi LspWarningText      ctermfg=darkyellow
+hi LspErrorText        ctermfg=darkred
 hi LspWarningHighlight ctermfg=none ctermbg=none
+hi LspErrorHighlight   cterm=underline
