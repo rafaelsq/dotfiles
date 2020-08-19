@@ -25,8 +25,8 @@ call plug#begin('~/.config/nvim/plugged')
  Plug 'sheerun/vim-polyglot'
 
  " Git
- Plug 'airblade/vim-gitgutter'
- Plug 'rhysd/git-messenger.vim'
+ Plug 'airblade/vim-gitgutter'   " \hp, \hs, \hu [c, ]c
+ Plug 'rhysd/git-messenger.vim'  " \m\m; ?, o, O, d, D
 
  " Others
  Plug 'SirVer/ultisnips'
@@ -77,6 +77,7 @@ map q: :q
 
 " git
 nmap <Leader>m <Plug>(git-messenger)
+nmap <Leader>rg :!go run %<CR>
 
 " close scratch window, quickfix & Remove search highlight
 nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>
