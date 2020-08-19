@@ -27,7 +27,6 @@ deps:
 		terminator htop python3-pip tlp powertop
 
 zsh:
-	✦
 	@echo "ZSH"
 	@if ! which zsh > /dev/null; then \
 		echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"; \
@@ -37,6 +36,7 @@ zsh:
 	@if [ ! -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then \
 		echo "zsh autosuggestions"; \
 		git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions; \
+		chsh -s $$(which zsh); \
 	fi
 	@mkdir -p ~/src/rafaelsq
 	@if [ ! -d ~/src/rafaelsq/nuts.zsh-theme ]; then \
