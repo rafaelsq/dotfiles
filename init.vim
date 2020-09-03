@@ -7,7 +7,8 @@ call plug#begin('~/.config/nvim/plugged')
  Plug 'junegunn/fzf.vim'
 
  " ident
- Plug 'tpope/vim-sleuth'
+ " https://github.com/sheerun/vim-polyglot/issues/290#issuecomment-379810574
+ "Plug 'tpope/vim-sleuth'
 
  " LSP
  Plug 'prabirshrestha/vim-lsp'
