@@ -50,12 +50,8 @@ set shellcmdflag=-ic            " :!
 set list listchars=tab:»\ ,trail:·
 set tabstop=4 shiftwidth=4
 set so=5                        " padding on j/k
-set hlsearch                    " highlight found searches
 set mouse=a                     " enable mouse mode
 set noswapfile                  " don't use swapfile
-set nobackup                    " don't create annoying backup files
-set noshowmatch                 " do not show matching brackets by flickering
-set noshowmode                  " we show the mode with airline or lightline
 set ignorecase                  " search case insensitive...
 set updatetime=200              " gutter, go auto type uses it
 
