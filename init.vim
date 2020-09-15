@@ -19,7 +19,6 @@ call plug#begin('~/.config/nvim/plugged')
  " status bar
  Plug 'vim-airline/vim-airline'
  Plug 'vim-airline/vim-airline-themes'
-  Plug 'tpope/vim-fugitive' " git info
 
  " styles
  Plug 'flazz/vim-colorschemes'
@@ -151,26 +150,7 @@ hi Normal guibg=None ctermbg=None
 hi LineNr ctermbg=None
 
 " airline
- "let g:airline_section_a=''
- let g:airline_theme='term'
  let g:airline_powerline_fonts = 1
- let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
- let g:airline#extensions#wordcount#format = '%d words'
- let g:airline_section_z = '%3p%% %3l/%L:%3v'
- "let g:airline_section_b = ''
- let g:airline_skip_empty_sections = 1
- let g:airline_mode_map = {
-    \ '__' : '-',
-    \ 'n'  : 'N',
-    \ 'i'  : 'I',
-    \ 'R'  : 'R',
-    \ 'c'  : 'C',
-    \ 'v'  : 'V',
-    \ 'V'  : 'V',
-    \ '' : 'V',
-    \ 's'  : 'S',
-    \ }
-"let g:airline#extensions#branch#enabled = 1
 
 " FZF
  let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --hidden --ignore-dir=vendor --ignore-dir=node_modules --ignore-dir=.git'
