@@ -21,7 +21,8 @@ call plug#begin('~/.config/nvim/plugged')
  Plug 'vim-airline/vim-airline-themes'
 
  " styles
- Plug 'flazz/vim-colorschemes'
+ "Plug 'flazz/vim-colorschemes'
+ Plug 'arcticicestudio/nord-vim'
  Plug 'sheerun/vim-polyglot'
 
  " Git
@@ -58,18 +59,6 @@ set updatetime=200              " gutter, go auto type uses it
 "http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
 set clipboard^=unnamed
 set clipboard^=unnamedplus
-
-" ~/.viminfo needs to be writable and readable. Set oldfiles to 1000 last
-" recently opened files, :FzfHistory uses it
-set viminfo='1000
-
-if has('persistent_undo')
-  set undofile
-  set undodir=~/.cache/vim
-endif
-
-" Do not show q: window
-map q: :q
 
 " git
 nmap <Leader>m <Plug>(git-messenger)
@@ -123,27 +112,15 @@ vnoremap <leader>og <ESC>:!o `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\
  "let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
 let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
-let g:UltiSnipsRemoveSelectModeMappings = 0
 
 " color
-syntax on
-set t_Co=256
-set background=dark
-let g:molokai_original = 1
-let g:rehash256 = 1
-colorscheme molokai
+set termguicolors
+colorscheme nord
 
 " line number with highlight
 set number
 set cursorline
 set signcolumn=yes
-hi clear CursorLine
-hi CursorLineNR ctermfg=gray ctermbg=None ctermbg=None guibg=None
-
-" bg and signColumn transparent
-hi clear SignColumn
-hi Normal guibg=None ctermbg=None
-hi LineNr ctermbg=None
 
 " airline
  let g:airline_powerline_fonts = 1
@@ -197,9 +174,9 @@ autocmd BufWritePre *.go call execute('LspCodeActionSync source.organizeImports'
 let g:lsp_signs_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 1
 
-hi LspHintText         ctermfg=darkblue
-hi LspInformationText  ctermfg=blue
-hi LspWarningText      ctermfg=darkyellow
-hi LspErrorText        ctermfg=darkred
-hi LspWarningHighlight ctermfg=none ctermbg=none
-hi LspErrorHighlight   cterm=underline
+hi LspHintText         guifg=darkblue
+hi LspInformationText  guifg=blue
+hi LspWarningText      guifg=yellow
+hi LspErrorText        guifg=red
+hi LspWarningHighlight guifg=none guibg=none
+hi LspErrorHighlight   gui=underline
