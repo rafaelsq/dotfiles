@@ -121,7 +121,7 @@ vnoremap <leader>j :m '>+1<CR>gv=gv
 vnoremap <leader>k :m '<-2<CR>gv=gv
 
 " Open current file on github
-nnoremap <leader>og :!o `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%<CR><CR><CR>
+nnoremap <leader>og <ESC>:!o `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line(".")<CR><CR><CR>
 vnoremap <leader>og <ESC>:!o `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line("'<")<CR>-L<C-R>=line("'>")<CR><CR><CR>
 
 " c-j c-k for moving in snippet
