@@ -1,5 +1,42 @@
-# First Run
+# My dotfiles
+
+check
 
 ```
 $ make
+```
+
+### Git
+
+to sign commit using your GPG key;
+
+~/.gitconfig_private
+```
+[user]
+    email = <your-email>
+    signingkey = <gpg-fingerprint>
+
+[commit]
+	gpgsign = true
+
+[alias]
+    lg = log --graph --show-signature
+```
+
+#### Github
+
+public key; https://github.com/web-flow.gpg
+to add your GPG public key to Github; https://github.com/settings/gpg/new
+
+
+### Zsh
+
+private settings to ~/.zshrc.local
+
+
+### Neovim
+
+```bash
+> vim
+:PlugInstall
 ```
