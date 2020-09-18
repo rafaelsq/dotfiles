@@ -1,4 +1,4 @@
-# My dotfiles
+# dotfiles
 
 check
 
@@ -8,7 +8,7 @@ $ make
 
 ### Git
 
-to sign commit using your GPG key;
+to sign commits using your GPG key;
 
 ~/.gitconfig_private
 ```
@@ -25,7 +25,7 @@ to sign commit using your GPG key;
 
 #### Github
 
-public key; https://github.com/web-flow.gpg
+public key; https://github.com/web-flow.gpg  
 to add your GPG public key to Github; https://github.com/settings/gpg/new
 
 
