@@ -35,9 +35,9 @@
     lg = log --graph  --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue[%G?] %cn %Cred%d %Creset%s'
     rh = reset --hard
     ru = remote update
-    url =! bash -c 'git config --get remote.origin.url | sed -E "s/.+:\\(.+\\)\\.git$/https:\\\\/\\\\/github\\\\.com\\\\/\\\\1/g"'
-    trim = !git branch --merged | grep -v '*' | grep -v 'master' | xargs -n 1 git branch -d
-    trimRemote = !git branch -a --merged | grep -v master | grep remotes/origin | sed 's,remotes/origin/,,' | xargs -I@ git push origin :@
+    url =! bash -c 'git config --get remote.origin.url | sed -E "s,git@\\([^:]+\\):/?,https://\\\\1/,g"'
+    trim = !git branch --merged | grep -v '*' | grep -v 'master' | xargs -r -n 1 git branch -d
+    trimRemote = !git branch -a --merged | grep -v master | grep remotes/origin | sed 's,remotes/origin/,,' | xargs -r -I@ git push origin :@
 [format]
     pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
 [push]

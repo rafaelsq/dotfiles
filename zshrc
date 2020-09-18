@@ -11,7 +11,7 @@ alias vim=nvim
 alias nvim=~/appimage/nvim.appimage
 alias kb='pod=$(k get pods | cut -f1 -d" " | fzf); k exec -ti $pod bash || k exec -ti $pod sh'
 gro(){ gfo $1 && g reset --hard origin/$1; }
-alias grom="gro master"
+alias grom="gro master && g trim"
 
 # exports
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor --ignore node_modules -g ""'
@@ -51,6 +51,13 @@ rmqq() {
     fi
     qq
 }
+
+# enc using gpg
+encgpg(){echo gpg --output $1.gpg --encrypt --recipient `cat ~/.gitconfig_private| ag email | cut -d' ' -f7` $1}
+decgpg(){gpg --output $2 --decrypt $1}
+
+enc(){openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 100000 -salt -in $1 -out $1.enc}
+dec(){openssl enc -aes-256-cbc -md sha512 -pbkdf2 -d -in $1 -out $2}
 
 # make <tab>
 zstyle ':completion:*:*:make:*' tag-order 'targets'

@@ -24,10 +24,9 @@ deps:
 	@echo "Installing Dependencies"
 	@sudo apt update && sudo apt install \
 		curl git bison gcc make zsh silversearcher-ag autojump aria2 xsel \
-		terminator htop python3-pip
+		terminator htop python3-pip tlp powertop
 
 zsh:
-	✦
 	@echo "ZSH"
 	@if ! which zsh > /dev/null; then \
 		echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"; \
@@ -37,6 +36,7 @@ zsh:
 	@if [ ! -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then \
 		echo "zsh autosuggestions"; \
 		git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions; \
+		chsh -s $$(which zsh); \
 	fi
 	@mkdir -p ~/src/rafaelsq
 	@if [ ! -d ~/src/rafaelsq/nuts.zsh-theme ]; then \
@@ -50,9 +50,9 @@ go:
 		sudo mv /usr/local/go ${GO_BKP};\
 	fi
 	@curl --silent https://golang.org/dl/ 2>&1 |\
-		ag -o 'https://dl.google.com/go/go([0-9.]+).linux-amd64.tar.gz' |\
+		ag -o '/go([0-9.]+).linux-amd64.tar.gz' |\
 		head -n 1 |\
-		xargs -I@ sh -c 'curl -O @; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
+		xargs -I@ sh -c 'curl -O https://dl.google.com/go@; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
 
 py:
 	@pip3 install jedi autopep8 yapf flake8 pylint python-language-server
