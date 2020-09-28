@@ -163,6 +163,7 @@ nnoremap <silent> gQ :<C-u>LspDocumentFormat<CR>
 vnoremap <silent> gQ :LspDocumentRangeFormat<CR>
 nnoremap <silent> <leader>ca :LspCodeAction<CR>
 xnoremap <silent> <leader>ca :LspCodeAction<CR>
+nnoremap <silent> <leader>cl :LspCodeLens<CR>
 
 imap <c-space> <Plug>(asyncomplete_force_refresh)
 
@@ -175,7 +176,7 @@ let g:lsp_signs_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 1
 
 hi LspHintText         guifg=darkblue
-hi LspInformationText  guifg=blue
+hi LspInformationText  guifg=#414E68
 hi LspWarningText      guifg=yellow
 hi LspErrorText        guifg=red
 hi LspWarningHighlight guifg=none guibg=none
