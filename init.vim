@@ -23,7 +23,8 @@ call plug#begin('~/.config/nvim/plugged')
  " styles
  "Plug 'flazz/vim-colorschemes'
  Plug 'arcticicestudio/nord-vim'
- Plug 'sheerun/vim-polyglot'
+ "Plug 'dracula/vim', { 'name': 'dracula' }
+ "Plug 'tomasr/molokai'
 
  " Git
  Plug 'airblade/vim-gitgutter'   " \hp, \hs, \hu [c, ]c
@@ -117,6 +118,14 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 set termguicolors
 colorscheme nord
 
+if g:colors_name == 'molokai'
+ hi LineNr guibg=None
+ hi SignColumn guibg=None
+endif
+
+" bg transparent
+hi Normal guibg=None
+
 " line number with highlight
 set number
 set cursorline
@@ -177,7 +186,7 @@ let g:lsp_diagnostics_echo_cursor = 1
 
 hi LspHintText         guifg=darkblue
 hi LspInformationText  guifg=#414E68
-hi LspWarningText      guifg=yellow
-hi LspErrorText        guifg=red
-hi LspWarningHighlight guifg=none guibg=none
+hi link LspWarningText Todo
+hi LspErrorText        guifg=#BF616A
+hi LspWarningHighlight guifg=none guibg=#414E68
 hi LspErrorHighlight   gui=underline
