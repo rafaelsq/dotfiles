@@ -8,7 +8,7 @@ call plug#begin('~/.config/nvim/plugged')
 
  " ident
  " https://github.com/sheerun/vim-polyglot/issues/290#issuecomment-379810574
- "Plug 'tpope/vim-sleuth'
+ Plug 'tpope/vim-sleuth'
 
  " LSP
  Plug 'prabirshrestha/vim-lsp'
@@ -21,7 +21,8 @@ call plug#begin('~/.config/nvim/plugged')
  Plug 'vim-airline/vim-airline-themes'
 
  " styles
- "Plug 'flazz/vim-colorschemes'
+ "Plug 'sheerun/vim-polyglot'
+ Plug 'nvim-treesitter/nvim-treesitter'
  Plug 'arcticicestudio/nord-vim'
  "Plug 'dracula/vim', { 'name': 'dracula' }
  "Plug 'tomasr/molokai'
@@ -60,6 +61,15 @@ set updatetime=200              " gutter, go auto type uses it
 "http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
 set clipboard^=unnamed
 set clipboard^=unnamedplus
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "go", "javascript", "tsx", "json" },
+
+  highlight = { enable = true },
+  incremental_selection = { enable = true },
+}
+EOF
 
 " git
 nmap <Leader>m <Plug>(git-messenger)
