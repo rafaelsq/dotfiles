@@ -53,7 +53,7 @@ rmqq() {
 }
 
 # enc using gpg
-encgpg(){echo gpg --output $1.gpg --encrypt --recipient `cat ~/.gitconfig_private| ag email | cut -d' ' -f7` $1}
+encgpg(){gpg --output $1.gpg --encrypt --recipient `cat ~/.gitconfig_private| ag email | cut -d' ' -f7` $1}
 decgpg(){gpg --output $2 --decrypt $1}
 
 enc(){openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 100000 -salt -in $1 -out $1.enc}
