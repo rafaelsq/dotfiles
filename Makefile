@@ -27,8 +27,8 @@ deps:
 		terminator htop python3-pip tlp powertop fonts-hack
 
 zsh:
-	@echo "ZSH"
-	@if ! which zsh > /dev/null; then \
+	@echo "Oh My ZSH"
+	@if [ ! -d ~/.oh-my-zsh ]; then \
 		echo "oh-my-zsh, https://github.com/robbyrussell/oh-my-zsh"; \
 		sh -c "$$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"; \
 		echo "you should logout and login again"; \
@@ -38,6 +38,7 @@ zsh:
 		git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions; \
 		chsh -s $$(which zsh); \
 	fi
+
 	@mkdir -p ~/src/rafaelsq
 	@if [ ! -d ~/src/rafaelsq/nuts.zsh-theme ]; then \
 		echo "Nuts Theme"; \
