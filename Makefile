@@ -24,7 +24,7 @@ deps:
 	@echo "Installing Dependencies"
 	@sudo apt update && sudo apt install \
 		curl git bison gcc make zsh silversearcher-ag autojump aria2 xsel \
-		terminator htop python3-pip tlp powertop
+		terminator htop python3-pip tlp powertop fonts-hack
 
 zsh:
 	@echo "ZSH"
