@@ -64,7 +64,7 @@ set clipboard^=unnamedplus
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "go", "javascript", "tsx", "json" },
+  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript" },
 
   highlight = { enable = true },
   incremental_selection = { enable = true },
