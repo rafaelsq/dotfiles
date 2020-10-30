@@ -33,7 +33,7 @@ call plug#begin('~/.config/nvim/plugged')
 
  " Others
  Plug 'SirVer/ultisnips'
- Plug 'honza/vim-snippets'
+ "Plug 'honza/vim-snippets' " https://github.com/honza/vim-snippets/tree/master/snippets
   " vim-lsp
   Plug 'prabirshrestha/async.vim'
   Plug 'thomasfaingnaert/vim-lsp-snippets'

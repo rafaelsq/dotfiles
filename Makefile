@@ -102,6 +102,8 @@ links:
 	@ln -sf ${PWD}/init.vim ~/.config/nvim/init.vim
 	@mkdir -p ~/.config/terminator
 	@ln -sf ${PWD}/terminator.cfg ~/.config/terminator/config
+	@rm -rf ~/.config/nvim/UltiSnips
+	@ln -sf ${PWD}/ultisnips ~/.config/nvim/UltiSnips
 
 docker:
 	@sh -c "$$(curl -fsSL https://get.docker.com)"
