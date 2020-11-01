@@ -1,12 +1,11 @@
 GO_BKP=~/bk.`go version 2>&1 | ag -o 'go([0-9\.]+)'`
 
 default:
-	@echo "make config"
 	@echo "make deps"
 	@echo "make zsh"
+	@echo "make links"
 	@echo "make go"
 	@echo "make py"
-	@echo "make links"
 	@echo "make yarn"
 	@echo "make nvim"
 	@echo "make docker"
@@ -22,9 +21,13 @@ fix:
 
 deps:
 	@echo "Installing Dependencies"
+
+	@echo "yarn https://yarnpkg.com/pt-BR/docs/install"
+	@curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+	@echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
 	@sudo apt update && sudo apt install \
-		curl git bison gcc make zsh silversearcher-ag autojump aria2 xsel \
-		terminator htop python3-pip tlp powertop fonts-hack
+		curl git bison gcc make zsh silversearcher-ag autojump aria2 terminator htop python3-pip tlp powertop fonts-hack yarn
 
 zsh:
 	@echo "Oh My ZSH"
@@ -62,7 +65,6 @@ nvim:
 	@echo "Neovim"
 	@yarn global add neovim typescript
 	@which pip3 > /dev/null && pip3 install neovim || echo "no pip3 found"
-	@which pip2 > /dev/null && pip2 install neovim || echo "no pip2 found"
 	@mkdir -p ~/appimage
 	# ag -o '/v[0-9\.]+/nvim.appimage' | head -n 1 |
 	@curl --silent https://github.com/neovim/neovim/releases |\
@@ -78,10 +80,6 @@ nvim:
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 yarn:
-	@echo "yarn https://yarnpkg.com/pt-BR/docs/install"
-	@curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-	@echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-	@sudo apt update && sudo apt install -y yarn
 	@echo "yarn basics"
 	@yarn global add parcel eslint prettier prettier-eslint-cli eslint-plugin-react eslint-plugin-vue vscode-html-languageserver-bin vls yaml-language-server dockerfile-language-server-nodejs vscode-json-languageserver
 
