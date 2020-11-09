@@ -12,6 +12,7 @@ alias nvim=~/appimage/nvim.appimage
 alias kb='pod=$(k get pods | cut -f1 -d" " | fzf); k exec -ti $pod bash || k exec -ti $pod sh'
 gro(){ gfo $1 && g reset --hard origin/$1; }
 alias grom="gro master && g trim"
+px(){ ps xao pid,ppid,pgid,args=ARGS | ag $1 | ag -v "ag $1"; }
 
 # exports
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor --ignore node_modules -g ""'
