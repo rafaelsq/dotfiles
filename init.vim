@@ -200,3 +200,6 @@ hi link LspWarningText Todo
 hi link LspErrorText   healthError
 hi LspWarningHighlight guifg=none guibg=#414E68
 hi LspErrorHighlight   gui=underline
+
+nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test -mod=vendor -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR><CR>
+nmap <Leader>ogc :!o ../coverage.html<CR><CR>
