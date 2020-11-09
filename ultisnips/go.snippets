@@ -1,5 +1,5 @@
 snippet pa "package"
-package ${1:main}
+package ${1:`!v expand("%:p:h:t")`}
 
 ${2}
 endsnippet
@@ -7,6 +7,12 @@ endsnippet
 snippet main "func main()"
 func main() {
 	${1:fmt.Println("hello")}${2}
+}
+endsnippet
+
+snippet test "func TestXY()"
+func Test${1:FuncName}(t *testing.T) {
+	${2:assert.Nil(t, nil)}${3}
 }
 endsnippet
 
