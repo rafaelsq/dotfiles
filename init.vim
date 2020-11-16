@@ -27,6 +27,11 @@ call plug#begin('~/.config/nvim/plugged')
  "Plug 'dracula/vim', { 'name': 'dracula' }
  "Plug 'tomasr/molokai'
 
+ " tmux integration
+ if exists('$TMUX')
+   Plug 'christoomey/vim-tmux-navigator'
+ endif
+
  " Git
  Plug 'airblade/vim-gitgutter'   " \hp, \hs, \hu [c, ]c
  Plug 'rhysd/git-messenger.vim'  " \m\m; ?, o, O, d, D
@@ -203,3 +208,17 @@ hi LspErrorHighlight   gui=underline
 
 nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test -mod=vendor -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR><CR>
 nmap <Leader>ogc :!o ../coverage.html<CR><CR>
+
+if exists('$TMUX')
+  let g:tmux_navigator_no_mappings = 1
+
+  nnoremap <silent> <A-h> :TmuxNavigateLeft<cr>
+  nnoremap <silent> <A-j> :TmuxNavigateDown<cr>
+  nnoremap <silent> <A-k> :TmuxNavigateUp<cr>
+  nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
+else
+  map <A-h> <C-w>h
+  map <A-j> <C-w>j
+  map <A-k> <C-w>k
+  map <A-l> <C-w>l
+endif
