@@ -55,7 +55,8 @@ call plug#end()
 let g:loaded_matchparen=1
 
 set shellcmdflag=-ic            " :!
-set list listchars=tab:»\ ,trail:·
+"set list listchars=tab:»\ ,trail:·
+set list listchars=tab:\ \ ,trail:·
 set tabstop=4 shiftwidth=4
 set so=5                        " padding on j/k
 set mouse=a                     " enable mouse mode
@@ -142,7 +143,7 @@ endif
 hi Normal guibg=None
 
 " line number with highlight
-set number
+"set number
 set cursorline
 set signcolumn=yes
 
