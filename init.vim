@@ -54,7 +54,6 @@ call plug#end()
 " disable match parans
 let g:loaded_matchparen=1
 
-set shellcmdflag=-ic            " :!
 "set list listchars=tab:»\ ,trail:·
 set list listchars=tab:\ \ ,trail:·
 set tabstop=4 shiftwidth=4
