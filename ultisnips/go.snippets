@@ -105,7 +105,7 @@ endsnippet
 snippet encj "encode json with indent"
 e := json.NewEncoder(${1:os.Stdout})
 e.SetIndent(" ", " ")
-e.Encode(${2:payload})${3}
+_ = e.Encode(${2:payload})${3}
 endsnippet
 
 snippet decj "decode json with decoder"
