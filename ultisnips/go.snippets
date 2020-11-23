@@ -66,6 +66,15 @@ if err != nil {
 
 endsnippet
 
+snippet ern "err != nil"
+err != nil${0}
+endsnippet
+
+snippet ef "fmt.Errorf"
+fmt.Errorf("${1}; %w", ${2:err})${3}
+endsnippet
+
+
 snippet if "if condiction"
 if ${1:/* condition */} {
 	${2:/* code */}
