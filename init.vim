@@ -132,19 +132,21 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " color
 set termguicolors
 colorscheme nord
+"colorscheme molokai
+
+" set number
+set signcolumn=yes
+
+" transparent
+hi Normal     guibg=None
+hi SignColumn guibg=None
+hi LineNr     guibg=None
 
 if g:colors_name == 'molokai'
- hi LineNr guibg=None
- hi SignColumn guibg=None
+ let g:molokai_original = 1
+ hi MatchParen guibg=#3C3535 guifg=None gui=bold
 endif
 
-" bg transparent
-hi Normal guibg=None
-
-" line number with highlight
-"set number
-set cursorline
-set signcolumn=yes
 
 " airline
  let g:airline_powerline_fonts = 1
