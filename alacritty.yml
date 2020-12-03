@@ -59,5 +59,31 @@ colors:
     cyan: '#6d96a5'
     white: '#aeb3bb'
 
+colors_molokai:
+  primary:
+    background: '#272822'
+    foreground: '#F8F8F2'
+  cursor:
+    text: '#000000'
+    cursor: '#F8F8F0'
+  normal:
+    black:   '#2c2525'
+    red:     '#fd6883'
+    green:   '#adda78'
+    yellow:  '#f9cc6c'
+    blue:    '#f38d70'
+    magenta: '#a8a9eb'
+    cyan:    '#85dacc'
+    white:   '#fff1f3'
+  bright:
+    black:   '#72696a'
+    red:     '#fd6883'
+    green:   '#adda78'
+    yellow:  '#f9cc6c'
+    blue:    '#f38d70'
+    magenta: '#a8a9eb'
+    cyan:    '#85dacc'
+    white:   '#fff1f3'
+
 background_opacity: 0.98
 
