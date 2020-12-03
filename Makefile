@@ -68,7 +68,6 @@ py:
 
 nvim:
 	@echo "Neovim"
-	@yarn global add neovim typescript
 	@which pip3 > /dev/null && pip3 install neovim || echo "no pip3 found"
 	@mkdir -p ~/appimage
 	# ag -o '/v[0-9\.]+/nvim.appimage' | head -n 1 |
@@ -86,7 +85,7 @@ nvim:
 
 yarn:
 	@echo "yarn basics"
-	@yarn global add parcel eslint prettier prettier-eslint-cli eslint-plugin-react eslint-plugin-vue vscode-html-languageserver-bin vls yaml-language-server dockerfile-language-server-nodejs vscode-json-languageserver
+	@yarn global add parcel eslint prettier prettier-eslint-cli eslint-plugin-react eslint-plugin-vue vscode-html-languageserver-bin vls yaml-language-server dockerfile-language-server-nodejs vscode-json-languageserver typescript typescript-language-server
 
 config:
 	@echo "max watches"
