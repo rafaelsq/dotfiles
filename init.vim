@@ -1,6 +1,5 @@
-" Plugins
-"  PluginManager
-"   https://github.com/junegunn/vim-plug
+" =================== Plugins
+" https://github.com/junegunn/vim-plug
 call plug#begin('~/.config/nvim/plugged')
  " Plug 'ctrlpvim/ctrlp.vim'
  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -20,23 +19,17 @@ call plug#begin('~/.config/nvim/plugged')
  Plug 'vim-airline/vim-airline'
  Plug 'vim-airline/vim-airline-themes'
 
- " styles
- "Plug 'sheerun/vim-polyglot'
+ " theme
  Plug 'nvim-treesitter/nvim-treesitter'
  Plug 'arcticicestudio/nord-vim'
- "Plug 'dracula/vim', { 'name': 'dracula' }
- "Plug 'tomasr/molokai'
-
- " tmux integration
- if exists('$TMUX')
-   Plug 'christoomey/vim-tmux-navigator'
- endif
+ Plug 'dracula/vim', { 'name': 'dracula' }
+ Plug 'tomasr/molokai'
 
  " Git
  Plug 'airblade/vim-gitgutter'   " \hp, \hs, \hu [c, ]c
  Plug 'rhysd/git-messenger.vim'  " \m\m; ?, o, O, d, D
 
- " Others
+ " snippets
  Plug 'SirVer/ultisnips'
  "Plug 'honza/vim-snippets' " https://github.com/honza/vim-snippets/tree/master/snippets
   " vim-lsp
@@ -46,90 +39,15 @@ call plug#begin('~/.config/nvim/plugged')
 
  Plug 'tpope/vim-surround'
 
- " auto set paste
- Plug 'ConradIrwin/vim-bracketed-paste'
+ " tmux integration
+ if exists('$TMUX')
+   Plug 'christoomey/vim-tmux-navigator'
+ endif
 
 call plug#end()
 
-" disable match parans
-let g:loaded_matchparen=1
 
-"set list listchars=tab:»\ ,trail:·
-set list listchars=tab:\ \ ,trail:·
-set tabstop=4 shiftwidth=4
-set so=5                        " padding on j/k
-set mouse=a                     " enable mouse mode
-set noswapfile                  " don't use swapfile
-set ignorecase                  " search case insensitive...
-set updatetime=200              " gutter, go auto type uses it
-
-"http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
-set clipboard^=unnamed
-set clipboard^=unnamedplus
-
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript" },
-
-  highlight = { enable = true },
-  incremental_selection = { enable = true },
-}
-EOF
-
-" git
-nmap <Leader>m <Plug>(git-messenger)
-nmap <Leader>rg :!go run %<CR>
-
-" close scratch window, quickfix & Remove search highlight
-nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>
-"nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR> :GoCoverageClear<CR>
-
-" Center the screen
-nnoremap <space> zz
-
-" prevent p/P to yank
-xnoremap <expr> p 'pgv"'.v:register.'y'
-xnoremap <expr> P 'Pgv"'.v:register.'y'
-xnoremap <leader>y "+y
-nnoremap <leader>p "+pa
-
-" FZF search term
- " search on ctrl+p
- nnoremap <silent> <C-p> :FZF<CR>
- " select word under cursor
- xmap <leader>a "yy:Ag <c-r>y<cr>
- " search selection
- nmap <leader>a :Ag <c-r><c-w><cr>
-
-" up and down on splitted lines
-map <Up> gk
-map <Down> gj
-map k gk
-map j gj
-
-" annoying :W
-cab W w
-
-" keep block selection
-"vmap < <gv
-"vmap > >gv
-
-" move line up & down
-nnoremap <leader>j :m .+1<CR>==
-nnoremap <leader>k :m .-2<CR>==
-vnoremap <leader>j :m '>+1<CR>gv=gv
-vnoremap <leader>k :m '<-2<CR>gv=gv
-
-" Open current file on github
-nnoremap <leader>og <ESC>:!o `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line(".")<CR><CR><CR>
-vnoremap <leader>og <ESC>:!o `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line("'<")<CR>-L<C-R>=line("'>")<CR><CR><CR>
-
-" moving in snippet
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-" color
+" =================== Theme
 set termguicolors
 colorscheme nord
 "colorscheme molokai
@@ -145,17 +63,95 @@ hi LineNr     guibg=None
 if g:colors_name == 'molokai'
  let g:molokai_original = 1
  hi MatchParen guibg=#3C3535 guifg=None gui=bold
+else
+" set cursorline
 endif
 
 
-" airline
- let g:airline_powerline_fonts = 1
+" =================== TreeSitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript" },
 
-" FZF
- let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --hidden --ignore-dir=vendor --ignore-dir=node_modules --ignore-dir=.git'
- command! -nargs=* CodeRef call fzf#vim#ag(<q-args>)
+  highlight = { enable = true },
+  incremental_selection = { enable = true },
+}
+EOF
 
-" polyglot golang
+
+" =================== Airline
+let g:airline_powerline_fonts = 1
+
+
+" =================== settings
+
+" disable match parans
+let g:loaded_matchparen=1
+
+"set list listchars=tab:»\ ,trail:·
+set list listchars=tab:\ \ ,trail:·
+set tabstop=4 shiftwidth=4
+set so=5                        " padding on j/k
+set mouse=a                     " enable mouse mode
+set noswapfile                  " don't use swapfile
+set ignorecase                  " search case insensitive...
+set updatetime=200              " gutter, go auto type uses it
+
+" copy/pasts to clipboard
+set clipboard^=unnamed
+set clipboard^=unnamedplus
+
+" prevent p/P to yank
+xnoremap <expr> p 'pgv"'.v:register.'y'
+xnoremap <expr> P 'Pgv"'.v:register.'y'
+xnoremap <leader>y "+y
+nnoremap <leader>p "+pa
+
+" close scratch window, quickfix & Remove search highlight
+nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>
+
+" up and down on splitted lines
+map <Up> gk
+map <Down> gj
+map k gk
+map j gj
+
+
+" =================== FZF search
+nnoremap <silent> <C-p> :FZF<CR>
+
+" select word under cursor
+xmap <leader>a "yy:Ag <c-r>y<cr>
+
+" search selection
+nmap <leader>a :Ag <c-r><c-w><cr>
+
+" ignore vendor for :Ag
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore vendor', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+
+
+" =================== Open on GitHub
+nnoremap <leader>og <ESC>:!o `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line(".")<CR><CR><CR>
+vnoremap <leader>og <ESC>:!o `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line("'<")<CR>-L<C-R>=line("'>")<CR><CR><CR>
+
+
+" =================== Git Messenger
+nmap <Leader>m <Plug>(git-messenger)
+nmap <Leader>rg :!go run %<CR>
+
+
+" =================== Snippet
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+
+" =================== Go Coverage
+nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test `ls vendor 2>/dev/null >&2 && echo -mod=vendor` -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR><CR>
+nmap <Leader>ogc :!xdg-open ../coverage.html<CR><CR>
+
+
+" =================== Polyglot Golang
 let g:go_highlight_debug = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_parameters = 1
@@ -171,7 +167,9 @@ let g:go_highlight_generate_tags = 1
 let g:go_highlight_space_tab_error = 1
 let g:go_highlight_trailing_whitespace_error = 1
 
-" map vim-lsp
+
+" =================== LSP
+" ========== map
 nnoremap <silent> <Leader>dv <C-w>v :LspDefinition<CR>
 nnoremap <silent> <Leader>dh <C-w>s :LspDefinition<CR>
 nnoremap <silent> gd :LspDefinition<CR>
@@ -191,13 +189,8 @@ nnoremap <silent> <leader>ca :LspCodeAction<CR>
 xnoremap <silent> <leader>ca :LspCodeAction<CR>
 nnoremap <silent> <leader>cl :LspCodeLens<CR>
 
-imap <c-space> <Plug>(asyncomplete_force_refresh)
 
-set completeopt=menuone,noinsert,noselect,preview
-
-autocmd BufWritePre *.go :LspDocumentFormatSync
-autocmd BufWritePre *.go call execute('LspCodeActionSync source.organizeImports')
-
+" ========== hi
 let g:lsp_signs_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 1
 
@@ -208,9 +201,19 @@ hi link LspErrorText   healthError
 hi LspWarningHighlight guifg=none guibg=#414E68
 hi LspErrorHighlight   gui=underline
 
-nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test `ls vendor 2>/dev/null >&2 && echo -mod=vendor` -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR><CR>
-nmap <Leader>ogc :!xdg-open ../coverage.html<CR><CR>
 
+" ========== completion
+set completeopt=menuone,noinsert,noselect,preview
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+
+
+" ========== on.save
+autocmd BufWritePre *.go :LspDocumentFormatSync
+autocmd BufWritePre *.go call execute('LspCodeActionSync source.organizeImports')
+
+
+" =================== Tmux integration
+" use alt+<dir> to navigate between windows
 if exists('$TMUX')
   let g:tmux_navigator_no_mappings = 1
 
