@@ -1,6 +1,6 @@
 " =================== Plugins
 " https://github.com/junegunn/vim-plug
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin()
  " Plug 'ctrlpvim/ctrlp.vim'
  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
  Plug 'junegunn/fzf.vim'
@@ -8,11 +8,9 @@ call plug#begin('~/.config/nvim/plugged')
  " ident
  Plug 'tpope/vim-sleuth'
 
- " LSP
- Plug 'prabirshrestha/vim-lsp'
- Plug 'prabirshrestha/asyncomplete.vim'
- Plug 'prabirshrestha/asyncomplete-lsp.vim'
- Plug 'mattn/vim-lsp-settings'
+ " Lsp
+ Plug 'neovim/nvim-lspconfig'
+ Plug 'nvim-lua/completion-nvim'
 
  " status bar
  Plug 'vim-airline/vim-airline'
@@ -32,11 +30,7 @@ call plug#begin('~/.config/nvim/plugged')
 
  " snippets
  Plug 'SirVer/ultisnips'
- "Plug 'honza/vim-snippets' " https://github.com/honza/vim-snippets/tree/master/snippets
-  " vim-lsp
-  Plug 'prabirshrestha/async.vim'
-  Plug 'thomasfaingnaert/vim-lsp-snippets'
-  Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+ Plug 'honza/vim-snippets'
 
  Plug 'tpope/vim-surround'
 
@@ -93,11 +87,8 @@ let g:airline_powerline_fonts = 1
 
 " =================== settings
 
-" disable match parans
-let g:loaded_matchparen=1
-
-"set list listchars=tab:»\ ,trail:·
-set list listchars=tab:\ \ ,trail:·
+" show trailing space and tabs
+set list listchars=tab:»\ ,trail:·
 set tabstop=4 shiftwidth=4
 set so=5                        " padding on j/k
 set mouse=a                     " enable mouse mode
@@ -220,25 +211,15 @@ autocmd FileType qf nnoremap <buffer> <CR> :call <SID>OpenQuickfix("")<CR>
 
 
 " =================== LSP
-" ========== map
-nnoremap <silent> <Leader>dv <C-w>v :LspDefinition<CR>
-nnoremap <silent> <Leader>dh <C-w>s :LspDefinition<CR>
-nnoremap <silent> gd :LspDefinition<CR>
-nnoremap <silent> gr :LspReferences<CR>
-nnoremap <silent> gi :LspImplementation<CR>
-nnoremap <silent> gD :LspTypeDefinition<CR>
-nnoremap <silent> <leader>rn :LspRename<CR>
-nnoremap <silent> [g :LspPreviousDiagnostic<CR>
-nnoremap <silent> ]g :LspNextDiagnostic<CR>
-nnoremap <silent> K :LspHover<CR>
-
-nnoremap <silent> <leader>gs :<C-u>LspDocumentSymbol<CR>
-nnoremap <silent> <leader>gS :<C-u>LspWorkspaceSymbol<CR>
-nnoremap <silent> <leader>gf :<C-u>LspDocumentFormat<CR>
-vnoremap <silent> <leader>gf :LspDocumentRangeFormat<CR>
-nnoremap <silent> <leader>ca :LspCodeAction<CR>
-xnoremap <silent> <leader>ca :LspCodeAction<CR>
-nnoremap <silent> <leader>cl :LspCodeLens<CR>
+lua require'lspconfig'.gopls.setup{}
+lua require'lspconfig'.tsserver.setup{}
+lua require'lspconfig'.pyls.setup{}
+lua require'lspconfig'.html.setup{}
+lua require'lspconfig'.vuels.setup{}
+lua require'lspconfig'.yamlls.setup{}
+lua require'lspconfig'.dockerls.setup{}
+lua require'lspconfig'.jsonls.setup{}
+lua require'lspconfig'.vimls.setup{}
 
 " ========== settings
 let g:lsp_settings = {
@@ -250,25 +231,57 @@ let g:lsp_settings = {
 \}
 
 " ========== hi
-let g:lsp_signs_enabled = 0
-let g:lsp_diagnostics_echo_cursor = 1
+hi LspDiagnosticsDefaultError       guifg=#D8DEE9 guibg=#BF616A
+hi LspDiagnosticsDefaultWarning     guifg=#EBCB8B
+hi LspDiagnosticsDefaultInformation guifg=#88C0D0
 
-hi link LspHintText    SpecialComment
-hi LspInformationText  guifg=#414E68
-hi link LspWarningText Todo
-hi LspErrorText        guifg=#D8DEE9 guibg=#BF616A
-hi LspWarningHighlight guifg=none guibg=#414E68
-hi LspErrorHighlight   gui=underline
+
+" ========== map
+nnoremap <silent> dv <C-w>v  <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> dh <C-w>s  <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <c-]>      <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> gd         <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K          <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gi         <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k>      <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> gD         <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr         <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> <leader>gs <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> <leader>gf <cmd>lua vim.lsp.buf.formatting()<CR>
+nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> <leader>gW <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+xnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> [g         <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> ]g         <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 
 " ========== completion
-set completeopt=menuone,noinsert,noselect,preview
-imap <c-space> <Plug>(asyncomplete_force_refresh)
+autocmd BufEnter * lua require'completion'.on_attach()
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+let g:completion_enable_auto_paren = 1
+let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_confirm_key = "\<C-y>"
+let g:completion_sorting = "none"
+
+imap <silent> <c-space> <Plug>(completion_trigger)
+
+
+" ====== omnifunc(ctrl+x ctrl+o)
+"autocmd Filetype go,javascript,typescript,python,html,vue,yaml,dockerfile,json,vim setlocal omnifunc=v:lua.vim.lsp.omnifunc
+"let g:deoplete#enable_at_startup = 1
+"inoremap <C-Space> <C-x><C-o>
 
 
 " ========== on.save
-autocmd BufWritePre *.go :LspDocumentFormatSync
-autocmd BufWritePre *.go call execute('LspCodeActionSync source.organizeImports')
+autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
+"autocmd BufWritePre <buffer> call execute('LspCodeActionSync source.organizeImports')
+"autocmd BufWritePre *.go lua vim.lsp.buf.code_action({ source = { organizeImports = true } })
 
 
 " =================== Tmux integration
