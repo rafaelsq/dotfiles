@@ -211,29 +211,48 @@ autocmd FileType qf nnoremap <buffer> <CR> :call <SID>OpenQuickfix("")<CR>
 
 
 " =================== LSP
-lua require'lspconfig'.gopls.setup{}
-lua require'lspconfig'.tsserver.setup{}
-lua require'lspconfig'.pyls.setup{}
-lua require'lspconfig'.html.setup{}
-lua require'lspconfig'.vuels.setup{}
-lua require'lspconfig'.yamlls.setup{}
-lua require'lspconfig'.dockerls.setup{}
-lua require'lspconfig'.jsonls.setup{}
-lua require'lspconfig'.vimls.setup{}
+" highlight lua
+let g:vimsyn_embed = 'lPr'
 
-" ========== settings
-let g:lsp_settings = {
-\  'gopls': {
-\    'codeLenses': {
-\      'test': 1,
-\     }
-\   }
-\}
+lua <<EOF
+local lsp = require'lspconfig'
+
+-- https://go.googlesource.com/tools/+/refs/heads/master/gopls/doc/settings.md
+lsp.gopls.setup{
+  flags = {
+    allow_incremental_sync = true
+  },
+  init_options = {
+    staticcheck = false,
+    allExperiments = false,
+    usePlaceholders = true,
+    analyses = {
+      unusedparams = true
+    },
+    codelenses = {
+      generate = true,
+      gc_details = true
+    },
+  },
+}
+lsp.tsserver.setup{}
+lsp.pyls.setup{}
+lsp.html.setup{}
+lsp.vuels.setup{}
+lsp.yamlls.setup{}
+lsp.dockerls.setup{}
+lsp.jsonls.setup{}
+lsp.vimls.setup{}
+
+-- autocmd
+vim.api.nvim_command [[au InsertLeave *.go,*.vue,*.js,*.py,*.html :lua vim.lsp.codelens.refresh()]]
+EOF
 
 " ========== hi
 hi LspDiagnosticsDefaultError       guifg=#D8DEE9 guibg=#BF616A
 hi LspDiagnosticsDefaultWarning     guifg=#EBCB8B
 hi LspDiagnosticsDefaultInformation guifg=#88C0D0
+hi LspCodeLens                      guifg=#88C0D0 gui=underline
 
 
 " ========== map
@@ -254,6 +273,10 @@ nnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 xnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> [g         <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]g         <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> <leader>ll <cmd>lua print(vim.inspect(vim.lsp.codelens.get(vim.api.nvim_get_current_buf())))<CR>
+nnoremap <silent> <leader>cr <cmd>lua vim.lsp.codelens.refresh()<CR>
+nnoremap <silent> <leader>cl <cmd>lua print(vim.lsp.codelens.run())<CR>
+nnoremap <silent> gcli <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
 
 
 " ========== completion
