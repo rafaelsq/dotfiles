@@ -10,6 +10,7 @@ default:
 	@echo "make nvim"
 	@echo "make docker"
 	@echo "make fix"
+	@echo "make gh"
 
 custom:
 	@echo "Change GoCode"
@@ -109,3 +110,9 @@ links:
 
 docker:
 	@sh -c "$$(curl -fsSL https://get.docker.com)"
+
+gh:
+	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+	sudo apt-add-repository https://cli.github.com/packages
+	sudo apt update
+	sudo apt install gh
