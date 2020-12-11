@@ -173,9 +173,9 @@ nnoremap <silent> gs :<C-u>LspDocumentSymbol<CR>
 nnoremap <silent> gS :<C-u>LspWorkspaceSymbol<CR>
 nnoremap <silent> gQ :<C-u>LspDocumentFormat<CR>
 vnoremap <silent> gQ :LspDocumentRangeFormat<CR>
-nnoremap <silent> <leader>ca :LspCodeAction<CR>
-xnoremap <silent> <leader>ca :LspCodeAction<CR>
-nnoremap <silent> <leader>cl :LspCodeLens<CR>
+nnoremap <silent> ca :LspCodeAction<CR>
+xnoremap <silent> ca :LspCodeAction<CR>
+nnoremap <silent> cl :LspCodeLens<CR>
 
 
 " ========== hi
