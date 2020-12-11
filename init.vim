@@ -73,6 +73,9 @@ if g:colors_name == 'onedark'
 endif
 
 
+" ========== higlight
+autocmd BufEnter *.graphql setf graphql
+
 " =================== TreeSitter
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
@@ -120,6 +123,9 @@ map <Up> gk
 map <Down> gj
 map k gk
 map j gj
+
+" fix watch
+autocmd BufEnter *.vue set backupcopy=yes
 
 
 " =================== FZF search
