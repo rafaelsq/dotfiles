@@ -23,6 +23,7 @@ call plug#begin('~/.config/nvim/plugged')
  Plug 'arcticicestudio/nord-vim'
  Plug 'dracula/vim', { 'name': 'dracula' }
  Plug 'tomasr/molokai'
+ Plug 'joshdick/onedark.vim'
 
  " Git
  Plug 'airblade/vim-gitgutter'   " \hp, \hs, \hu [c, ]c
@@ -48,10 +49,13 @@ call plug#end()
 
 " =================== Theme
 set termguicolors
-colorscheme nord
+"colorscheme nord
 "colorscheme molokai
+colorscheme onedark
 
-" set number
+" set cursorline
+
+set number
 set signcolumn=yes
 
 " transparent
@@ -62,8 +66,10 @@ hi LineNr     guibg=None
 if g:colors_name == 'molokai'
  let g:molokai_original = 1
  hi MatchParen guibg=#3C3535 guifg=None gui=bold
-else
-" set cursorline
+endif
+
+if g:colors_name == 'onedark'
+ let g:airline_theme='onedark'
 endif
 
 

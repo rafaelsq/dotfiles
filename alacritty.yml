@@ -10,7 +10,7 @@ font:
   size: 10.0
 
 # https://github.com/arcticicestudio/nord-alacritty
-colors:
+colors_nord:
   primary:
     background: '#2e3440'
     foreground: '#d8dee9'
@@ -84,6 +84,23 @@ colors_molokai:
     magenta: '#a8a9eb'
     cyan:    '#85dacc'
     white:   '#fff1f3'
+
+colors_molokai:
+  primary:
+    background: '#282C34'
+    foreground: '#ABB2BF'
+  cursor:
+    text: '#000000'
+    cursor: '#F8F8F0'
+  normal:
+    black:   '#282C34'
+    red:     '#E06C75'
+    green:   '#98C379'
+    yellow:  '#E5C07B'
+    blue:    '#61AFEF'
+    magenta: '#C678DD'
+    cyan:    '#56B6C2'
+    white:   '#ABB2BF'
 
 background_opacity: 0.98
 
