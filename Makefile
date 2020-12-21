@@ -32,7 +32,18 @@ deps:
 
 tmux:
 	@echo "tmux tpm"
-	@git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	@if [ ! -d ~/.tmux/plugins/tpm ]; then \
+		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm; \
+	fi
+	@if [ ! -d ~/.tmux/plugins/onedark ]; then \
+		git clone https://github.com/odedlaz/tmux-onedark-theme ~/.tmux/plugins/onedark; \
+	fi
+	@if [ ! -d ~/.tmux/plugins/nord ]; then \
+		git clone https://github.com/arcticicestudio/nord-tmux ~/.tmux/plugins/nord; \
+	fi
+	@if [ ! -d ~/.tmux/plugins/dracula ]; then \
+		git clone https://github.com/dracula/tmux ~/.tmux/plugins/dracula; \
+	fi
 	@echo "Don't forget to ctrl+I to install and ctrl+U to update plugins"
 
 zsh:

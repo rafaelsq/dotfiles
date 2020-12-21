@@ -49,9 +49,7 @@ call plug#end()
 
 " =================== Theme
 set termguicolors
-"colorscheme nord
-"colorscheme molokai
-colorscheme onedark
+colorscheme $THEME
 
 " set cursorline
 

@@ -40,3 +40,7 @@ private settings to ~/.zshrc.local
 > vim
 :PlugInstall
 ```
+
+### Theme
+
+to change the theme, edit alacritty.yml env.

@@ -1,3 +1,6 @@
+env:
+  THEME: onedark
+
 window:
   startup_mode: Maximized
   decorations: none
@@ -59,6 +62,7 @@ colors_nord:
     cyan: '#6d96a5'
     white: '#aeb3bb'
 
+# molokai
 colors_molokai:
   primary:
     background: '#272822'
@@ -85,7 +89,8 @@ colors_molokai:
     cyan:    '#85dacc'
     white:   '#fff1f3'
 
-colors_molokai:
+# onedark
+colors:
   primary:
     background: '#282C34'
     foreground: '#ABB2BF'
