@@ -189,7 +189,7 @@ let g:lsp_diagnostics_echo_cursor = 1
 hi link LspHintText    SpecialComment
 hi LspInformationText  guifg=#414E68
 hi link LspWarningText Todo
-hi link LspErrorText   healthError
+hi LspErrorText        guifg=#D8DEE9 guibg=#BF616A
 hi LspWarningHighlight guifg=none guibg=#414E68
 hi LspErrorHighlight   gui=underline
 
