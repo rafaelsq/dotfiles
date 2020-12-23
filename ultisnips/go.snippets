@@ -59,7 +59,14 @@ go func(${1}) {
 ${4}
 endsnippet
 
-snippet ife "if err panic"
+snippet ife "if err"
+if err != nil {
+	return ${1:err}
+}
+${2}
+endsnippet
+
+snippet ifp "if err panic"
 if err != nil {
 	panic(err)
 }
