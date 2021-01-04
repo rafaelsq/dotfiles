@@ -1,4 +1,5 @@
 GO_BKP=~/bk.`go version 2>&1 | ag -o 'go([0-9\.]+)'`
+ALACRITTY_PATH=~/src/alacritty/alacritty
 
 default:
 	@echo "make deps"
@@ -9,6 +10,7 @@ default:
 	@echo "make yarn"
 	@echo "make nvim"
 	@echo "make docker"
+	@echo "make alacritty"
 	@echo "make fix"
 	@echo "make gh"
 
@@ -127,3 +129,22 @@ gh:
 	sudo apt-add-repository https://cli.github.com/packages
 	sudo apt update
 	sudo apt install gh
+
+
+alacritty:
+	@if [ ! -d ${ALACRITTY_PATH} ]; then \
+		@echo "cloning..."; \
+		@mkdir -p ${ALACRITTY_PATH}/../ && cd ${ALACRITTY_PATH}/../ && git clone github.com:alacritty/alacritty.git; \
+	fi
+	@echo "fetch latest..."
+	@cd ${ALACRITTY_PATH} && git fetch origin master && git reset --hard origin/master
+	@echo "building..."
+	@docker run -it --rm -v ${ALACRITTY_PATH}:/app -w /app rust:1 bash -c "apt update && apt install -y libxcb-xfixes0-dev && cargo build --release"
+	@echo "install"
+	@sudo cp ${ALACRITTY_PATH}/target/release/alacritty /usr/local/bin
+	@echo "creating desktop file"
+	@cp ${ALACRITTY_PATH}/extra/linux/Alacritty.desktop ~/.local/share/applications/
+	@sed -i'' "s,Icon=Alacritty,Icon=${ALACRITTY_PATH}/extra/logo/alacritty-simple.svg," ~/.local/share/applications/Alacritty.desktop
+	@echo "set as default terminal(ctrl + alt + t)"
+	@gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
+	@echo "all done, bye"
