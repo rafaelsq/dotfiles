@@ -133,8 +133,7 @@ gh:
 
 alacritty:
 	@if [ ! -d ${ALACRITTY_PATH} ]; then \
-		@echo "cloning..."; \
-		@mkdir -p ${ALACRITTY_PATH}/../ && cd ${ALACRITTY_PATH}/../ && git clone github.com:alacritty/alacritty.git; \
+		mkdir -p ${ALACRITTY_PATH}/../ && cd ${ALACRITTY_PATH}/../ && git clone github.com:alacritty/alacritty.git; \
 	fi
 	@echo "fetch latest..."
 	@cd ${ALACRITTY_PATH} && git fetch origin master && git reset --hard origin/master
