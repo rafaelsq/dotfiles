@@ -60,6 +60,10 @@ decgpg(){gpg --output $2 --decrypt $1}
 enc(){openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 100000 -salt -in $1 -out $1.enc}
 dec(){openssl enc -aes-256-cbc -md sha512 -pbkdf2 -d -in $1 -out $2}
 
+# enc/dec base64 to clipboard
+eb64(){base64 -w 0 < <(echo -n $1) | xsel -b}
+db64(){base64 -dw 0 < <(echo -n $1) | xsel -b}
+
 # make <tab>
 zstyle ':completion:*:*:make:*' tag-order 'targets'
 autoload -U compinit && compinit
