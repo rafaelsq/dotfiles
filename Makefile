@@ -1,5 +1,5 @@
 GO_BKP=~/bk.`go version 2>&1 | ag -o 'go([0-9\.]+)'`
-ALACRITTY_PATH=~/src/alacritty/alacritty
+ALACRITTY_PATH=`echo ~/src/alacritty/alacritty`
 
 default:
 	@echo "make deps"
