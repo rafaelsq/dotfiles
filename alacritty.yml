@@ -1,5 +1,5 @@
 env:
-  THEME: gruvbox
+  THEME: onedark
 
 window:
   startup_mode: Maximized
@@ -90,7 +90,7 @@ colors_molokai:
     white:   '#fff1f3'
 
 # onedark
-colors_onedark:
+colors:
   primary:
     background: '#282C34'
     foreground: '#ABB2BF'
@@ -108,7 +108,7 @@ colors_onedark:
     white:   '#ABB2BF'
 
 # gruvbox
-colors:
+colors_gruvbox:
   primary:
     background: '0x282828'
     foreground: '0xebdbb2'
