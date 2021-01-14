@@ -55,6 +55,7 @@ colorscheme $THEME
 
 set number
 set signcolumn=yes
+set relativenumber
 
 " transparent
 hi Normal     guibg=None
@@ -102,6 +103,8 @@ set mouse=a                     " enable mouse mode
 set noswapfile                  " don't use swapfile
 set ignorecase                  " search case insensitive...
 set updatetime=200              " gutter, go auto type uses it
+set hidden
+set colorcolumn=120
 
 " copy/pasts to clipboard
 set clipboard^=unnamed
@@ -115,6 +118,7 @@ nnoremap <leader>p "+pa
 
 " close scratch window, quickfix & Remove search highlight
 nnoremap <leader><space> :cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>
+nnoremap <leader>b :Buffers<CR>
 
 " up and down on splitted lines
 map <Up> gk
