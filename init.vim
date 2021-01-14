@@ -21,6 +21,7 @@ call plug#begin('~/.config/nvim/plugged')
  " theme
  Plug 'nvim-treesitter/nvim-treesitter'
  Plug 'arcticicestudio/nord-vim'
+ Plug 'gruvbox-community/gruvbox'
  Plug 'dracula/vim', { 'name': 'dracula' }
  Plug 'tomasr/molokai'
  Plug 'joshdick/onedark.vim'

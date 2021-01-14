@@ -46,6 +46,9 @@ tmux:
 	@if [ ! -d ~/.tmux/plugins/dracula ]; then \
 		git clone https://github.com/dracula/tmux ~/.tmux/plugins/dracula; \
 	fi
+	@if [ ! -d ~/.tmux/plugins/gruvbox ]; then \
+		git clone https://github.com/egel/tmux-gruvbox ~/.tmux/plugins/gruvbox; \
+	fi
 	@echo "Don't forget to ctrl+I to install and ctrl+U to update plugins"
 
 zsh:
