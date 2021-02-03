@@ -165,7 +165,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
 " =================== Go Coverage
-nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test `ls vendor 2>/dev/null >&2 && echo -mod=vendor` -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR><CR>
+nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test `ls vendor 2>/dev/null >&2 && echo -mod=vendor` -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR>
 nmap <Leader>ogc :!xdg-open ../coverage.html<CR><CR>
 
 
