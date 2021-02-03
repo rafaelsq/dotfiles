@@ -182,10 +182,10 @@ nnoremap <silent> [g :LspPreviousDiagnostic<CR>
 nnoremap <silent> ]g :LspNextDiagnostic<CR>
 nnoremap <silent> K :LspHover<CR>
 
-nnoremap <silent> gs :<C-u>LspDocumentSymbol<CR>
-nnoremap <silent> gS :<C-u>LspWorkspaceSymbol<CR>
-nnoremap <silent> gQ :<C-u>LspDocumentFormat<CR>
-vnoremap <silent> gQ :LspDocumentRangeFormat<CR>
+nnoremap <silent> <leader>gs :<C-u>LspDocumentSymbol<CR>
+nnoremap <silent> <leader>gS :<C-u>LspWorkspaceSymbol<CR>
+nnoremap <silent> <leader>gf :<C-u>LspDocumentFormat<CR>
+vnoremap <silent> <leader>gf :LspDocumentRangeFormat<CR>
 nnoremap <silent> <leader>ca :LspCodeAction<CR>
 xnoremap <silent> <leader>ca :LspCodeAction<CR>
 nnoremap <silent> <leader>cl :LspCodeLens<CR>
