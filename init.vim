@@ -154,6 +154,10 @@ nmap <Leader>m <Plug>(git-messenger)
 nmap <Leader>rg :!go run %<CR>
 
 
+" =================== Plug
+nnoremap <leader>pu :PlugUpdate<CR>
+
+
 " =================== Snippet
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
