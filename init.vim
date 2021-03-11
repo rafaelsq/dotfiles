@@ -224,7 +224,53 @@ local lsp = require'lspconfig'
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+-- https://github.com/neovim/nvim-lspconfig/issues/115
+function lsp_organize_imports()
+  local context = { source = { organizeImports = true } }
+  vim.validate { context = { context, "table", true } }
+
+  local params = vim.lsp.util.make_range_params()
+  params.context = context
+
+  local method = "textDocument/codeAction"
+  local timeout = 700 -- ms
+
+  local resp = vim.lsp.buf_request_sync(0, method, params, timeout)
+  if not resp then return end
+
+  for _, client in ipairs(vim.lsp.get_active_clients()) do
+    if resp[client.id] then
+      local result = resp[client.id].result
+      if not result or not result[1] then return end
+
+      local edit = result[1].edit
+      vim.lsp.util.apply_workspace_edit(edit)
+    end
+  end
+end
+
+local function on_attach_gopls(client, bufnr)
+  if client.resolved_capabilities.code_action then
+    vim.api.nvim_exec([[
+      augroup lsp_organize_imports
+        autocmd!
+        autocmd BufWritePre <buffer> lua lsp_organize_imports()
+      augroup END
+    ]], false)
+  end
+
+  if client.resolved_capabilities.document_formatting then
+    vim.api.nvim_exec([[
+      augroup lsp_format
+        autocmd!
+        autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+      augroup END
+    ]], false)
+  end
+end
+
 lsp.gopls.setup{
+  on_attach = on_attach_gopls,
   capabilities = capabilities,
   flags = {
     allow_incremental_sync = true
@@ -313,10 +359,9 @@ imap <silent> <c-space> <Plug>(completion_trigger)
 
 
 " ========== on.save
-autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
+"autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
 "autocmd BufWritePre <buffer> call execute('LspCodeActionSync source.organizeImports')
 "autocmd BufWritePre *.go lua vim.lsp.buf.code_action({ source = { organizeImports = true } })
-
 
 " =================== Tmux integration
 " use alt+<dir> to navigate between windows
