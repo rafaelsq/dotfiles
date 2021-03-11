@@ -192,6 +192,14 @@ nnoremap <silent> <leader>ca :LspCodeAction<CR>
 xnoremap <silent> <leader>ca :LspCodeAction<CR>
 nnoremap <silent> <leader>cl :LspCodeLens<CR>
 
+" ========== settings
+let g:lsp_settings = {
+\  'gopls': {
+\    'codeLenses': {
+\      'test': 1,
+\     }
+\   }
+\}
 
 " ========== hi
 let g:lsp_signs_enabled = 0
