@@ -11,6 +11,9 @@ call plug#begin()
  " Lsp
  Plug 'neovim/nvim-lspconfig'
  Plug 'nvim-lua/completion-nvim'
+  " improve completion
+  Plug 'hrsh7th/vim-vsnip'
+  Plug 'hrsh7th/vim-vsnip-integ'
 
  " status bar
  Plug 'vim-airline/vim-airline'
@@ -218,26 +221,29 @@ lua <<EOF
 local lsp = require'lspconfig'
 
 -- https://go.googlesource.com/tools/+/refs/heads/master/gopls/doc/settings.md
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 lsp.gopls.setup{
+  capabilities = capabilities,
   flags = {
     allow_incremental_sync = true
   },
   init_options = {
     staticcheck = false,
     allExperiments = false,
-    usePlaceholders = true,
+    usePlaceholders = false,
     analyses = {
       unusedparams = true
     },
     codelenses = {
       gc_details = true,
       test = true,
-      references = true
-      -- generate = true,
-      -- regenerate_cgo = true,
-      -- tidy = true,
-      -- upgrade_dependency = true,
-      -- vendor = true
+      generate = true,
+      regenerate_cgo = true,
+      tidy = true,
+      upgrade_dependency = true,
+      vendor = true,
     },
   },
 }
@@ -293,7 +299,6 @@ set completeopt=menuone,noinsert,noselect
 
 " Avoid showing message extra message when using completion
 set shortmess+=c
-let g:completion_enable_auto_paren = 1
 let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_confirm_key = "\<C-y>"
 let g:completion_sorting = "none"
