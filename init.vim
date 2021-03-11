@@ -230,8 +230,14 @@ lsp.gopls.setup{
       unusedparams = true
     },
     codelenses = {
-      generate = true,
-      gc_details = true
+      gc_details = true,
+      test = true,
+      references = true
+      -- generate = true,
+      -- regenerate_cgo = true,
+      -- tidy = true,
+      -- upgrade_dependency = true,
+      -- vendor = true
     },
   },
 }
