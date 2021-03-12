@@ -1,0 +1,12 @@
+window:
+  startup_mode: Maximized
+  decorations: none
+
+font:
+  normal:
+    family: Hack
+    style: Regular
+
+  size: 10.0
+
+background_opacity: 0.98

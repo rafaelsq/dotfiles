@@ -1,5 +1,6 @@
 GO_BKP=~/bk.`go version 2>&1 | ag -o 'go([0-9\.]+)'`
 ALACRITTY_PATH=`echo ~/src/alacritty/alacritty`
+DEFAULT_THEME=onedark
 
 default:
 	@echo "make deps"
@@ -13,6 +14,7 @@ default:
 	@echo "make alacritty"
 	@echo "make fix"
 	@echo "make gh"
+	@echo "make set theme=[nord|onedark|gruvbox|molokai|dracula]"
 
 custom:
 	@echo "Change GoCode"
@@ -116,7 +118,8 @@ links:
 	@ln -sf ${PWD}/prettierrc ~/.prettierrc
 	@ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 	@mkdir -p ~/.config/alacritty
-	@ln -sf ${PWD}/alacritty.yml ~/.config/alacritty/alacritty.yml
+	@ln -sf ${PWD}/alacritty/${DEFAULT_THEME}.yml ~/.config/alacritty/alacritty.yml
+	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
 	@mkdir -p ~/.config/nvim
 	@ln -sf ${PWD}/init.vim ~/.config/nvim/init.vim
 	@mkdir -p ~/.config/terminator
@@ -150,3 +153,12 @@ alacritty:
 	@echo "set as default terminal(ctrl + alt + t)"
 	@gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
 	@echo "all done, bye"
+
+set:
+ifneq ($(theme),)
+	@rm ~/.config/alacritty/*.yml
+	@ln -sf ${PWD}/alacritty/$(theme).yml ~/.config/alacritty/alacritty.yml
+	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
+else
+	@echo "make set theme=nord"
+endif
