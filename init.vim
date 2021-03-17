@@ -56,7 +56,7 @@ colorscheme $THEME
 
 set number
 set signcolumn=yes
-set relativenumber
+" set relativenumber
 
 " transparent
 hi Normal     guibg=None
