@@ -32,7 +32,7 @@ deps:
 	@echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
 	@sudo apt update && sudo apt install \
-		curl git bison gcc clang make zsh silversearcher-ag autojump aria2 terminator htop python3-pip tlp powertop fonts-hack yarn tmux xsel
+		curl git bison gcc g++ clang make zsh silversearcher-ag autojump aria2 terminator htop python3-pip tlp powertop fonts-hack yarn tmux xsel
 
 tmux:
 	@echo "tmux tpm"
