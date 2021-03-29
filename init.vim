@@ -303,7 +303,7 @@ lsp.jsonls.setup{}
 lsp.vimls.setup{}
 
 -- autocmd
-vim.api.nvim_command [[au InsertLeave *.go,*.vue,*.js,*.py,*.html :lua vim.lsp.codelens.refresh()]]
+-- vim.api.nvim_command [[au InsertLeave *.go,*.vue,*.js,*.py,*.html :lua vim.lsp.codelens.refresh()]]
 EOF
 
 " ========== hi
@@ -331,9 +331,9 @@ nnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 xnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> [g         <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]g         <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-nnoremap <silent> <leader>ll <cmd>lua print(vim.inspect(vim.lsp.codelens.get(vim.api.nvim_get_current_buf())))<CR>
-nnoremap <silent> <leader>cr <cmd>lua vim.lsp.codelens.refresh()<CR>
-nnoremap <silent> <leader>cl <cmd>lua print(vim.lsp.codelens.run())<CR>
+"nnoremap <silent> <leader>ll <cmd>lua print(vim.inspect(vim.lsp.codelens.get(vim.api.nvim_get_current_buf())))<CR>
+"nnoremap <silent> <leader>cr <cmd>lua vim.lsp.codelens.refresh()<CR>
+"nnoremap <silent> <leader>cl <cmd>lua print(vim.lsp.codelens.run())<CR>
 nnoremap <silent> gcli <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
 
 
