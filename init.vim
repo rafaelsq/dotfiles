@@ -329,6 +329,7 @@ nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> <leader>gW <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 xnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> <leader>sh <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> [g         <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]g         <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 "nnoremap <silent> <leader>ll <cmd>lua print(vim.inspect(vim.lsp.codelens.get(vim.api.nvim_get_current_buf())))<CR>
