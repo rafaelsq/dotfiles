@@ -5,6 +5,10 @@ plugins=(
 )
 source $ZSH/oh-my-zsh.sh
 
+# zsh-autosuggestions binds
+bindkey  '^Y' autosuggest-execute
+bindkey  '^N' history-beginning-search-backward
+
 # alias
 alias cl="printf '\033[2J\033[3J\033[1;1H'"
 alias vim=nvim
