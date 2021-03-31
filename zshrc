@@ -6,7 +6,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # zsh-autosuggestions binds
-bindkey  '^Y' autosuggest-execute
+bindkey  '^Y' autosuggest-accept
 bindkey  '^N' history-beginning-search-backward
 
 # alias
