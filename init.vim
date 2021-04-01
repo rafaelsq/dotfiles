@@ -79,7 +79,7 @@ autocmd BufEnter *.graphql setf graphql
 " =================== TreeSitter
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript" },
+  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python" },
 
   highlight = { enable = true },
   incremental_selection = { enable = true },
@@ -238,3 +238,7 @@ else
   map <A-k> <C-w>k
   map <A-l> <C-w>l
 endif
+
+"let g:lsp_log_verbose = 1
+"let g:lsp_log_file = expand('~/vim-lsp.log')
+"let g:asyncomplete_log_file = expand('~/asyncomplete.log')
