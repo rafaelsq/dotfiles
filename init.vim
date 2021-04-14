@@ -325,6 +325,7 @@ nnoremap <silent> gD         <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr         <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> <leader>gs <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> <leader>gf <cmd>lua vim.lsp.buf.formatting()<CR>
+vnoremap <silent> <leader>gf <cmd>lua vim.lsp.buf.range_formatting()<CR>
 nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> <leader>gW <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
@@ -332,6 +333,7 @@ xnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> <leader>sh <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> [g         <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]g         <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> <leader>g  <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 "nnoremap <silent> <leader>ll <cmd>lua print(vim.inspect(vim.lsp.codelens.get(vim.api.nvim_get_current_buf())))<CR>
 "nnoremap <silent> <leader>cr <cmd>lua vim.lsp.codelens.refresh()<CR>
 "nnoremap <silent> <leader>cl <cmd>lua print(vim.lsp.codelens.run())<CR>
