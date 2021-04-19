@@ -179,8 +179,10 @@ function! <SID>OpenQuickfix(new_split_cmd)
   let l:qf_idx = line('.')
   " 2. jump to the previous window
   wincmd p
-  " 3. switch to a new split (the new_split_cmd will be 'vnew' or 'split')
-  execute a:new_split_cmd
+  if len(a:new_split_cmd) > 0
+    " 3. switch to a new split (the new_split_cmd will be 'vnew' or 'split')
+    execute a:new_split_cmd
+  endif
   " 4. open the 'current' item of the quickfix list in the newly created buffer
   "    (the current means, the one focused before switching to the new buffer)
   execute l:qf_idx . 'cc'
@@ -188,6 +190,7 @@ endfunction
 
 autocmd FileType qf nnoremap <buffer> <C-v> :call <SID>OpenQuickfix("vnew")<CR>
 autocmd FileType qf nnoremap <buffer> <C-x> :call <SID>OpenQuickfix("split")<CR>
+autocmd FileType qf nnoremap <buffer> <CR> :call <SID>OpenQuickfix("")<CR>
 
 
 " =================== LSP
