@@ -155,6 +155,9 @@ vnoremap <leader>og <ESC>:!xdg-open `git url`/blob/`git rev-parse --abbrev-ref H
 nmap <Leader>m <Plug>(git-messenger)
 nmap <Leader>rg :!go run %<CR>
 
+" ========= custom
+nmap <leader>co :!git checkout %<CR><CR>
+
 
 " =================== Plug
 nnoremap <leader>pu :PlugUpdate<CR>
