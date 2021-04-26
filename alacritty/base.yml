@@ -1,3 +1,9 @@
+shell:
+  program: /bin/bash
+  args:
+    - -c
+    - "tmux"
+
 window:
   startup_mode: Maximized
   decorations: none
