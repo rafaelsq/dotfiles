@@ -38,18 +38,28 @@ tmux:
 	@echo "tmux tpm"
 	@if [ ! -d ~/.tmux/plugins/tpm ]; then \
 		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm; \
+	else \
+		cd ~/.tmux/plugins/tpm && git pull origin master; \
 	fi
 	@if [ ! -d ~/.tmux/plugins/onedark ]; then \
 		git clone https://github.com/odedlaz/tmux-onedark-theme ~/.tmux/plugins/onedark; \
+	else \
+		cd ~/.tmux/plugins/onedark && git pull origin master; \
 	fi
 	@if [ ! -d ~/.tmux/plugins/nord ]; then \
 		git clone https://github.com/arcticicestudio/nord-tmux ~/.tmux/plugins/nord; \
+	else \
+		cd ~/.tmux/plugins/nord && git pull origin master; \
 	fi
 	@if [ ! -d ~/.tmux/plugins/dracula ]; then \
 		git clone https://github.com/dracula/tmux ~/.tmux/plugins/dracula; \
+	else \
+		cd ~/.tmux/plugins/dracula && git pull origin master; \
 	fi
 	@if [ ! -d ~/.tmux/plugins/gruvbox ]; then \
 		git clone https://github.com/egel/tmux-gruvbox ~/.tmux/plugins/gruvbox; \
+	else \
+		cd ~/.tmux/plugins/gruvbox && git pull origin master; \
 	fi
 	@echo "Don't forget to ctrl+I to install and ctrl+U to update plugins"
 
