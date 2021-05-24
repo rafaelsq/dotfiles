@@ -144,8 +144,6 @@ nmap <leader>a :Ag <c-r><c-w><cr>
 command! -bang -nargs=* Aga call fzf#vim#ag(<q-args>, '--ignore vendor', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
 command! -bang -nargs=* Ag Aga <args>
 
-autocmd FileType go command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*_test.go --ignore \*generated\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-
 " =================== Open on GitHub
 nnoremap <leader>og <ESC>:!xdg-open `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line(".")<CR><CR><CR>
 vnoremap <leader>og <ESC>:!xdg-open `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line("'<")<CR>-L<C-R>=line("'>")<CR><CR><CR>
@@ -153,7 +151,6 @@ vnoremap <leader>og <ESC>:!xdg-open `git url`/blob/`git rev-parse --abbrev-ref H
 
 " =================== Git Messenger
 nmap <Leader>m <Plug>(git-messenger)
-nmap <Leader>rg :!go run %<CR>
 
 " ========= custom
 nmap <leader>co :!git checkout %<CR><CR>
@@ -169,9 +166,35 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
-" =================== Go Coverage
+" =================== Go
+function! GoAlternate(split)
+  let p = expand('%')
+  let l:e = ':e '
+  if a:split
+    let l:e = ':sp '
+  endif
+  if p =~# '^\f\+_test\.go$'
+    let l:f = split(p, '_test.go$')[0] . '.go'
+  else
+    let l:f = expand('%:r') . '_test.go'
+  endif
+  execute e . f
+endfunction
+
+" ========= ag ignore paths
+autocmd FileType go command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*_test.go --ignore \*generated\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+
+" ========= run
+autocmd FileType go nmap <Leader>rg :!go run %<CR>
+
+" ========= alternate
+autocmd FileType go nnoremap <silent> ]a <cmd>call GoAlternate(0)<CR>
+autocmd FileType go nnoremap <silent> [a <cmd>call GoAlternate(1)<CR>
+
+" ========= coverage
 nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test `ls vendor 2>/dev/null >&2 && echo -mod=vendor` -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR>
 nmap <Leader>ogc :!xdg-open ../coverage.html<CR><CR>
+
 
 " =================== Custom
 "
