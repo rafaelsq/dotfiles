@@ -131,7 +131,7 @@ links:
 	@ln -sf ${PWD}/alacritty/${DEFAULT_THEME}.yml ~/.config/alacritty/alacritty.yml
 	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
 	@mkdir -p ~/.config/nvim
-	@ln -sf ${PWD}/init.vim ~/.config/nvim/init.vim
+	@ln -sf ${PWD}/init.lua ~/.config/nvim/init.lua
 	@mkdir -p ~/.config/terminator
 	@ln -sf ${PWD}/terminator.cfg ~/.config/terminator/config
 	@rm -rf ~/.config/nvim/UltiSnips
