@@ -18,10 +18,10 @@ vim.cmd("Plug 'junegunn/fzf.vim'")
 vim.cmd("Plug 'tpope/vim-sleuth'")
 
 -- Lsp
-vim.cmd("Plug 'prabirshrestha/vim-lsp'")
-vim.cmd("Plug 'prabirshrestha/asyncomplete.vim'")
-vim.cmd("Plug 'prabirshrestha/asyncomplete-lsp.vim'")
-vim.cmd("Plug 'mattn/vim-lsp-settings'")
+vim.cmd("Plug 'neovim/nvim-lspconfig'")
+vim.cmd("Plug 'nvim-lua/completion-nvim'")
+vim.cmd("Plug 'hrsh7th/vim-vsnip'")
+vim.cmd("Plug 'hrsh7th/vim-vsnip-integ'")
 
 -- status bar
 vim.cmd("Plug 'vim-airline/vim-airline'")
@@ -41,10 +41,7 @@ vim.cmd("Plug 'rhysd/git-messenger.vim'")  -- \m\m; ?, o, O, d, D
 
 -- snippets
 vim.cmd("Plug 'SirVer/ultisnips'")
--- vim.cmd("Plug 'honza/vim-snippets'")
-vim.cmd("Plug 'prabirshrestha/async.vim'")
-vim.cmd("Plug 'thomasfaingnaert/vim-lsp-snippets'")
-vim.cmd("Plug 'thomasfaingnaert/vim-lsp-ultisnips'")
+vim.cmd("Plug 'honza/vim-snippets'")
 
 vim.cmd("Plug 'tpope/vim-surround'")
 vim.cmd("Plug 'rafaelsq/nvim-yanks.lua'")
@@ -265,61 +262,145 @@ end
 -- vim.g.lsp_log_file = expand('~/vim-lsp.log')
 -- vim.g.asyncomplete_log_file = expand('~/asyncomplete.log')
 
-
 --------------------- LSP
------------- map
-vim.api.nvim_set_keymap('n', '<Leader>dv', '<C-w>v :LspDefinition<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<Leader>dh', '<C-w>s :LspDefinition<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', 'gd', ':LspDefinition<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', 'gr', ':LspReferences<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', 'gi', ':LspImplementation<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', 'gD', ':LspTypeDefinition<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<leader>rn', ':LspRename<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '[g', ':LspPreviousDiagnostic<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', ']g', ':LspNextDiagnostic<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', 'K', ':LspHover<CR>', {silent=true})
 
-vim.api.nvim_set_keymap('n', '<leader>gs', ':<C-u>LspDocumentSymbol<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<leader>gS', ':<C-u>LspWorkspaceSymbol<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<leader>gf', ':<C-u>LspDocumentFormat<CR>', {silent=true})
-vim.api.nvim_set_keymap('v', '<leader>gf', ':LspDocumentRangeFormat<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<leader>ca', ':LspCodeAction<CR>', {silent=true})
-vim.api.nvim_set_keymap('x', '<leader>ca', ':LspCodeAction<CR>', {silent=true})
-vim.api.nvim_set_keymap('i', '<C-c>',      '<ESC>:LspCodeAction<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<leader>cl', ':LspCodeLens<CR>', {silent=true})
+local lsp = require'lspconfig'
 
------------- settings
-vim.g.lsp_settings = {
-  gopls = {
-    initialization_options = {
-      analyses = {
-        unusedparams = true,
-      },
-      codelenses = {
-        gc_details = true,
-        test = true,
-      }
-    }
-   }
+-- https://go.googlesource.com/tools/+/refs/heads/master/gopls/doc/settings.md
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+-- https://github.com/neovim/nvim-lspconfig/issues/115
+function lsp_organize_imports()
+  local context = { source = { organizeImports = true } }
+  vim.validate { context = { context, "table", true } }
+
+  local params = vim.lsp.util.make_range_params()
+  params.context = context
+
+  local method = "textDocument/codeAction"
+  local timeout = 700 -- ms
+
+  local resp = vim.lsp.buf_request_sync(0, method, params, timeout)
+  if not resp then return end
+
+  for _, client in ipairs(vim.lsp.get_active_clients()) do
+    if resp[client.id] then
+      local result = resp[client.id].result
+      if not result or not result[1] then return end
+
+      local edit = result[1].edit
+      vim.lsp.util.apply_workspace_edit(edit)
+    end
+  end
+end
+
+-- Use an on_attach function to only map the following keys 
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  --Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', 'dv', '<C-w>v <cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'dh', '<C-w>s <cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', '<c-]>', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<c-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<leader>gs', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
+  buf_set_keymap('n', '<leader>gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('v', '<leader>gf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
+  buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<leader>gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
+  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('x', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', '<leader>sh', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '<leader>g', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+
+  if client.resolved_capabilities.document_formatting then
+    vim.api.nvim_exec([[
+      augroup lsp_format
+        autocmd!
+        autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+      augroup END
+    ]], false)
+  end
+end
+
+local function on_attach_gopls(client, bufnr)
+  on_attach(client, bufnr)
+
+  if client.resolved_capabilities.code_action then
+    vim.api.nvim_exec([[
+      augroup lsp_organize_imports
+        autocmd!
+        autocmd BufWritePre <buffer> lua lsp_organize_imports()
+      augroup END
+    ]], false)
+  end
+end
+
+local servers = { 'tsserver', 'pyls', 'html', 'vuels', 'yamlls', 'dockerls', 'jsonls', 'vimls' }
+for _, l in ipairs(servers) do
+  lsp[l].setup { on_attach = on_attach }
+end
+
+lsp.gopls.setup{
+  on_attach = on_attach,
+  capabilities = capabilities,
+  flags = {
+    allow_incremental_sync = true
+  },
+  init_options = {
+    staticcheck = false,
+    allExperiments = false,
+    usePlaceholders = false,
+    analyses = {
+      unusedparams = true
+    },
+    codelenses = {
+      gc_details = true,
+      test = true,
+      generate = true,
+      regenerate_cgo = true,
+      tidy = true,
+      upgrade_dependency = true,
+      vendor = true,
+    },
+  },
 }
 
 ------------ hi
-vim.g.lsp_signs_enabled = 0
-vim.g.lsp_diagnostics_echo_cursor = 1
-
-vim.highlight.link('LspHintText', 'SpecialComment')
-vim.highlight.create('LspInformationText', {guifg='#414E68'})
-vim.highlight.link('LspWarningText', 'Todo')
-vim.highlight.create('LspErrorText', {guifg='#D8DEE9', guibg='#BF616A'})
-vim.highlight.create('LspWarningHighlight', {guifg='none', guibg='#414E68'})
-vim.highlight.create('LspErrorHighlight', {gui='underline'})
+vim.highlight.create('LspDiagnosticsDefaultError', {guifg='#D8DEE9', guibg='#BF616A'})
+vim.highlight.create('LspDiagnosticsDefaultWarning', {guifg='#EBCB8B'})
+vim.highlight.create('LspDiagnosticsDefaultInformation', {guifg='#88C0D0'})
+vim.highlight.create('LspCodeLens', {guifg='#88C0D0', gui='underline'})
 
 
 ------------ completion
-vim.opt.completeopt = {'menuone', 'noinsert', 'noselect', 'preview'}
-vim.api.nvim_set_keymap('i', '<c-space>', '<Plug>(asyncomplete_force_refresh)', {})
+vim.cmd("autocmd BufEnter * lua require'completion'.on_attach()")
+
+vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
+
+-- avoid showing message extra message when using completion
+vim.opt.shortmess = vim.opt.shortmess + 'c'
+vim.g.completion_enable_snippet = 'UltiSnips'
+vim.g.completion_confirm_key = "<C-y>"
+vim.g.completion_sorting = "none"
 
 
------------- on.save
-vim.cmd("autocmd BufWritePre *.go :LspDocumentFormatSync")
-vim.cmd("autocmd BufWritePre *.go call execute('LspCodeActionSync source.organizeImports')")
+vim.api.nvim_set_keymap('i', '<c-space>', '<Plug>(completion_trigger)', {silent=true})
