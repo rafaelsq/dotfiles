@@ -136,6 +136,11 @@ links:
 	@ln -sf ${PWD}/terminator.cfg ~/.config/terminator/config
 	@rm -rf ~/.config/nvim/UltiSnips
 	@ln -sf ${PWD}/ultisnips ~/.config/nvim/UltiSnips
+	@rm ~/.config/nvim/init.lua
+
+lua:
+	@ln -sf ${PWD}/init.lua ~/.config/nvim/init.lua
+	@rm ~/.config/nvim/init.vim
 
 docker:
 	@sh -c "$$(curl -fsSL https://get.docker.com)"
