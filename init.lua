@@ -159,7 +159,7 @@ vim.api.nvim_set_keymap('n', '<leader>co', ':!git checkout %<CR><CR>', {})
 
 
 --------------------- Plug
-vim.api.nvim_set_keymap('n', '<leader>pu', ':PlugUpdate<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>pu', ':PackerUpdate<CR>', {})
 
 
 --------------------- Snippet
