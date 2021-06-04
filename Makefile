@@ -108,9 +108,11 @@ nvim:
 		mv ~/appimage/nvim.appimage_new ~/appimage/nvim.appimage; \
 	fi
 	@chmod +x ~/appimage/nvim.appimage
-	@echo "packer - https://github.com/wbthomason/packer.nvim"
-	@git clone https://github.com/wbthomason/packer.nvim\
-		~/.local/share/nvim/site/pack/packer/start/packer.nvim
+	@if [ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]; then \
+		echo "packer - https://github.com/wbthomason/packer.nvim"; \
+		git clone https://github.com/wbthomason/packer.nvim\
+			~/.local/share/nvim/site/pack/packer/start/packer.nvim; \
+	fi
 
 yarn:
 	@echo "yarn basics"
