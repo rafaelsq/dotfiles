@@ -7,53 +7,52 @@
 
 
 --------------------- Plugins
-require('packer').startup(function()
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
+-- https://github.com/junegunn/vim-plug
+vim.cmd('call plug#begin()')
+-- Plug 'ctrlpvim/ctrlp.vim'
+vim.cmd("Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }")
+vim.cmd("Plug 'junegunn/fzf.vim'")
 
-  -- Plug 'ctrlpvim/ctrlp.vim'
-  use {'junegunn/fzf', dir = '~/.fzf', run = './install --all'}
-  use {'junegunn/fzf.vim'}
+-- ident
+vim.cmd("Plug 'tpope/vim-sleuth'")
 
-  -- ident
-  use {'tpope/vim-sleuth'}
+-- Lsp
+vim.cmd("Plug 'prabirshrestha/vim-lsp'")
+vim.cmd("Plug 'prabirshrestha/asyncomplete.vim'")
+vim.cmd("Plug 'prabirshrestha/asyncomplete-lsp.vim'")
+vim.cmd("Plug 'mattn/vim-lsp-settings'")
 
-  -- Lsp
-  use {'prabirshrestha/vim-lsp'}
-  use {'prabirshrestha/asyncomplete.vim'}
-  use {'prabirshrestha/asyncomplete-lsp.vim'}
-  use {'mattn/vim-lsp-settings'}
+-- status bar
+vim.cmd("Plug 'vim-airline/vim-airline'")
+vim.cmd("Plug 'vim-airline/vim-airline-themes'")
 
-  -- status bar
-  use {'vim-airline/vim-airline'}
-  use {'vim-airline/vim-airline-themes'}
+-- theme
+vim.cmd("Plug 'nvim-treesitter/nvim-treesitter'")
+vim.cmd("Plug 'arcticicestudio/nord-vim'")
+vim.cmd("Plug 'gruvbox-community/gruvbox'")
+vim.cmd("Plug 'dracula/vim', { 'name': 'dracula' }")
+vim.cmd("Plug 'tomasr/molokai'")
+vim.cmd("Plug 'joshdick/onedark.vim'")
 
-  -- theme
-  use {'nvim-treesitter/nvim-treesitter'}
-  use {'arcticicestudio/nord-vim'}
-  use {'gruvbox-community/gruvbox'}
-  use {'dracula/vim', name = 'dracula'}
-  use {'tomasr/molokai'}
-  use {'joshdick/onedark.vim'}
+-- Git
+vim.cmd("Plug 'airblade/vim-gitgutter'")   -- \hp, \hs, \hu [c, ]c
+vim.cmd("Plug 'rhysd/git-messenger.vim'")  -- \m\m; ?, o, O, d, D
 
-  -- Git
-  use {'airblade/vim-gitgutter'}   -- \hp, \hs, \hu [c, ]c
-  use {'rhysd/git-messenger.vim'}  -- \m\m; ?, o, O, d, D
+-- snippets
+vim.cmd("Plug 'SirVer/ultisnips'")
+-- vim.cmd("Plug 'honza/vim-snippets'")
+vim.cmd("Plug 'prabirshrestha/async.vim'")
+vim.cmd("Plug 'thomasfaingnaert/vim-lsp-snippets'")
+vim.cmd("Plug 'thomasfaingnaert/vim-lsp-ultisnips'")
 
-  -- snippets
-  use {'SirVer/ultisnips'}
-  -- use {'honza/vim-snippets'}
-  use {'prabirshrestha/async.vim'}
-  use {'thomasfaingnaert/vim-lsp-snippets'}
-  use {'thomasfaingnaert/vim-lsp-ultisnips'}
+vim.cmd("Plug 'tpope/vim-surround'")
 
-  use {'tpope/vim-surround'}
+-- tmux integration
+if vim.env['TMUX'] then
+  vim.cmd("Plug 'christoomey/vim-tmux-navigator'")
+end
 
-  -- tmux integration
-  if vim.env['TMUX'] then
-    use {'christoomey/vim-tmux-navigator'}
-  end
-end)
+vim.cmd("call plug#end()")
 
 
 --------------------- Theme
@@ -159,7 +158,7 @@ vim.api.nvim_set_keymap('n', '<leader>co', ':!git checkout %<CR><CR>', {})
 
 
 --------------------- Plug
-vim.api.nvim_set_keymap('n', '<leader>pu', ':PackerUpdate<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>pu', ':PlugUpdate<CR>', {})
 
 
 --------------------- Snippet
