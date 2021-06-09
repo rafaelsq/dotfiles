@@ -204,29 +204,22 @@ vim.cmd('autocmd FileType go nmap <Leader>rg :!go run %<CR>')
 -- " ========= coverage
 -- nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test `ls vendor 2>/dev/null >&2 && echo -mod=vendor` -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR>
 -- nmap <Leader>ogc :!xdg-open ../coverage.html<CR><CR>
--- 
--- 
--- " =================== Quickfix
--- 
--- " This is only availale in the quickfix window, owing to the filetype
--- " restriction on the autocmd (see below).
--- function! <SID>OpenQuickfix(new_split_cmd)
---   " 1. the current line is the result idx as we are in the quickfix
---   let l:qf_idx = line('.')
---   " 2. jump to the previous window
---   wincmd p
---   if len(a:new_split_cmd) > 0
---     " 3. switch to a new split (the new_split_cmd will be 'vnew' or 'split')
---     execute a:new_split_cmd
---   endif
---   " 4. open the 'current' item of the quickfix list in the newly created buffer
---   "    (the current means, the one focused before switching to the new buffer)
---   execute l:qf_idx . 'cc'
--- endfunction
 
---vim.cmd('autocmd FileType qf nnoremap <buffer> <C-v> :call <SID>OpenQuickfix("vnew")<CR>')
---vim.cmd('autocmd FileType qf nnoremap <buffer> <C-x> :call <SID>OpenQuickfix("split")<CR>')
---vim.cmd('autocmd FileType qf nnoremap <buffer> <CR> :call <SID>OpenQuickfix("")<CR>')
+
+--------------------- Quickfix
+
+function _G.openQuickfix(new_split_cmd)
+  local line = vim.api.nvim_win_get_cursor(0)[1]
+  vim.cmd('wincmd p')
+  if string.len(new_split_cmd) > 0 then
+    vim.cmd(new_split_cmd)
+  end
+  vim.cmd(line .. 'cc')
+end
+
+vim.cmd('autocmd FileType qf nnoremap <buffer> <C-v> :lua openQuickfix("vnew")<CR>')
+vim.cmd('autocmd FileType qf nnoremap <buffer> <C-x> :lua openQuickfix("split")<CR>')
+vim.cmd('autocmd FileType qf nnoremap <buffer> <CR> :lua openQuickfix("")<CR>')
 
 -- focus
 vim.api.nvim_set_keymap('n', '<leader>q', ':copen<CR>', {})
