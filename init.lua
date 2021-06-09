@@ -140,15 +140,6 @@ vim.api.nvim_set_keymap('x', '<leader>a', '"yy:Ag <c-r>y<cr>', {})
 -- search selection
 vim.api.nvim_set_keymap('n', '<leader>a', ':Ag <c-r><c-w><cr>', {})
 
--- ignore vendor and test files for :Ag
-vim.cmd("command! -bang -nargs=* Aga call fzf#vim#ag(<q-args>, '--ignore vendor', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)")
-vim.cmd("command! -bang -nargs=* Ag Aga <args>")
-
-
---------------------- Open on GitHub
---vim.api.nvim_set_keymap('n', '<leader>og', "<ESC>:!xdg-open `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line(".")<CR><CR><CR>", {})
---vim.api.nvim_set_keymap('v', '<leader>og', "<ESC>:!xdg-open `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line(\"'<\")<CR>-L<C-R>=line(\"'>\")<CR><CR><CR>", {})
-
 
 --------------------- Git Messenger
 vim.api.nvim_set_keymap('n', '<Leader>m', '<Plug>(git-messenger)', {})
@@ -196,7 +187,9 @@ vim.cmd('autocmd FileType go nnoremap <silent> ]a :lua alternateGo(0)<CR>')
 vim.cmd('autocmd FileType go nnoremap <silent> [a :lua alternateGo(1)<CR>')
 
 ----------- ag ignore paths
-vim.cmd("autocmd FileType go command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore vendor --ignore *_test.go --ignore *generated*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)")
+vim.cmd([[autocmd FileType go command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*_test.go --ignore \*generated\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)]])
+vim.cmd([[autocmd FileType go command! -bang -nargs=* Aga call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*generated\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)]])
+
 
 ----------- run
 vim.cmd('autocmd FileType go nmap <Leader>rg :!go run %<CR>')
