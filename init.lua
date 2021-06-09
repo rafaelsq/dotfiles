@@ -201,9 +201,9 @@ vim.cmd("autocmd FileType go command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>
 ----------- run
 vim.cmd('autocmd FileType go nmap <Leader>rg :!go run %<CR>')
 
--- " ========= coverage
--- nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test `ls vendor 2>/dev/null >&2 && echo -mod=vendor` -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR>
--- nmap <Leader>ogc :!xdg-open ../coverage.html<CR><CR>
+----------- coverage
+vim.cmd([[nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test `ls vendor 2>/dev/null >&2 && echo -mod=vendor` -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR>]])
+vim.cmd([[nmap <Leader>ogc :!xdg-open ../coverage.html<CR><CR>]])
 
 
 --------------------- Quickfix
