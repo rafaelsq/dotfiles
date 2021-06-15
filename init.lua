@@ -330,6 +330,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>g', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<leader>l', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
 
   if client.resolved_capabilities.document_formatting then
     vim.api.nvim_exec([[
@@ -339,6 +340,10 @@ local on_attach = function(client, bufnr)
       augroup END
     ]], false)
   end
+
+
+  vim.api.nvim_exec([[autocmd CursorHold,CursorHoldI,InsertLeave <buffer> lua vim.lsp.codelens.refresh()]], false)
+
 end
 
 local function on_attach_gopls(client, bufnr)
