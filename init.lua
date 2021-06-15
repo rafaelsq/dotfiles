@@ -265,9 +265,17 @@ vim.api.nvim_set_keymap('n', '<leader>cl', ':LspCodeLens<CR>', {silent=true})
 ------------ settings
 vim.g.lsp_settings = {
   gopls = {
-    codeLenses = {
-      test = 1
-     }
+    initialization_options = {
+      codelenses = {
+        gc_details = true,
+        test = true,
+        generate = true,
+        regenerate_cgo = true,
+        tidy = true,
+        upgrade_dependency = true,
+        vendor = true,
+      }
+    }
    }
 }
 
