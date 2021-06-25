@@ -295,6 +295,21 @@ function lsp_organize_imports()
   end
 end
 
+function org_imports(wait_ms)
+  local params = vim.lsp.util.make_range_params()
+  params.context = {only = {"source.organizeImports"}}
+  local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
+  for _, res in pairs(result or {}) do
+    for _, r in pairs(res.result or {}) do
+      if r.edit then
+        vim.lsp.util.apply_workspace_edit(r.edit)
+      else
+        vim.lsp.buf.execute_command(r.command)
+      end
+    end
+  end
+end
+
 -- Use an on_attach function to only map the following keys 
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
@@ -332,31 +347,34 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<leader>l', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
 
-  if client.resolved_capabilities.document_formatting then
-    vim.api.nvim_exec([[
-      augroup lsp_format
-        autocmd!
-        autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-      augroup END
-    ]], false)
-  end
+  -- if client.resolved_capabilities.document_formatting then
+  --   vim.api.nvim_exec([[
+  --     augroup lsp_format
+  --       autocmd!
+  --       autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+  --     augroup END
+  --   ]], false)
+  -- end
 
 
   vim.api.nvim_exec([[autocmd CursorHold,CursorHoldI,InsertLeave <buffer> lua vim.lsp.codelens.refresh()]], false)
 
 end
 
+vim.cmd('autocmd BufWritePre *.go :lua vim.lsp.buf.formatting_sync()')
+vim.cmd('autocmd BufWritePre *.go :lua org_imports(1000)')
+
 local function on_attach_gopls(client, bufnr)
   on_attach(client, bufnr)
 
-  if client.resolved_capabilities.code_action then
-    vim.api.nvim_exec([[
-      augroup lsp_organize_imports
-        autocmd!
-        autocmd BufWritePre <buffer> lua lsp_organize_imports()
-      augroup END
-    ]], false)
-  end
+  -- if client.resolved_capabilities.code_action then
+  --   vim.api.nvim_exec([[
+  --     augroup org_imports
+  --       autocmd!
+  --       autocmd BufWritePre <buffer> lua org_imports(1000)
+  --     augroup END
+  --   ]], false)
+  -- end
 end
 
 local servers = { 'tsserver', 'pyls', 'html', 'vuels', 'yamlls', 'dockerls', 'jsonls', 'vimls' }
