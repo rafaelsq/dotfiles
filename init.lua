@@ -208,6 +208,7 @@ function _G.openQuickfix(new_split_cmd)
     vim.cmd(new_split_cmd)
   end
   vim.cmd(line .. 'cc')
+  vim.cmd('cclose')
 end
 
 vim.cmd('autocmd FileType qf nnoremap <buffer> <C-v> :lua openQuickfix("vnew")<CR>')
