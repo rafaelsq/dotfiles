@@ -108,6 +108,7 @@ vim.opt.ignorecase=true
 vim.opt.updatetime=200
 vim.opt.hidden=true
 vim.opt.colorcolumn='120'
+vim.opt.swapfile=false
 
 vim.opt.clipboard = { 'unnamed', 'unnamedplus' }
 
