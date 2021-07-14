@@ -266,10 +266,6 @@ end
 
 local lsp = require'lspconfig'
 
--- https://go.googlesource.com/tools/+/refs/heads/master/gopls/doc/settings.md
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
 -- https://github.com/neovim/nvim-lspconfig/issues/115
 function lsp_organize_imports()
   local context = { source = { organizeImports = true } }
@@ -361,27 +357,19 @@ local on_attach = function(client, bufnr)
 
 end
 
-vim.cmd('autocmd BufWritePre *.go :lua vim.lsp.buf.formatting_sync()')
-vim.cmd('autocmd BufWritePre *.go :lua org_imports(1000)')
-
-local function on_attach_gopls(client, bufnr)
-  on_attach(client, bufnr)
-
-  -- if client.resolved_capabilities.code_action then
-  --   vim.api.nvim_exec([[
-  --     augroup org_imports
-  --       autocmd!
-  --       autocmd BufWritePre <buffer> lua org_imports(1000)
-  --     augroup END
-  --   ]], false)
-  -- end
-end
-
 local servers = { 'tsserver', 'pyls', 'html', 'vuels', 'yamlls', 'dockerls', 'jsonls', 'vimls' }
 for _, l in ipairs(servers) do
   lsp[l].setup { on_attach = on_attach }
 end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+vim.cmd('autocmd BufWritePre *.go :lua vim.lsp.buf.formatting_sync()')
+vim.cmd('autocmd BufWritePre *.go :lua org_imports(1000)')
+
+-- https://github.com/neovim/neovim/blob/master/runtime/doc/lsp.txt#L810
+-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 lsp.gopls.setup{
   on_attach = on_attach,
   capabilities = capabilities,
@@ -393,11 +381,12 @@ lsp.gopls.setup{
     allExperiments = false,
     usePlaceholders = false,
     analyses = {
-      unusedparams = true
+      unreachable = true,
+      unusedparams = true,
     },
     codelenses = {
       gc_details = true,
-      test = true,
+      test = false,
       generate = true,
       regenerate_cgo = true,
       tidy = true,
