@@ -216,6 +216,10 @@ vim.cmd('autocmd FileType qf nnoremap <buffer> <C-v> :lua openQuickfix("vnew")<C
 vim.cmd('autocmd FileType qf nnoremap <buffer> <C-x> :lua openQuickfix("split")<CR>')
 vim.cmd('autocmd FileType qf nnoremap <buffer> <CR> :lua openQuickfix("")<CR>')
 
+-- no j/k for quickfix
+vim.cmd('autocmd FileType qf map <buffer> k k')
+vim.cmd('autocmd FileType qf map <buffer> j j')
+
 -- focus
 vim.api.nvim_set_keymap('n', '<leader>q', ':copen<CR>', {})
 
