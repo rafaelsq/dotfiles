@@ -357,7 +357,7 @@ local on_attach = function(client, bufnr)
 
 end
 
-local servers = { 'tsserver', 'pyls', 'html', 'vuels', 'yamlls', 'dockerls', 'jsonls', 'vimls' }
+local servers = { 'tsserver', 'pyright', 'html', 'vuels', 'yamlls', 'dockerls', 'jsonls', 'vimls' }
 for _, l in ipairs(servers) do
   lsp[l].setup { on_attach = on_attach }
 end
