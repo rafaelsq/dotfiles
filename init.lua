@@ -9,7 +9,8 @@
 --------------------- Plugins
 -- https://github.com/junegunn/vim-plug
 vim.cmd('call plug#begin()')
--- Plug 'ctrlpvim/ctrlp.vim'
+
+-- Search
 vim.cmd("Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }")
 vim.cmd("Plug 'junegunn/fzf.vim'")
 
@@ -120,7 +121,6 @@ vim.api.nvim_set_keymap('n', '<leader>p', '"+pa', {})
 
 -- close scratch window, quickfix & Remove search highlight
 vim.api.nvim_set_keymap('n', '<leader><space>', ':cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>b', ':Buffers<CR>', {})
 
 -- up and down on splitted lines
 vim.api.nvim_set_keymap('', '<Up>', 'gk', {})
@@ -133,7 +133,10 @@ vim.cmd('autocmd BufEnter *.vue set backupcopy=yes')
 
 
 --------------------- FZF search
-vim.api.nvim_set_keymap('n', '<C-p>', ':FZF<CR>', {silent=true})
+vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*_test.go" --ignore test/mock'
+
+vim.api.nvim_set_keymap('n', '<C-p>', ':Files<CR>', {silent=true})
+vim.api.nvim_set_keymap('n', '<leader>b', ':Buffers<CR>', {})
 
 -- select word under cursor
 vim.api.nvim_set_keymap('x', '<leader>a', '"yy:Ag <c-r>y<cr>', {})
@@ -188,8 +191,17 @@ vim.cmd('autocmd FileType go nnoremap <silent> ]a :lua alternateGo(0)<CR>')
 vim.cmd('autocmd FileType go nnoremap <silent> [a :lua alternateGo(1)<CR>')
 
 ----------- ag ignore paths
-vim.cmd([[autocmd FileType go command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*_test.go --ignore \*generated\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)]])
-vim.cmd([[autocmd FileType go command! -bang -nargs=* Aga call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*generated\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)]])
+vim.cmd[[
+  augroup go_search
+    autocmd!
+
+    " Ag
+    autocmd FileType go command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*_test.go --ignore \*generated\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+
+    " Aga
+    autocmd FileType go command! -bang -nargs=* Aga call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*generated\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+  augroup END
+]]
 
 
 ----------- run
