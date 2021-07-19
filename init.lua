@@ -137,6 +137,7 @@ vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*_test.
 
 vim.api.nvim_set_keymap('n', '<C-p>', ':Files<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<leader>b', ':Buffers<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>f', ':BLines<CR>', {})
 
 -- select word under cursor
 vim.api.nvim_set_keymap('x', '<leader>a', '"yy:Ag <c-r>y<cr>', {})
