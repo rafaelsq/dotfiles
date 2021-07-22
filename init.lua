@@ -238,7 +238,7 @@ vim.cmd('autocmd FileType qf map <buffer> k k')
 vim.cmd('autocmd FileType qf map <buffer> j j')
 
 -- focus
-vim.api.nvim_set_keymap('n', '<leader>q', ':copen<CR>', {})
+-- vim.api.nvim_set_keymap('n', '<leader>q', ':copen<CR>', {})
 
 
 --------------------- Tmux integration
@@ -342,7 +342,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>g', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<leader>l', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
+  buf_set_keymap('n', '<leader>cl', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
 
   -- if client.resolved_capabilities.document_formatting then
   --   vim.api.nvim_exec([[
@@ -400,12 +400,35 @@ lsp.gopls.setup{
 -- Fzf-lsp
 local fzf_lsp = require'fzf_lsp'
 
+local bk = {
+  fn = function() end,
+  p = {},
+}
+
+function _G.again()
+  bk.fn(bk.p.err, bk.p.method, bk.p.result, bk.p.client_id, bk.p.bufnr)
+end
+
+vim.api.nvim_set_keymap('n', '<leader>q', ':lua again()<CR>', {})
+
 local function filter(fn)
   return (function(...)
     return (function(err, method, result, client_id, bufnr)
       if vim.tbl_islist(result) then
         result = vim.tbl_filter(function(v) return string.find(v.uri, "_test.go") == nil and string.find(v.uri, "mock") == nil end, result)
       end
+
+      -- backup last
+      bk = {
+        fn = fn,
+        p = {
+          err = err,
+          method = method,
+          result = result,
+          client_id = client_id,
+          bufnr = bufnr,
+        }
+      }
 
       fn(err, method, result, client_id, bufnr)
     end)(...)
