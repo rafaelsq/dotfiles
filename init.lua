@@ -4,6 +4,10 @@
 -- :noremap W j  (will be mapped to j)(re ~ recursive_mapping)
 --
 -- :lua dump(obj)
+--
+-- Debug LSP
+-- enable debug; vim.lsp.set_log_level("debug")
+-- open file and; :lua vim.cmd('e'..vim.lsp.get_log_path())
 
 
 --------------------- Plugins
@@ -268,30 +272,6 @@ end
 local lsp = require'lspconfig'
 
 -- https://github.com/neovim/nvim-lspconfig/issues/115
-function lsp_organize_imports()
-  local context = { source = { organizeImports = true } }
-  vim.validate { context = { context, "table", true } }
-
-  local params = vim.lsp.util.make_range_params()
-  params.context = context
-
-  local method = "textDocument/codeAction"
-  local timeout = 700 -- ms
-
-  local resp = vim.lsp.buf_request_sync(0, method, params, timeout)
-  if not resp then return end
-
-  for _, client in ipairs(vim.lsp.get_active_clients()) do
-    if resp[client.id] then
-      local result = resp[client.id].result
-      if not result or not result[1] then return end
-
-      local edit = result[1].edit
-      vim.lsp.util.apply_workspace_edit(edit)
-    end
-  end
-end
-
 function org_imports(wait_ms)
   local params = vim.lsp.util.make_range_params()
   params.context = {only = {"source.organizeImports"}}
@@ -313,7 +293,7 @@ local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-  --Enable completion triggered by <c-x><c-o>
+  -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
@@ -337,37 +317,67 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
   buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('x', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('i', '<C-c>', '<ESC><cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', '<leader>sh', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '<leader>g', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<leader>cl', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
 
-  -- if client.resolved_capabilities.document_formatting then
-  --   vim.api.nvim_exec([[
-  --     augroup lsp_format
-  --       autocmd!
-  --       autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-  --     augroup END
-  --   ]], false)
-  -- end
+  if client.resolved_capabilities.document_formatting then
+    vim.api.nvim_exec([[
+      augroup lsp_format
+        autocmd!
+        autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+      augroup END
+    ]], false)
+  end
 
+  if client.resolved_capabilities.code_lens then
+    buf_set_keymap('n', '<leader>cl', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
 
-  vim.api.nvim_exec([[autocmd CursorHold,CursorHoldI,InsertLeave <buffer> lua vim.lsp.codelens.refresh()]], false)
+    vim.api.nvim_exec([[
+      augroup lsp_code_lens
+        autocmd!
+        autocmd CursorHold,CursorHoldI,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
+      augroup END
+    ]], false)
+  end
 
-end
-
-local servers = { 'tsserver', 'pyright', 'html', 'vuels', 'yamlls', 'dockerls', 'jsonls', 'vimls' }
-for _, l in ipairs(servers) do
-  lsp[l].setup { on_attach = on_attach }
+  for _, k in ipairs(client.resolved_capabilities.code_action.codeActionKinds) do
+    if k == "source.organizeImports" then
+      vim.api.nvim_exec([[
+        augroup lsp_orgimports
+          autocmd!
+          autocmd BufWritePre <buffer> lua org_imports(1000)
+        augroup END
+      ]], false)
+      break
+    end
+  end
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
 
-vim.cmd('autocmd BufWritePre *.go :lua vim.lsp.buf.formatting_sync()')
-vim.cmd('autocmd BufWritePre *.go :lua org_imports(1000)')
+local servers = { 'tsserver', 'pyright', 'html', 'vuels', 'yamlls', 'dockerls', 'jsonls', 'vimls' }
+for _, l in ipairs(servers) do
+  lsp[l].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+
 
 -- https://github.com/neovim/neovim/blob/master/runtime/doc/lsp.txt#L810
 -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
@@ -375,24 +385,15 @@ lsp.gopls.setup{
   on_attach = on_attach,
   capabilities = capabilities,
   flags = {
-    allow_incremental_sync = true
+    debounce_text_changes = 150,
   },
   init_options = {
-    staticcheck = false,
-    allExperiments = false,
-    usePlaceholders = false,
     analyses = {
-      unreachable = true,
       unusedparams = true,
     },
     codelenses = {
       gc_details = true,
-      test = false,
-      generate = true,
-      regenerate_cgo = true,
-      tidy = true,
-      upgrade_dependency = true,
-      vendor = true,
+      test = true,
     },
   },
 }
