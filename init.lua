@@ -3,7 +3,7 @@
 -- :map Q j      (will be mapped to gg)
 -- :noremap W j  (will be mapped to j)(re ~ recursive_mapping)
 --
--- :lua dumps(obj)
+-- :lua dump(obj)
 
 
 --------------------- Plugins
@@ -279,20 +279,19 @@ vim.api.nvim_set_keymap('n', '<leader>gf', ':<C-u>LspDocumentFormat<CR>', {silen
 vim.api.nvim_set_keymap('v', '<leader>gf', ':LspDocumentRangeFormat<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<leader>ca', ':LspCodeAction<CR>', {silent=true})
 vim.api.nvim_set_keymap('x', '<leader>ca', ':LspCodeAction<CR>', {silent=true})
+vim.api.nvim_set_keymap('i', '<C-c>',      '<ESC>:LspCodeAction<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<leader>cl', ':LspCodeLens<CR>', {silent=true})
 
 ------------ settings
 vim.g.lsp_settings = {
   gopls = {
     initialization_options = {
+      analyses = {
+        unusedparams = true,
+      },
       codelenses = {
         gc_details = true,
         test = true,
-        generate = true,
-        regenerate_cgo = true,
-        tidy = true,
-        upgrade_dependency = true,
-        vendor = true,
       }
     }
    }
