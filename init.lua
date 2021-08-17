@@ -324,15 +324,6 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 
-  if client.resolved_capabilities.document_formatting then
-    vim.api.nvim_exec([[
-      augroup lsp_format
-        autocmd!
-        autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-      augroup END
-    ]], false)
-  end
-
   if client.resolved_capabilities.code_lens then
     buf_set_keymap('n', '<leader>cl', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
 
@@ -342,20 +333,6 @@ local on_attach = function(client, bufnr)
         autocmd CursorHold,CursorHoldI,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
       augroup END
     ]], false)
-  end
-
-  if not vim.empty_dict(client.resolved_capabilities.code_action) then
-    for _, k in ipairs(client.resolved_capabilities.code_action.codeActionKinds) do
-      if k == "source.organizeImports" then
-        vim.api.nvim_exec([[
-          augroup lsp_orgimports
-            autocmd!
-            autocmd BufWritePre <buffer> lua org_imports(1000)
-          augroup END
-        ]], false)
-        break
-      end
-    end
   end
 end
 
@@ -399,6 +376,20 @@ lsp.gopls.setup{
     },
   },
 }
+
+vim.cmd([[
+  augroup lsp_format
+    autocmd!
+    autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync()
+  augroup END
+]])
+
+vim.cmd([[
+  augroup lsp_orgimports
+    autocmd!
+    autocmd BufWritePre *.go lua org_imports(1000)
+  augroup END
+]])
 
 -- Fzf-lsp
 local fzf_lsp = require'fzf_lsp'
