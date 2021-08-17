@@ -344,15 +344,17 @@ local on_attach = function(client, bufnr)
     ]], false)
   end
 
-  for _, k in ipairs(client.resolved_capabilities.code_action.codeActionKinds) do
-    if k == "source.organizeImports" then
-      vim.api.nvim_exec([[
-        augroup lsp_orgimports
-          autocmd!
-          autocmd BufWritePre <buffer> lua org_imports(1000)
-        augroup END
-      ]], false)
-      break
+  if not vim.empty_dict(client.resolved_capabilities.code_action) then
+    for _, k in ipairs(client.resolved_capabilities.code_action.codeActionKinds) do
+      if k == "source.organizeImports" then
+        vim.api.nvim_exec([[
+          augroup lsp_orgimports
+            autocmd!
+            autocmd BufWritePre <buffer> lua org_imports(1000)
+          augroup END
+        ]], false)
+        break
+      end
     end
   end
 end
