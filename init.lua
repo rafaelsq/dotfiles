@@ -47,6 +47,7 @@ vim.cmd("Plug 'thomasfaingnaert/vim-lsp-snippets'")
 vim.cmd("Plug 'thomasfaingnaert/vim-lsp-ultisnips'")
 
 vim.cmd("Plug 'tpope/vim-surround'")
+vim.cmd("Plug 'rafaelsq/nvim-yanks.lua'")
 
 -- tmux integration
 if vim.env['TMUX'] then
@@ -96,6 +97,11 @@ require'nvim-treesitter.configs'.setup {
 
 --------------------- Airline
 vim.g.airline_powerline_fonts = 1
+
+
+--------------------- Yanks
+require'nvim-yanks'.setup()
+vim.api.nvim_set_keymap('n', '<Leader>y', ':lua require("nvim-yanks").Show()<CR>', {silent=true})
 
 
 --------------------- opts
