@@ -50,6 +50,7 @@ vim.cmd("Plug 'honza/vim-snippets'")
 
 vim.cmd("Plug 'tpope/vim-surround'")
 vim.cmd("Plug 'rafaelsq/nvim-yanks.lua'")
+vim.cmd("Plug 'rafaelsq/nvim-goc.lua'")
 
 -- tmux integration
 if vim.env['TMUX'] then
@@ -105,6 +106,29 @@ vim.g.airline_powerline_fonts = 1
 require'nvim-yanks'.setup()
 vim.api.nvim_set_keymap('n', '<Leader>y', ':lua require("nvim-yanks").Show()<CR>', {silent=true})
 
+--------------------- GoC
+local goc = require'nvim-goc'
+goc.setup()
+
+vim.api.nvim_set_keymap('n', '<Leader>gcr', ':lua require("nvim-goc").Coverage()<CR>', {silent=true})
+vim.api.nvim_set_keymap('n', '<Leader>gcc', ':lua require("nvim-goc").ClearCoverage()<CR>', {silent=true})
+vim.api.nvim_set_keymap('n', '<Leader>gct', ':lua require("nvim-goc").CoverageFunc()<CR>', {silent=true})
+vim.api.nvim_set_keymap('n', '<Leader>gca', ':lua cf()<CR><CR>', {silent=true})
+vim.api.nvim_set_keymap('n', '<Leader>gcb', ':lua cf(true)<CR><CR>', {silent=true})
+
+_G.cf = function(testCurrentFunction)
+  local cb = function(path)
+    if path then
+      vim.cmd(":silent exec \"!xdg-open " .. path .. "\"")
+    end
+  end
+
+  if testCurrentFunction then
+    goc.CoverageFunc(nil, cb, 0)
+  else
+    goc.Coverage(nil, cb)
+  end
+end
 
 --------------------- opts
 vim.opt.list = true
@@ -216,10 +240,6 @@ vim.cmd[[
 ----------- run
 vim.cmd('autocmd FileType go nmap <Leader>rg :!go run %<CR>')
 
------------ coverage
-vim.cmd([[nmap <Leader>gc :!export ROOT_DIR=${PWD}; go test `ls vendor 2>/dev/null >&2 && echo -mod=vendor` -coverprofile=../.cover %:p:h && go tool cover -html=../.cover -o ../coverage.html<CR>]])
-vim.cmd([[nmap <Leader>ogc :!xdg-open ../coverage.html<CR><CR>]])
-
 
 --------------------- Quickfix
 
@@ -292,6 +312,9 @@ end
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- use project root_dir
+  vim.api.nvim_set_current_dir(client.config.root_dir)
 
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
