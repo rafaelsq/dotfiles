@@ -24,7 +24,7 @@ vim.cmd("Plug 'tpope/vim-sleuth'")
 
 -- Lsp
 vim.cmd("Plug 'neovim/nvim-lspconfig'")
-vim.cmd("Plug 'nvim-lua/completion-nvim'")
+vim.cmd("Plug 'rafaelsq/completion-nvim'")
 vim.cmd("Plug 'hrsh7th/vim-vsnip'")
 vim.cmd("Plug 'hrsh7th/vim-vsnip-integ'")
 
@@ -478,6 +478,8 @@ vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
 
 -- avoid showing message extra message when using completion
 vim.opt.shortmess = vim.opt.shortmess + 'c'
+vim.g.completion_enable_auto_close_brace = 1
+vim.g.completion_enable_auto_paren = 1
 vim.g.completion_enable_snippet = 'UltiSnips'
 vim.g.completion_confirm_key = "<C-y>"
 vim.g.completion_sorting = "none"
