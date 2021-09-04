@@ -110,6 +110,9 @@ vim.api.nvim_set_keymap('n', '<Leader>y', ':lua require("nvim-yanks").Show()<CR>
 local goc = require'nvim-goc'
 goc.setup()
 
+vim.cmd('autocmd FileType go nnoremap <silent> ]a :lua require("nvim-goc").Alternate()<CR>')
+vim.cmd('autocmd FileType go nnoremap <silent> [a :lua require("nvim-goc").Alternate(true)<CR>')
+
 vim.api.nvim_set_keymap('n', '<Leader>gcr', ':lua require("nvim-goc").Coverage()<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<Leader>gcc', ':lua require("nvim-goc").ClearCoverage()<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<Leader>gct', ':lua require("nvim-goc").CoverageFunc()<CR>', {silent=true})
@@ -201,27 +204,6 @@ function _G.dump(...)
     print(unpack(objects))
 end
 
-
---------------------- Go
-
-function _G.alternateGo(split)
-  local path, file, ext = string.match(vim.api.nvim_buf_get_name(0), "(.+/)([^.]+)%.(.+)$")
-  if ext == "go" then
-    local aux = '_test.'
-    if string.find(file, '_test') then
-      aux = '.'
-      path, file, ext = string.match(vim.api.nvim_buf_get_name(0), "(.+/)([^.]+)_test%.(.+)$")
-    end
-
-    local cmd = split == 1 and ':sp ' or ':e '
-    print(cmd .. path .. file .. aux .. ext)
-    vim.cmd(cmd .. path .. file .. aux .. ext)
-  end
-end
-
------------ alternate
-vim.cmd('autocmd FileType go nnoremap <silent> ]a :lua alternateGo(0)<CR>')
-vim.cmd('autocmd FileType go nnoremap <silent> [a :lua alternateGo(1)<CR>')
 
 ----------- ag ignore paths
 vim.cmd[[
