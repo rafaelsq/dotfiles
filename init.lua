@@ -107,17 +107,18 @@ require'nvim-yanks'.setup()
 vim.api.nvim_set_keymap('n', '<Leader>y', ':lua require("nvim-yanks").Show()<CR>', {silent=true})
 
 --------------------- GoC
-local goc = require'nvim-goc'
-goc.setup()
+vim.opt.switchbuf = 'useopen'
 
-vim.cmd('autocmd FileType go nnoremap <silent> ]a :lua require("nvim-goc").Alternate()<CR>')
-vim.cmd('autocmd FileType go nnoremap <silent> [a :lua require("nvim-goc").Alternate(true)<CR>')
+local goc = require'nvim-goc'
+goc.setup({verticalSplit = false})
 
 vim.api.nvim_set_keymap('n', '<Leader>gcr', ':lua require("nvim-goc").Coverage()<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<Leader>gcc', ':lua require("nvim-goc").ClearCoverage()<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<Leader>gct', ':lua require("nvim-goc").CoverageFunc()<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<Leader>gca', ':lua cf()<CR><CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<Leader>gcb', ':lua cf(true)<CR><CR>', {silent=true})
+vim.api.nvim_set_keymap('n', ']a', ':lua require("nvim-goc").Alternate()<CR>', {silent=true})
+vim.api.nvim_set_keymap('n', '[a', ':lua require("nvim-goc").Alternate(true)<CR>', {silent=true})
 
 _G.cf = function(testCurrentFunction)
   local cb = function(path)
