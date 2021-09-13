@@ -406,31 +406,37 @@ local bk = {
 }
 
 function _G.again()
-  bk.fn(bk.p.err, bk.p.method, bk.p.result, bk.p.client_id, bk.p.bufnr)
+  bk.fn(unpack(bk.p))
 end
 
 vim.api.nvim_set_keymap('n', '<leader>q', ':lua again()<CR>', {})
 
 local function filter(fn)
   return (function(...)
-    return (function(err, method, result, client_id, bufnr)
+    return (function(...)
+      result = select(2, ...)
+      local fallback = type(result) == 'string'
+      if fallback then
+        result = select(3, ...)
+      end
       if vim.tbl_islist(result) then
         result = vim.tbl_filter(function(v) return string.find(v.uri, "_test.go") == nil and string.find(v.uri, "mock") == nil end, result)
+      end
+
+      local p = {...}
+      if fallback then
+        p[3] = result
+      else
+        p[2] = result
       end
 
       -- backup last
       bk = {
         fn = fn,
-        p = {
-          err = err,
-          method = method,
-          result = result,
-          client_id = client_id,
-          bufnr = bufnr,
-        }
+        p = p,
       }
 
-      fn(err, method, result, client_id, bufnr)
+      fn(unpack(p))
     end)(...)
   end)
 end
