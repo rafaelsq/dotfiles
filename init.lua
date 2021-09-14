@@ -109,6 +109,10 @@ vim.api.nvim_set_keymap('n', '<Leader>y', ':lua require("nvim-yanks").Show()<CR>
 --------------------- GoC
 vim.opt.switchbuf = 'useopen'
 
+if vim.env['THEME'] == 'nord' then
+  vim.highlight.create('GocUncovered', {guifg='#BF616A'})
+end
+
 local goc = require'nvim-goc'
 goc.setup({verticalSplit = false})
 
