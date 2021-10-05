@@ -24,9 +24,13 @@ vim.cmd("Plug 'tpope/vim-sleuth'")
 
 -- Lsp
 vim.cmd("Plug 'neovim/nvim-lspconfig'")
-vim.cmd("Plug 'rafaelsq/completion-nvim'")
-vim.cmd("Plug 'hrsh7th/vim-vsnip'")
-vim.cmd("Plug 'hrsh7th/vim-vsnip-integ'")
+vim.cmd("Plug 'hrsh7th/cmp-nvim-lsp'")
+vim.cmd("Plug 'hrsh7th/cmp-buffer'")
+vim.cmd("Plug 'hrsh7th/nvim-cmp'")
+vim.cmd("Plug 'onsails/lspkind-nvim'")
+
+vim.cmd("Plug 'SirVer/ultisnips'")
+vim.cmd("Plug 'quangnguyen30192/cmp-nvim-ultisnips'")
 
 -- status bar
 vim.cmd("Plug 'vim-airline/vim-airline'")
@@ -43,10 +47,6 @@ vim.cmd("Plug 'joshdick/onedark.vim'")
 -- Git
 vim.cmd("Plug 'airblade/vim-gitgutter'")   -- \hp, \hs, \hu [c, ]c
 vim.cmd("Plug 'rhysd/git-messenger.vim'")  -- \m\m; ?, o, O, d, D
-
--- snippets
-vim.cmd("Plug 'SirVer/ultisnips'")
-vim.cmd("Plug 'honza/vim-snippets'")
 
 vim.cmd("Plug 'tpope/vim-surround'")
 vim.cmd("Plug 'rafaelsq/nvim-yanks.lua'")
@@ -360,6 +360,8 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   }
 }
 
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
 local servers = { 'tsserver', 'pyright', 'html', 'vuels', 'yamlls', 'dockerls', 'jsonls', 'vimls' }
 for _, l in ipairs(servers) do
   lsp[l].setup {
@@ -469,17 +471,44 @@ vim.highlight.create('LspCodeLens', {guifg='#88C0D0', gui='underline'})
 
 
 ------------ completion
-vim.cmd("autocmd BufEnter * lua require'completion'.on_attach()")
+local cmp = require('cmp')
 
-vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.fn["UltiSnips#Anon"](args.body)
+    end,
+  },
+  completion = {
+    completeopt = 'menu,menuone,noinsert',
+  },
+  mapping = {
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+  },
+  formatting = {
+    format = function(entry, vim_item)
+      -- fancy icons and a name of kind
+      vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind
 
--- avoid showing message extra message when using completion
-vim.opt.shortmess = vim.opt.shortmess + 'c'
-vim.g.completion_enable_auto_close_brace = 1
-vim.g.completion_enable_auto_paren = 1
-vim.g.completion_enable_snippet = 'UltiSnips'
-vim.g.completion_confirm_key = "<C-y>"
-vim.g.completion_sorting = "none"
-
-
-vim.api.nvim_set_keymap('i', '<c-space>', '<Plug>(completion_trigger)', {silent=true})
+      -- set a name for each source
+      vim_item.menu = ({
+        buffer = "[Buffer]",
+        nvim_lsp = "[LSP]",
+        luasnip = "[LuaSnip]",
+        nvim_lua = "[Lua]",
+        latex_symbols = "[Latex]",
+      })[entry.source.name]
+      return vim_item
+    end,
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'ultisnips' },
+    { name = 'buffer' },
+  }
+})
