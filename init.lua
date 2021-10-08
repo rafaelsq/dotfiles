@@ -232,15 +232,16 @@ vim.cmd('autocmd FileType go nmap <Leader>rg :!go run %<CR>')
 
 function _G.openQuickfix(new_split_cmd)
   local line = vim.api.nvim_win_get_cursor(0)[1]
+  local loc = vim.fn.getloclist(0)[line]
   vim.cmd('wincmd p')
   if string.len(new_split_cmd) > 0 then
     vim.cmd(new_split_cmd)
   end
-  vim.cmd(line .. 'cc')
-  vim.cmd('cclose')
+  vim.fn.cursor(loc.lnum, loc.col)
+  vim.cmd('lclose')
 end
 
-vim.cmd('autocmd FileType qf nnoremap <buffer> <C-v> :lua openQuickfix("vnew")<CR>')
+vim.cmd('autocmd FileType qf nnoremap <buffer> <C-v> :lua openQuickfix("vsplit")<CR>')
 vim.cmd('autocmd FileType qf nnoremap <buffer> <C-x> :lua openQuickfix("split")<CR>')
 vim.cmd('autocmd FileType qf nnoremap <buffer> <CR> :lua openQuickfix("")<CR>')
 
@@ -509,6 +510,5 @@ cmp.setup({
   sources = {
     { name = 'nvim_lsp' },
     { name = 'ultisnips' },
-    { name = 'buffer' },
   }
 })
