@@ -374,7 +374,6 @@ for _, l in ipairs(servers) do
   }
 end
 
-
 -- https://github.com/neovim/neovim/blob/master/runtime/doc/lsp.txt#L810
 -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 lsp.gopls.setup{
@@ -384,6 +383,7 @@ lsp.gopls.setup{
     debounce_text_changes = 150,
   },
   init_options = {
+    ['local'] = string.gmatch(vim.fn.getcwd(), '/([^/]+)$')(),
     analyses = {
       unusedparams = true,
     },
