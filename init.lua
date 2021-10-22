@@ -25,7 +25,6 @@ vim.cmd("Plug 'tpope/vim-sleuth'")
 -- Lsp
 vim.cmd("Plug 'neovim/nvim-lspconfig'")
 vim.cmd("Plug 'hrsh7th/cmp-nvim-lsp'")
-vim.cmd("Plug 'hrsh7th/cmp-buffer'")
 vim.cmd("Plug 'hrsh7th/nvim-cmp'")
 vim.cmd("Plug 'onsails/lspkind-nvim'")
 
@@ -508,7 +507,11 @@ cmp.setup({
     end,
   },
   sources = {
-    { name = 'nvim_lsp' },
     { name = 'ultisnips' },
+    { name = 'nvim_lsp' },
+  },
+  experimental = {
+    native_menu = true,
+    ghost_text = true
   }
 })
