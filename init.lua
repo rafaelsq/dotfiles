@@ -11,74 +11,90 @@
 
 
 --------------------- Plugins
--- https://github.com/junegunn/vim-plug
-vim.cmd('call plug#begin()')
 
--- Search
-vim.cmd("Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }")
-vim.cmd("Plug 'junegunn/fzf.vim'")
-vim.cmd("Plug 'gfanto/fzf-lsp.nvim'")
+setTheme = function(theme)
+  if theme == vim.env['THEME'] then
 
--- ident
-vim.cmd("Plug 'tpope/vim-sleuth'")
+    vim.opt.termguicolors=true
+    vim.opt.number=true
+    vim.opt.signcolumn='yes'
+    vim.opt.relativenumber=false
 
--- Lsp
-vim.cmd("Plug 'neovim/nvim-lspconfig'")
-vim.cmd("Plug 'hrsh7th/cmp-nvim-lsp'")
-vim.cmd("Plug 'hrsh7th/nvim-cmp'")
-vim.cmd("Plug 'onsails/lspkind-nvim'")
+    vim.cmd('colorscheme ' .. theme)
 
-vim.cmd("Plug 'SirVer/ultisnips'")
-vim.cmd("Plug 'quangnguyen30192/cmp-nvim-ultisnips'")
+    -- transparent
+    vim.highlight.create('Normal', {guibg='None'})
+    vim.highlight.create('SignColumn', {guibg='None'})
+    vim.highlight.create('LineNr', {guibg='None'})
+    if vim.g.colors_name == 'molokai' then
+      vim.g.molokai_original = 1
+      vim.highlight.create('MatchParen', {guibg='#3C3535', guifg='None', gui='bold'})
+    elseif vim.g.colors_name == 'molokai' then
+      vim.g.airline_theme = 'onedark'
+    end
 
--- status bar
-vim.cmd("Plug 'vim-airline/vim-airline'")
-vim.cmd("Plug 'vim-airline/vim-airline-themes'")
-
--- theme
-vim.cmd("Plug 'nvim-treesitter/nvim-treesitter'")
-vim.cmd("Plug 'arcticicestudio/nord-vim'")
-vim.cmd("Plug 'gruvbox-community/gruvbox'")
-vim.cmd("Plug 'dracula/vim', { 'name': 'dracula' }")
-vim.cmd("Plug 'tomasr/molokai'")
-vim.cmd("Plug 'joshdick/onedark.vim'")
-
--- Git
-vim.cmd("Plug 'airblade/vim-gitgutter'")   -- \hp, \hs, \hu [c, ]c
-vim.cmd("Plug 'rhysd/git-messenger.vim'")  -- \m\m; ?, o, O, d, D
-
-vim.cmd("Plug 'tpope/vim-surround'")
-vim.cmd("Plug 'rafaelsq/nvim-yanks.lua'")
-vim.cmd("Plug 'rafaelsq/nvim-goc.lua'")
-
--- tmux integration
-if vim.env['TMUX'] then
-  vim.cmd("Plug 'christoomey/vim-tmux-navigator'")
+    -- LSP
+    vim.highlight.create('LspCodeLens', {guifg='#88C0D0', gui='underline'})
+  end
 end
 
-vim.cmd("call plug#end()")
+require('packer').startup(function()
+  -- Packer can manage itself
+  use 'wbthomason/packer.nvim'
 
+  ---- Search
+  use {
+    { 'junegunn/fzf', dir = '~/.fzf', run = './install --all' },
+    { 'junegunn/fzf.vim' },
+    { 'gfanto/fzf-lsp.nvim' },
+  }
 
---------------------- Theme
-vim.opt.termguicolors=true
-vim.opt.number=true
-vim.opt.signcolumn='yes'
-vim.opt.relativenumber=false
+  -- ident
+  use 'tpope/vim-sleuth'
 
-vim.cmd('colorscheme ' .. vim.env['THEME'])
+  -- Lsp
+  use {
+    'neovim/nvim-lspconfig',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/nvim-cmp',
+    'onsails/lspkind-nvim',
+  }
 
--- transparent
-vim.highlight.create('Normal', {guibg='None'})
-vim.highlight.create('SignColumn', {guibg='None'})
-vim.highlight.create('LineNr', {guibg='None'})
+  use {
+    'SirVer/ultisnips',
+    'quangnguyen30192/cmp-nvim-ultisnips',
+  }
 
-if vim.g.colors_name == 'molokai' then
-  vim.g.molokai_original = 1
-  vim.highlight.create('MatchParen', {guibg='#3C3535', guifg='None', gui='bold'})
-elseif vim.g.colors_name == 'molokai' then
-  vim.g.airline_theme = 'onedark'
-end
+  -- status bar
+  use {
+    'vim-airline/vim-airline',
+    'vim-airline/vim-airline-themes',
+  }
 
+  -- theme
+  use 'nvim-treesitter/nvim-treesitter'
+
+  use {
+    {'arcticicestudio/nord-vim',        config = setTheme("nord")},
+    {'gruvbox-community/gruvbox',       config = setTheme("gruvbox")},
+    {'tomasr/molokai',                  config = setTheme("molokai")},
+    {'joshdick/onedark.vim',            config = setTheme("onedark")},
+    { 'dracula/vim', as  =  'dracula',  config = setTheme("dracula")},
+  }
+
+  -- Git
+  use 'airblade/vim-gitgutter'   -- \hp, \hs, \hu [c, ]c
+  use 'rhysd/git-messenger.vim'  -- \m\m; ?, o, O, d, D
+
+  use 'tpope/vim-surround'
+  use 'rafaelsq/nvim-yanks.lua'
+  use 'rafaelsq/nvim-goc.lua'
+
+  -- tmux integration
+  if vim.env['TMUX'] then
+    use 'christoomey/vim-tmux-navigator'
+  end
+end)
 
 ------------- highlight lua
 vim.g.vimsyn_embed = 'lPr'
@@ -193,7 +209,7 @@ vim.api.nvim_set_keymap('n', '<leader>co', ':!git checkout %<CR><CR>', {})
 
 
 --------------------- Plug
-vim.api.nvim_set_keymap('n', '<leader>pu', ':PlugUpdate<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>pu', ':PackerUpdate<CR>', {})
 
 
 --------------------- Snippet
@@ -461,13 +477,6 @@ vim.lsp.handlers["textDocument/documentSymbol"] = fzf_lsp.document_symbol_handle
 vim.lsp.handlers["workspace/symbol"] = fzf_lsp.workspace_symbol_handler
 vim.lsp.handlers["callHierarchy/incomingCalls"] = fzf_lsp.incoming_calls_handler
 vim.lsp.handlers["callHierarchy/outgoingCalls"] = fzf_lsp.outgoing_calls_handler
-
-
------------- hi
-vim.highlight.create('LspDiagnosticsDefaultError', {guifg='#D8DEE9', guibg='#BF616A'})
-vim.highlight.create('LspDiagnosticsDefaultWarning', {guifg='#EBCB8B'})
-vim.highlight.create('LspDiagnosticsDefaultInformation', {guifg='#88C0D0'})
-vim.highlight.create('LspCodeLens', {guifg='#88C0D0', gui='underline'})
 
 
 ------------ completion
