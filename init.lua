@@ -35,6 +35,9 @@ setTheme = function(theme)
 
     -- LSP
     vim.highlight.create('LspCodeLens', {guifg='#88C0D0', gui='underline'})
+
+    -- GoC
+    require'nvim-goc'.setup({verticalSplit = false})
   end
 end
 
@@ -128,9 +131,6 @@ if vim.env['THEME'] == 'nord' then
   vim.highlight.create('GocUncovered', {guifg='#BF616A'})
 end
 
-local goc = require'nvim-goc'
-goc.setup({verticalSplit = false})
-
 vim.api.nvim_set_keymap('n', '<Leader>gcr', ':lua require("nvim-goc").Coverage()<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<Leader>gcc', ':lua require("nvim-goc").ClearCoverage()<CR>', {silent=true})
 vim.api.nvim_set_keymap('n', '<Leader>gct', ':lua require("nvim-goc").CoverageFunc()<CR>', {silent=true})
@@ -140,6 +140,8 @@ vim.api.nvim_set_keymap('n', ']a', ':lua require("nvim-goc").Alternate()<CR>', {
 vim.api.nvim_set_keymap('n', '[a', ':lua require("nvim-goc").Alternate(true)<CR>', {silent=true})
 
 _G.cf = function(testCurrentFunction)
+  local goc = require'nvim-goc'
+
   local cb = function(path)
     if path then
       vim.cmd(":silent exec \"!xdg-open " .. path .. "\"")
