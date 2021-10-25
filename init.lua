@@ -520,7 +520,7 @@ cmp.setup({
     { name = 'nvim_lsp' },
   },
   experimental = {
-    native_menu = true,
+    native_menu = false,
     ghost_text = true
   }
 })
