@@ -11,7 +11,6 @@ bindkey  '^N' history-beginning-search-backward
 
 # alias
 alias cl="printf '\033[2J\033[3J\033[1;1H'"
-alias vim=nvim
 alias kb='pod=$(k get pods | cut -f1 -d" " | fzf); k exec -ti $pod bash || k exec -ti $pod sh'
 gro(){ gfo $1 && g reset --hard origin/$1; }
 alias grom="gro master && g trim"

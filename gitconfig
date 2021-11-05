@@ -6,7 +6,7 @@
     user = rafaelsq
 
 [core]
-    editor = ~/appimage/nvim.appimage
+    editor = vim
     compression = 1
 [color]
     ui = true
