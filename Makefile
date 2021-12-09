@@ -87,7 +87,7 @@ go:
 		echo back-up at ${GO_BKP};\
 		sudo mv /usr/local/go ${GO_BKP};\
 	fi
-	@curl --silent https://golang.org/dl/ 2>&1 |\
+	@curl --silent https://go.dev/dl/ 2>&1 |\
 		ag -o '/go([0-9.]+).linux-amd64.tar.gz' |\
 		head -n 1 |\
 		xargs -I@ sh -c 'curl -O https://dl.google.com/go@; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
