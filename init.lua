@@ -59,6 +59,9 @@ require('packer').startup(function()
   use {
     'neovim/nvim-lspconfig',
     'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
     'hrsh7th/nvim-cmp',
     'onsails/lspkind-nvim',
   }
@@ -185,8 +188,8 @@ vim.api.nvim_set_keymap('', '<Down>', 'gj', {})
 vim.api.nvim_set_keymap('', 'k', 'gk', {})
 vim.api.nvim_set_keymap('', 'j', 'gj', {})
 
--- fix watch for vue
-vim.cmd('autocmd BufEnter *.vue set backupcopy=yes')
+-- fix watch for parcel
+vim.opt.backupcopy='no'
 
 
 --------------------- FZF search
@@ -352,7 +355,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('x', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('i', '<C-c>', '<ESC><cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', '<leader>e', '<cmd>lua lua vim.diagnostic.open_float()<CR>', opts)
+  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
   buf_set_keymap('n', '<leader>g', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
   buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
@@ -500,7 +503,10 @@ cmp.setup({
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
+    ['<C-e>'] = cmp.mapping({
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close(),
+    }),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<C-y>'] = cmp.mapping.confirm({ select = true }),
   },
@@ -520,12 +526,29 @@ cmp.setup({
       return vim_item
     end,
   },
-  sources = {
+  sources = cmp.config.sources({
     { name = 'ultisnips' },
     { name = 'nvim_lsp' },
-  },
+    { name = 'buffer' },
+  }),
   experimental = {
-    native_menu = true,
+    native_menu = false,
     ghost_text = true
   }
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
 })
