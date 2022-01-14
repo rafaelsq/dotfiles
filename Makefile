@@ -111,6 +111,11 @@ nvim:
 	@echo "packer - https://github.com/wbthomason/packer.nvim"
 	@git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
+lsp:
+	@echo "LSP install"
+	# html, css, json and eslint: https://github.com/hrsh7th/vscode-langservers-extracted
+	npm i -g vscode-langservers-extracted yaml-language-server eslint dockerfile-language-server-nodejs
+
 yarn:
 	@echo "yarn basics"
 	@yarn global add parcel eslint prettier prettier-eslint-cli eslint-plugin-react eslint-plugin-vue vscode-html-languageserver-bin vls yaml-language-server dockerfile-language-server-nodejs vscode-json-languageserver typescript typescript-language-server

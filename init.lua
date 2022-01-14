@@ -389,7 +389,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local servers = { 'tsserver', 'pyright', 'html', 'vuels', 'yamlls', 'dockerls', 'jsonls', 'vimls' }
+local servers = { 'tsserver', 'pyright', 'html', 'cssls', 'jsonls', 'eslint', 'vuels', 'yamlls', 'dockerls', 'vimls', 'rust_analyzer' }
 for _, l in ipairs(servers) do
   lsp[l].setup {
     on_attach = on_attach,
@@ -423,7 +423,7 @@ lsp.gopls.setup{
 vim.cmd([[
   augroup lsp_format
     autocmd!
-    autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync()
+    autocmd BufWritePre *.go,*.rs lua vim.lsp.buf.formatting_sync()
   augroup END
 ]])
 
