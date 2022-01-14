@@ -96,6 +96,12 @@ require('packer').startup(function()
   use 'rafaelsq/nvim-yanks.lua'
   use 'rafaelsq/nvim-goc.lua'
 
+  -- scrollbar
+  use 'petertriho/nvim-scrollbar'
+
+  -- search
+  use { 'kevinhwang91/nvim-hlslens' }
+
   -- tmux integration
   if vim.env['TMUX'] then
     use 'christoomey/vim-tmux-navigator'
@@ -434,7 +440,7 @@ vim.cmd([[
   augroup END
 ]])
 
--- Fzf-lsp
+--------------------- Fzf-lsp
 local fzf_lsp = require'fzf_lsp'
 
 local bk = {
@@ -507,7 +513,7 @@ cmp.setup({
   mapping = {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-e>'] = cmp.mapping({
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
@@ -557,3 +563,31 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline' }
   })
 })
+
+-- add c-y to :
+vim.api.nvim_set_keymap('c', '<C-y>', '', {
+  callback = function()
+    cmp.confirm({ select = false })
+  end,
+})
+
+--------------------- Scrollbar
+
+require("scrollbar").setup({
+  handle = {
+    color = '#171b21',
+  },
+  handlers = {
+    search = true,
+  },
+})
+
+vim.api.nvim_set_keymap('n', 'n', '<cmd>execute("normal! " . v:count1 . "n")<CR><Cmd>lua require("hlslens").start()<CR>', { noremap=true, silent=true })
+vim.api.nvim_set_keymap('n', 'N', '<cmd>execute("normal! " . v:count1 . "N")<CR><Cmd>lua require("hlslens").start()<CR>', { noremap=true, silent=true })
+vim.api.nvim_set_keymap('n', '*', '*<cmd>lua require("hlslens").start()<CR>', { noremap=true })
+vim.api.nvim_set_keymap('n', '#', '#<cmd>lua require("hlslens").start()<CR>', { noremap=true })
+vim.api.nvim_set_keymap('n', 'g*', 'g*<cmd>lua require("hlslens").start()<CR>', { noremap=true })
+vim.api.nvim_set_keymap('n', 'g#', 'g#<cmd>lua require("hlslens").start()<CR>', { noremap=true })
+
+vim.highlight.link('HlSearchLens', 'Comment')
+vim.highlight.link('HlSearchNear', 'Info')
