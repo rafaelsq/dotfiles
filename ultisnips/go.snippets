@@ -61,7 +61,7 @@ endsnippet
 
 snippet ife "if err"
 if err != nil {
-	return ${1:nil}${2:, err}
+	return ${1:nil, }${2:err}
 }
 ${3}
 endsnippet
@@ -75,6 +75,12 @@ endsnippet
 
 snippet ern "err != nil"
 err != nil${0}
+endsnippet
+
+snippet ernr "err != nil { return err }"
+err != nil {
+	return ${1:err}
+}${2}
 endsnippet
 
 snippet ef "fmt.Errorf"
