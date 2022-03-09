@@ -130,8 +130,9 @@ vim.g.airline_powerline_fonts = 1
 
 
 --------------------- Yanks
-require'nvim-yanks'.setup()
-vim.api.nvim_set_keymap('n', '<Leader>y', ':lua require("nvim-yanks").Show()<CR>', {silent=true})
+local yanks = require'nvim-yanks'
+yanks.setup()
+vim.keymap.set('n', '<Leader>y', yanks.Show, {silent=true})
 
 --------------------- GoC
 vim.opt.switchbuf = 'useopen'
@@ -140,16 +141,15 @@ if vim.env['THEME'] == 'nord' then
   vim.highlight.create('GocUncovered', {guifg='#BF616A'})
 end
 
-vim.api.nvim_set_keymap('n', '<Leader>gcr', ':lua require("nvim-goc").Coverage()<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<Leader>gcc', ':lua require("nvim-goc").ClearCoverage()<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<Leader>gct', ':lua require("nvim-goc").CoverageFunc()<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<Leader>gca', ':lua cf()<CR><CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<Leader>gcb', ':lua cf(true)<CR><CR>', {silent=true})
-vim.api.nvim_set_keymap('n', ']a', ':lua require("nvim-goc").Alternate()<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '[a', ':lua require("nvim-goc").Alternate(true)<CR>', {silent=true})
+local goc = require'nvim-goc'
 
-_G.cf = function(testCurrentFunction)
-  local goc = require'nvim-goc'
+vim.keymap.set('n', '<Leader>gcr', goc.Coverage, {silent=true})
+vim.keymap.set('n', '<Leader>gcc', goc.ClearCoverage, {silent=true})
+vim.keymap.set('n', '<Leader>gct', goc.CoverageFunc, {silent=true})
+vim.keymap.set('n', ']a', goc.Alternate, {silent=true})
+vim.keymap.set('n', '[a', goc.AlternateSplit, {silent=true})
+
+local cf = function(testCurrentFunction)
 
   local cb = function(path)
     if path then
@@ -163,6 +163,9 @@ _G.cf = function(testCurrentFunction)
     goc.Coverage(nil, cb)
   end
 end
+
+vim.keymap.set('n', '<leader>gca', cf, {silent=true})
+vim.keymap.set('n', '<Leader>gcb', function() cf(true) end, {silent=true})
 
 --------------------- opts
 vim.opt.list = true
@@ -180,47 +183,45 @@ vim.opt.swapfile=false
 vim.opt.clipboard = { 'unnamed', 'unnamedplus' }
 
 -- prevent p/P to yank
-vim.api.nvim_set_keymap('x', 'p', '\'pgv"\'.v:register."y"', {expr = true})
-vim.api.nvim_set_keymap('x', 'P', '\'Pgv"\'.v:register."y"', {expr = true})
-vim.api.nvim_set_keymap('x', '<leader>y', '"+y', {})
-vim.api.nvim_set_keymap('n', '<leader>p', '"+pa', {})
+vim.keymap.set('x', 'p', '\'pgv"\'.v:register."y"', {expr = true})
+vim.keymap.set('x', 'P', '\'Pgv"\'.v:register."y"', {expr = true})
 
 -- close scratch window, quickfix & Remove search highlight
-vim.api.nvim_set_keymap('n', '<leader><space>', ':cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>', {})
+vim.keymap.set('n', '<leader><space>', ':cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>', {})
 
 -- up and down on splitted lines
-vim.api.nvim_set_keymap('', '<Up>', 'gk', {})
-vim.api.nvim_set_keymap('', '<Down>', 'gj', {})
-vim.api.nvim_set_keymap('', 'k', 'gk', {})
-vim.api.nvim_set_keymap('', 'j', 'gj', {})
+vim.keymap.set('', '<Up>', 'gk', {})
+vim.keymap.set('', '<Down>', 'gj', {})
+vim.keymap.set('', 'k', 'gk', {})
+vim.keymap.set('', 'j', 'gj', {})
 
 -- fix watch for parcel
-vim.opt.backupcopy='no'
+--vim.opt.backupcopy='no'
 
 
 --------------------- FZF search
 vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*_test.go" --ignore test/mock'
 
-vim.api.nvim_set_keymap('n', '<C-p>', ':Files<CR>', {silent=true})
-vim.api.nvim_set_keymap('n', '<leader>b', ':Buffers<CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>f', ':BLines<CR>', {})
+vim.keymap.set('n', '<C-p>', ':Files<CR>', {silent=true})
+vim.keymap.set('n', '<leader>b', ':Buffers<CR>', {})
+vim.keymap.set('n', '<leader>f', ':BLines<CR>', {})
 
 -- select word under cursor
-vim.api.nvim_set_keymap('x', '<leader>a', '"yy:Ag <c-r>y<cr>', {})
+vim.keymap.set('x', '<leader>a', '"yy:Ag <c-r>y<cr>', {})
 
 -- search selection
-vim.api.nvim_set_keymap('n', '<leader>a', ':Ag <c-r><c-w><cr>', {})
+vim.keymap.set('n', '<leader>a', ':Ag <c-r><c-w><cr>', {})
 
 
 --------------------- Git Messenger
-vim.api.nvim_set_keymap('n', '<Leader>m', '<Plug>(git-messenger)', {})
+vim.keymap.set('n', '<Leader>m', '<Plug>(git-messenger)', {})
 
 ----------- custom
-vim.api.nvim_set_keymap('n', '<leader>co', ':!git checkout %<CR><CR>', {})
+vim.keymap.set('n', '<leader>co', ':!git checkout %<CR><CR>', {})
 
 
 --------------------- Plug
-vim.api.nvim_set_keymap('n', '<leader>pu', ':PackerUpdate<CR>', {})
+vim.keymap.set('n', '<leader>pu', ':PackerUpdate<CR>', {})
 
 
 --------------------- Snippet
@@ -276,7 +277,7 @@ vim.cmd('autocmd FileType qf map <buffer> k k')
 vim.cmd('autocmd FileType qf map <buffer> j j')
 
 -- focus
--- vim.api.nvim_set_keymap('n', '<leader>q', ':copen<CR>', {})
+-- vim.keymap.set('n', '<leader>q', ':copen<CR>', {})
 
 
 --------------------- Tmux integration
@@ -284,15 +285,15 @@ vim.cmd('autocmd FileType qf map <buffer> j j')
 if vim.env['TMUX'] then
   vim.g.tmux_navigator_no_mappings = 1
 
-  vim.api.nvim_set_keymap('n', '<A-h>', ':TmuxNavigateLeft<cr>', {silent=true})
-  vim.api.nvim_set_keymap('n', '<A-j>', ':TmuxNavigateDown<cr>', {silent=true})
-  vim.api.nvim_set_keymap('n', '<A-k>', ':TmuxNavigateUp<cr>', {silent=true})
-  vim.api.nvim_set_keymap('n', '<A-l>', ':TmuxNavigateRight<cr>', {silent=true})
+  vim.keymap.set('n', '<A-h>', ':TmuxNavigateLeft<cr>', {silent=true})
+  vim.keymap.set('n', '<A-j>', ':TmuxNavigateDown<cr>', {silent=true})
+  vim.keymap.set('n', '<A-k>', ':TmuxNavigateUp<cr>', {silent=true})
+  vim.keymap.set('n', '<A-l>', ':TmuxNavigateRight<cr>', {silent=true})
 else
-  vim.api.nvim_set_keymap('', '<A-h>', '<C-w>h', {})
-  vim.api.nvim_set_keymap('', '<A-j>', '<C-w>j', {})
-  vim.api.nvim_set_keymap('', '<A-k>', '<C-w>k', {})
-  vim.api.nvim_set_keymap('', '<A-l>', '<C-w>l', {})
+  vim.keymap.set('', '<A-h>', '<C-w>h', {})
+  vim.keymap.set('', '<A-j>', '<C-w>j', {})
+  vim.keymap.set('', '<A-k>', '<C-w>k', {})
+  vim.keymap.set('', '<A-l>', '<C-w>l', {})
 end
 
 
@@ -452,7 +453,7 @@ function _G.again()
   bk.fn(unpack(bk.p))
 end
 
-vim.api.nvim_set_keymap('n', '<leader>q', ':lua again()<CR>', {})
+vim.keymap.set('n', '<leader>q', ':lua again()<CR>', {})
 
 local function filter(fn)
   return (function(...)
@@ -565,7 +566,7 @@ cmp.setup.cmdline(':', {
 })
 
 -- add c-y to :
-vim.api.nvim_set_keymap('c', '<C-y>', '', {
+vim.keymap.set('c', '<C-y>', '', {
   callback = function()
     cmp.confirm({ select = false })
   end,
@@ -582,12 +583,12 @@ require("scrollbar").setup({
   },
 })
 
-vim.api.nvim_set_keymap('n', 'n', '<cmd>execute("normal! " . v:count1 . "n")<CR><Cmd>lua require("hlslens").start()<CR>', { noremap=true, silent=true })
-vim.api.nvim_set_keymap('n', 'N', '<cmd>execute("normal! " . v:count1 . "N")<CR><Cmd>lua require("hlslens").start()<CR>', { noremap=true, silent=true })
-vim.api.nvim_set_keymap('n', '*', '*<cmd>lua require("hlslens").start()<CR>', { noremap=true })
-vim.api.nvim_set_keymap('n', '#', '#<cmd>lua require("hlslens").start()<CR>', { noremap=true })
-vim.api.nvim_set_keymap('n', 'g*', 'g*<cmd>lua require("hlslens").start()<CR>', { noremap=true })
-vim.api.nvim_set_keymap('n', 'g#', 'g#<cmd>lua require("hlslens").start()<CR>', { noremap=true })
+vim.keymap.set('n', 'n', '<cmd>execute("normal! " . v:count1 . "n")<CR><Cmd>lua require("hlslens").start()<CR>', { noremap=true, silent=true })
+vim.keymap.set('n', 'N', '<cmd>execute("normal! " . v:count1 . "N")<CR><Cmd>lua require("hlslens").start()<CR>', { noremap=true, silent=true })
+vim.keymap.set('n', '*', '*<cmd>lua require("hlslens").start()<CR>', { noremap=true })
+vim.keymap.set('n', '#', '#<cmd>lua require("hlslens").start()<CR>', { noremap=true })
+vim.keymap.set('n', 'g*', 'g*<cmd>lua require("hlslens").start()<CR>', { noremap=true })
+vim.keymap.set('n', 'g#', 'g#<cmd>lua require("hlslens").start()<CR>', { noremap=true })
 
 vim.highlight.link('HlSearchLens', 'Comment')
 vim.highlight.link('HlSearchNear', 'Info')
