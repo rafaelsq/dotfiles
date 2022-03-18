@@ -1,10 +1,8 @@
 [user]
     name = Rafael Quintela
     email = rafaelsq@users.noreply.github.com
-
 [github]
     user = rafaelsq
-
 [core]
     editor = vim
     compression = 1
@@ -43,9 +41,9 @@
     pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
 [push]
     default = matching
-[url "git@github.com:"]
+[url "github.com:"]
     insteadOf = https://github.com/
+[pull]
+    rebase = false
 [include]
     path = ~/.gitconfig_private
-[pull]
-	rebase = false
