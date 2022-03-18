@@ -33,6 +33,8 @@ setTheme = function(theme)
       vim.g.airline_theme = 'onedark'
     end
 
+    vim.o.laststatus = 3
+
     -- LSP
     vim.highlight.create('LspCodeLens', {guifg='#88C0D0', gui='underline'})
 
