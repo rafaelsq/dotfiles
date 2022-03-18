@@ -17,7 +17,7 @@ to sign commits using your GPG key;
     signingkey = <gpg-fingerprint>
 
 [commit]
-	gpgsign = true
+    gpgsign = true
 
 [alias]
     lg = log --graph --show-signature
@@ -43,4 +43,6 @@ private settings to ~/.zshrc.local
 
 ### Theme
 
-to change the theme, edit alacritty.yml env.
+Run
+`$ make set theme=onedark`
+and restart the terminal
