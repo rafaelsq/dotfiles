@@ -66,6 +66,7 @@ require('packer').startup(function()
     'hrsh7th/cmp-cmdline',
     'hrsh7th/nvim-cmp',
     'onsails/lspkind-nvim',
+    'nvim-lua/lsp-status.nvim',
   }
 
   use {
@@ -308,6 +309,8 @@ end
 
 local lsp = require'lspconfig'
 
+local lsp_status = require('lsp-status')
+
 -- https://github.com/neovim/nvim-lspconfig/issues/115
 function org_imports(wait_ms)
   local clients = vim.lsp.buf_get_clients()
@@ -384,6 +387,8 @@ local on_attach = function(client, bufnr)
       augroup END
     ]], false)
   end
+
+  lsp_status.on_attach(client)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -397,6 +402,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
 local servers = { 'tsserver', 'pyright', 'html', 'cssls', 'jsonls', 'eslint', 'vuels', 'yamlls', 'dockerls', 'vimls', 'rust_analyzer' }
 for _, l in ipairs(servers) do
@@ -573,6 +579,21 @@ vim.keymap.set('c', '<C-y>', '', {
     cmp.confirm({ select = false })
   end,
 })
+
+--------------------- LspStatusBar
+
+lsp_status.register_progress()
+
+vim.cmd([[
+  function! LspStatus() abort
+    let status = luaeval('require("lsp-status").status()')
+    return trim(status)
+  endfunction
+]])
+
+vim.fn['airline#parts#define_function']('lsp_status', 'LspStatus')
+vim.fn['airline#parts#define_condition']('lsp_status', 'luaeval("#vim.lsp.buf_get_clients() > 0")')
+vim.g.airline_section_warning = vim.fn['airline#section#create_right']({'lsp_status'})
 
 --------------------- Scrollbar
 
