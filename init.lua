@@ -33,6 +33,7 @@ setTheme = function(theme)
       vim.g.airline_theme = 'onedark'
     end
 
+    -- only one status bar
     vim.o.laststatus = 3
 
     -- LSP
@@ -519,8 +520,8 @@ cmp.setup({
   completion = {
     completeopt = 'menu,menuone,noinsert',
   },
-  mapping = {
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-e>'] = cmp.mapping({
@@ -529,7 +530,7 @@ cmp.setup({
     }),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-  },
+  }),
   formatting = {
     format = function(entry, vim_item)
       -- fancy icons and a name of kind
@@ -546,13 +547,16 @@ cmp.setup({
       return vim_item
     end,
   },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
   sources = cmp.config.sources({
     { name = 'ultisnips' },
     { name = 'nvim_lsp' },
-    { name = 'buffer' },
+    -- { name = 'buffer' },
   }),
   experimental = {
-    native_menu = false,
     ghost_text = true
   }
 })
