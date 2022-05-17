@@ -89,7 +89,7 @@ require('packer').startup(function()
     {'gruvbox-community/gruvbox',       config = setTheme("gruvbox")},
     {'tomasr/molokai',                  config = setTheme("molokai")},
     {'joshdick/onedark.vim',            config = setTheme("onedark")},
-    { 'dracula/vim', as  =  'dracula',  config = setTheme("dracula")},
+    {'dracula/vim', as  =  'dracula',   config = setTheme("dracula")},
   }
 
   -- Git
@@ -313,14 +313,14 @@ local lsp = require'lspconfig'
 local lsp_status = require('lsp-status')
 
 -- https://github.com/neovim/nvim-lspconfig/issues/115
-function org_imports(wait_ms)
+function org_imports()
   local clients = vim.lsp.buf_get_clients()
   for _, client in pairs(clients) do
 
-    local params = vim.lsp.util.make_range_params()
+    local params = vim.lsp.util.make_range_params(nil, client.offset_encoding)
     params.context = {only = {"source.organizeImports"}}
 
-    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 5000)
     for _, res in pairs(result or {}) do
       for _, r in pairs(res.result or {}) do
         if r.edit then
@@ -378,15 +378,12 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 
-  if client.resolved_capabilities.code_lens then
+  if type(client.server_capabilities.codeLensProvider) == 'table' then
     buf_set_keymap('n', '<leader>cl', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
 
-    vim.api.nvim_exec([[
-      augroup lsp_code_lens
-        autocmd!
-        autocmd CursorHold,CursorHoldI,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
-      augroup END
-    ]], false)
+    vim.api.nvim_create_autocmd("CursorHold,CursorHoldI,InsertLeave", {
+      callback = vim.lsp.codelens.refresh,
+    })
   end
 
   lsp_status.on_attach(client)
@@ -436,19 +433,15 @@ lsp.gopls.setup{
   },
 }
 
-vim.cmd([[
-  augroup lsp_format
-    autocmd!
-    autocmd BufWritePre *.go,*.rs lua vim.lsp.buf.formatting_sync()
-  augroup END
-]])
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.go,*.rs" },
+  callback = vim.lsp.buf.format,
+})
 
-vim.cmd([[
-  augroup lsp_orgimports
-    autocmd!
-    autocmd BufWritePre *.go lua org_imports(1000)
-  augroup END
-]])
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.go" },
+  callback = org_imports,
+})
 
 --------------------- Fzf-lsp
 local fzf_lsp = require'fzf_lsp'
@@ -548,8 +541,8 @@ cmp.setup({
     end,
   },
   window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
   },
   sources = cmp.config.sources({
     { name = 'ultisnips' },
