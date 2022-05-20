@@ -26,13 +26,9 @@ fix:
 
 deps:
 	@echo "Installing Dependencies"
-
-	@echo "yarn https://yarnpkg.com/pt-BR/docs/install"
-	@curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-	@echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
+	@echo "for NVM, check https://github.com/nvm-sh/nvm"
 	@sudo apt update && sudo apt install \
-		curl git bison gcc g++ clang make zsh silversearcher-ag autojump aria2 terminator htop python3-pip tlp powertop yarn tmux xsel bat
+		curl git bison gcc g++ clang make zsh silversearcher-ag autojump aria2 terminator htop python3-pip tlp powertop tmux xsel bat
 
 tmux:
 	@echo "tmux tpm"
@@ -117,6 +113,7 @@ lsp:
 	npm i -g vscode-langservers-extracted yaml-language-server eslint dockerfile-language-server-nodejs
 
 yarn:
+	@npm install --global yarn
 	@echo "yarn basics"
 	@yarn global add parcel eslint prettier prettier-eslint-cli eslint-plugin-react eslint-plugin-vue vscode-html-languageserver-bin vls yaml-language-server dockerfile-language-server-nodejs vscode-json-languageserver typescript typescript-language-server
 

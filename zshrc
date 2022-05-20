@@ -67,13 +67,13 @@ dec(){openssl enc -aes-256-cbc -md sha512 -pbkdf2 -d -in $1 -out $2}
 eb64(){base64 -w 0 < <(echo -n $1) | xsel -b}
 db64(){base64 -dw 0 < <(echo -n $1) | xsel -b}
 
-# make <tab>
-zstyle ':completion:*:*:make:*' tag-order 'targets'
-autoload -U compinit && compinit
-
 # others
 export GPG_TTY=$(tty)
 
 . /usr/share/autojump/autojump.sh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
