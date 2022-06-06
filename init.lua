@@ -202,13 +202,16 @@ vim.keymap.set('', 'j', 'gj', {})
 -- fix watch for parcel
 --vim.opt.backupcopy='no'
 
-
 --------------------- FZF search
 vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*_test.go" --ignore test/mock'
 
 vim.keymap.set('n', '<C-p>', ':Files<CR>', {silent=true})
 vim.keymap.set('n', '<leader>b', ':Buffers<CR>', {})
 vim.keymap.set('n', '<leader>f', ':BLines<CR>', {})
+
+-- clear buffers
+vim.keymap.set('n', '<leader>cb', ':%bd|e#|bd#<CR>', {})
+
 
 -- select word under cursor
 vim.keymap.set('x', '<leader>a', '"yy:Ag <c-r>y<cr>', {})
