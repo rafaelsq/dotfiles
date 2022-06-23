@@ -7,6 +7,7 @@ shell:
 window:
   startup_mode: Maximized
   decorations: none
+  opacity: 0.98
 
 font:
   normal:
@@ -14,5 +15,3 @@ font:
     style: Regular
 
   size: 10.0
-
-background_opacity: 0.98
