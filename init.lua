@@ -136,7 +136,7 @@ vim.g.airline_powerline_fonts = 1
 --------------------- Yanks
 local yanks = require'nvim-yanks'
 yanks.setup()
-vim.keymap.set('n', '<Leader>y', yanks.Show, {silent=true})
+vim.keymap.set('n', '<space>y', yanks.Show, {silent=true})
 
 --------------------- GoC
 vim.opt.switchbuf = 'useopen'
@@ -147,9 +147,9 @@ end
 
 local goc = require'nvim-goc'
 
-vim.keymap.set('n', '<Leader>gcf', goc.Coverage, {silent=true})
-vim.keymap.set('n', '<Leader>gcc', goc.ClearCoverage, {silent=true})
-vim.keymap.set('n', '<Leader>gct', goc.CoverageFunc, {silent=true})
+vim.keymap.set('n', '<space>gcf', goc.Coverage, {silent=true})
+vim.keymap.set('n', '<space>gcc', goc.ClearCoverage, {silent=true})
+vim.keymap.set('n', '<space>gct', goc.CoverageFunc, {silent=true})
 vim.keymap.set('n', ']a', goc.Alternate, {silent=true})
 vim.keymap.set('n', '[a', goc.AlternateSplit, {silent=true})
 
@@ -168,8 +168,8 @@ local cf = function(testCurrentFunction)
   end
 end
 
-vim.keymap.set('n', '<leader>gca', cf, {silent=true})
-vim.keymap.set('n', '<Leader>gcb', function() cf(true) end, {silent=true})
+vim.keymap.set('n', '<space>gca', cf, {silent=true})
+vim.keymap.set('n', '<space>gcb', function() cf(true) end, {silent=true})
 
 --------------------- opts
 vim.opt.list = true
@@ -191,7 +191,7 @@ vim.keymap.set('x', 'p', '\'pgv"\'.v:register."y"', {expr = true})
 vim.keymap.set('x', 'P', '\'Pgv"\'.v:register."y"', {expr = true})
 
 -- close scratch window, quickfix & Remove search highlight
-vim.keymap.set('n', '<leader><space>', ':cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>', {})
+vim.keymap.set('n', '<space><space>', ':cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>', {})
 
 -- up and down on splitted lines
 vim.keymap.set('', '<Up>', 'gk', {})
@@ -206,29 +206,29 @@ vim.keymap.set('', 'j', 'gj', {})
 vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*_test.go" --ignore test/mock'
 
 vim.keymap.set('n', '<C-p>', ':Files<CR>', {silent=true})
-vim.keymap.set('n', '<leader>b', ':Buffers<CR>', {})
-vim.keymap.set('n', '<leader>f', ':BLines<CR>', {})
+vim.keymap.set('n', '<space>b', ':Buffers<CR>', {})
+vim.keymap.set('n', '<space>f', ':BLines<CR>', {})
 
 -- clear buffers
-vim.keymap.set('n', '<leader>cb', ':%bd|e#|bd#<CR>', {})
+vim.keymap.set('n', '<space>cb', ':%bd|e#|bd#<CR>', {})
 
 
 -- select word under cursor
-vim.keymap.set('x', '<leader>a', '"yy:Ag <c-r>y<cr>', {})
+vim.keymap.set('x', '<space>a', '"yy:Ag <c-r>y<cr>', {})
 
 -- search selection
-vim.keymap.set('n', '<leader>a', ':Ag <c-r><c-w><cr>', {})
+vim.keymap.set('n', '<space>a', ':Ag <c-r><c-w><cr>', {})
 
 
 --------------------- Git Messenger
-vim.keymap.set('n', '<Leader>m', '<Plug>(git-messenger)', {})
+vim.keymap.set('n', '<space>m', '<Plug>(git-messenger)', {})
 
 ----------- custom
-vim.keymap.set('n', '<leader>co', ':!git checkout %<CR><CR>', {})
+vim.keymap.set('n', '<space>co', ':!git checkout %<CR><CR>', {})
 
 
 --------------------- Plug
-vim.keymap.set('n', '<leader>pu', ':PackerUpdate<CR>', {})
+vim.keymap.set('n', '<space>pu', ':PackerUpdate<CR>', {})
 
 
 --------------------- Snippet
@@ -259,7 +259,7 @@ vim.cmd[[
 
 
 ----------- run
-vim.cmd('autocmd FileType go nmap <Leader>rg :!go run %<CR>')
+vim.cmd('autocmd FileType go nmap <space>rg :!go run %<CR>')
 
 
 --------------------- Quickfix
@@ -284,7 +284,7 @@ vim.cmd('autocmd FileType qf map <buffer> k k')
 vim.cmd('autocmd FileType qf map <buffer> j j')
 
 -- focus
--- vim.keymap.set('n', '<leader>q', ':copen<CR>', {})
+-- vim.keymap.set('n', '<space>q', ':copen<CR>', {})
 
 
 --------------------- Tmux integration
@@ -338,8 +338,8 @@ end
 
 local opts = { noremap=true, silent=true }
 
-vim.keymap.set('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-vim.keymap.set('n', '<leader>g', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+vim.keymap.set('n', '<space>g', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 vim.keymap.set('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.keymap.set('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 
@@ -369,17 +369,17 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('i', '<c-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.keymap.set('n', '<leader>gs', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
-  vim.keymap.set('n', '<leader>gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  vim.keymap.set('v', '<leader>gf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
-  vim.keymap.set('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.keymap.set('n', '<leader>gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
-  vim.keymap.set('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.keymap.set('x', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.keymap.set('n', '<space>gs', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
+  vim.keymap.set('n', '<space>gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  vim.keymap.set('v', '<space>gf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
+  vim.keymap.set('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  vim.keymap.set('n', '<space>gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
+  vim.keymap.set('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.keymap.set('x', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.keymap.set('i', '<C-c>', '<ESC><cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
   if type(client.server_capabilities.codeLensProvider) == 'table' then
-    vim.keymap.set('n', '<leader>cl', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
+    vim.keymap.set('n', '<space>cl', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
 
     vim.api.nvim_create_autocmd("CursorHold,CursorHoldI,InsertLeave", {
       callback = vim.lsp.codelens.refresh,
@@ -452,7 +452,7 @@ function _G.again()
   bk.fn(unpack(bk.p))
 end
 
-vim.keymap.set('n', '<leader>q', ':lua again()<CR>', {})
+vim.keymap.set('n', '<space>q', ':lua again()<CR>', {})
 
 local function filter(fn)
   return (function(...)
