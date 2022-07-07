@@ -1,4 +1,4 @@
-export ZSH="/home/rafael/.oh-my-zsh"
+export ZSH=$HOME"/.oh-my-zsh"
 ZSH_THEME="nuts"
 plugins=(
   git kubectl zsh-autosuggestions
@@ -70,7 +70,8 @@ db64(){base64 -dw 0 < <(echo -n $1) | xsel -b}
 # others
 export GPG_TTY=$(tty)
 
-. /usr/share/autojump/autojump.sh
+[ -f /usr/share/autojump/autojump.sh ] && . /usr/share/autojump/autojump.sh
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

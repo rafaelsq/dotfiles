@@ -41,8 +41,6 @@
     pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
 [push]
     default = matching
-[url "github.com:"]
-    insteadOf = https://github.com/
 [pull]
     rebase = false
 [include]

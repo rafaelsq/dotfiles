@@ -34,7 +34,7 @@ setTheme = function(theme)
     end
 
     -- only one status bar
-    vim.o.laststatus = 3
+    -- vim.o.laststatus = 3
 
     -- LSP
     vim.highlight.create('LspCodeLens', {guifg='#88C0D0', gui='underline'})
@@ -201,6 +201,12 @@ vim.keymap.set('', 'j', 'gj', {})
 
 -- fix watch for parcel
 --vim.opt.backupcopy='no'
+
+-- mac compability
+vim.keymap.set('n', '"', '^', {noremap=true})
+vim.keymap.set('n', 'Ç', ':', {noremap=true})
+vim.keymap.set('v', 'Ç', ":'<,'>", {noremap=true})
+
 
 --------------------- FZF search
 vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*_test.go" --ignore test/mock'

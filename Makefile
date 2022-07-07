@@ -173,3 +173,7 @@ ifneq ($(theme),)
 else
 	@echo "make set theme=nord"
 endif
+
+mac:
+	brew install fzf tmux the_silver_searcher autojump
+	brew install --HEAD neovim

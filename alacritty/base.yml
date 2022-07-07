@@ -1,6 +1,7 @@
 shell:
   program: /bin/bash
   args:
+    - --login
     - -c
     - "tmux"
 
