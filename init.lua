@@ -229,6 +229,15 @@ vim.keymap.set('n', '<space>a', ':Ag <c-r><c-w><cr>', {})
 --------------------- Git Messenger
 vim.keymap.set('n', '<space>m', '<Plug>(git-messenger)', {})
 
+--------------------- GitGutter
+vim.g.gitgutter_map_keys=0
+vim.keymap.set('n', '<space>hu', ':GitGutterUndoHunk<CR>', { noremap=true })
+vim.keymap.set('n', '<space>hp', ':GitGutterPreviewHunk<CR>', { noremap=true })
+vim.keymap.set('n', '<space>hs', ':GitGutterStageHunk<CR>', { noremap=true })
+vim.keymap.set('n', '<space>hd', ':GitGutterDiffOrig<CR>', { noremap=true })
+vim.keymap.set('n', '[c', ':GitGutterPrevHunk<CR>', { noremap=true })
+vim.keymap.set('n', ']c', ':GitGutterNextHunk<CR>', { noremap=true })
+
 ----------- custom
 vim.keymap.set('n', '<space>co', ':!git checkout %<CR><CR>', {})
 
