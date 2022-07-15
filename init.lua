@@ -53,6 +53,7 @@ require('packer').startup(function()
     { 'junegunn/fzf', dir = '~/.fzf', run = './install --all' },
     { 'junegunn/fzf.vim' },
     { 'gfanto/fzf-lsp.nvim' },
+    { 'nvim-lua/plenary.nvim' },
   }
 
   -- ident
