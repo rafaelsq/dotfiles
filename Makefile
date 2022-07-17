@@ -1,34 +1,32 @@
 GO_BKP=~/bk.`go version 2>&1 | ag -o 'go([0-9\.]+)'`
-ALACRITTY_PATH=`echo ~/src/alacritty/alacritty`
 DEFAULT_THEME=onedark
 
 default:
-	@echo "make deps"
-	@echo "make zsh"
-	@echo "make links"
-	@echo "make go"
-	@echo "make py"
-	@echo "make yarn"
-	@echo "make nvim"
-	@echo "make docker"
-	@echo "make alacritty"
-	@echo "make fix"
-	@echo "make gh"
+	@echo "make arch"
+	@echo "make ubuntu"
+	@echo "make mac"
 	@echo "make set theme=[nord|onedark|gruvbox|molokai|dracula]"
 
-custom:
-	@echo "Change GoCode"
-	@go get -u github.com/stamblerre/gocode
-
-fix:
-	@echo "Fix neovim ctrl+p so it ignores the vendor/node directories"
-	@sed -i'' 's/ag --no/ag --ignore-dir=vendor --ignore-dir=node_modules --no/' ~/.config/nvim/plugged/fzf.vim/autoload/fzf/vim.vim
-
-deps:
+ubuntu:
 	@echo "Installing Dependencies"
 	@echo "for NVM, check https://github.com/nvm-sh/nvm"
 	@sudo apt update && sudo apt install \
 		curl git bison gcc g++ clang make zsh silversearcher-ag autojump aria2 terminator htop python3-pip tlp powertop tmux xsel bat
+
+mac:
+	brew install fzf tmux the_silver_searcher autojump
+	brew install --HEAD neovim
+
+arch:
+	mkdir -p ~/src/yay && cd ~/src/yay && git clone https://aur.archlinux.org/yay.git && makepkg -si
+	sudo pacman -S fzf tmux alacritty python-pip aria2 the_silver_searcher go npm yarn bat
+	yay -S autojump google-chrome neovim-nightly-bin
+	@echo "Now"
+	@echo "make zsh"
+	@echo "make tmux"
+	@echo "make nvim"
+	@echo "make lsp"
+	@echo "make links"
 
 tmux:
 	@echo "tmux tpm"
@@ -75,7 +73,7 @@ zsh:
 	@mkdir -p ~/src/rafaelsq
 	@if [ ! -d ~/src/rafaelsq/nuts.zsh-theme ]; then \
 		echo "Nuts Theme"; \
-		git clone github.com:rafaelsq/nuts.zsh-theme.git ~/src/rafaelsq/nuts.zsh-theme && cd ~/src/rafaelsq/nuts.zsh-theme && make; \
+		git clone https://github.com/rafaelsq/nuts.zsh-theme.git ~/src/rafaelsq/nuts.zsh-theme && cd ~/src/rafaelsq/nuts.zsh-theme && make; \
 	fi
 
 go:
@@ -94,23 +92,14 @@ py:
 nvim:
 	@echo "Neovim"
 	@which pip3 > /dev/null && pip3 install neovim || echo "no pip3 found"
-	@mkdir -p ~/appimage
-	# ag -o '/v[0-9\.]+/nvim.appimage' | head -n 1 |
-	@curl --silent https://github.com/neovim/neovim/releases |\
-		ag -o '/nightly/nvim.appimage' | head -n 1 |\
-		xargs -I@ curl -L "https://github.com/neovim/neovim/releases/download@" -o ~/appimage/nvim.appimage_new
-	@if [ -f ~/appimage/nvim.appimage_new ]; then \
-		[ -f ~/appimage/nvim.appimage ] && mv ~/appimage/nvim.appimage ~/appimage/nvim.appimage$$(date +_%d_%m);\
-		mv ~/appimage/nvim.appimage_new ~/appimage/nvim.appimage; \
-	fi
-	@chmod +x ~/appimage/nvim.appimage
 	@echo "packer - https://github.com/wbthomason/packer.nvim"
 	@git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 lsp:
 	@echo "LSP install"
 	# html, css, json and eslint: https://github.com/hrsh7th/vscode-langservers-extracted
-	npm i -g vscode-langservers-extracted yaml-language-server eslint dockerfile-language-server-nodejs
+	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint dockerfile-language-server-nodejs
+	go install golang.org/x/tools/gopls@latest
 
 yarn:
 	@npm install --global yarn
@@ -147,24 +136,6 @@ gh:
 	sudo apt update
 	sudo apt install gh
 
-
-alacritty:
-	@if [ ! -d ${ALACRITTY_PATH} ]; then \
-		mkdir -p ${ALACRITTY_PATH}/../ && cd ${ALACRITTY_PATH}/../ && git clone github.com:alacritty/alacritty.git; \
-	fi
-	@echo "fetch latest..."
-	@cd ${ALACRITTY_PATH} && git fetch origin master && git reset --hard origin/master
-	@echo "building..."
-	@docker run -it --rm -v ${ALACRITTY_PATH}:/app -w /app rust:1 bash -c "apt update && apt install -y libxcb-xfixes0-dev && cargo build --release"
-	@echo "install"
-	@sudo cp ${ALACRITTY_PATH}/target/release/alacritty /usr/local/bin
-	@echo "creating desktop file"
-	@cp ${ALACRITTY_PATH}/extra/linux/Alacritty.desktop ~/.local/share/applications/
-	@sed -i'' "s,Icon=Alacritty,Icon=${ALACRITTY_PATH}/extra/logo/alacritty-simple.svg," ~/.local/share/applications/Alacritty.desktop
-	@echo "set as default terminal(ctrl + alt + t)"
-	@gsettings set org.gnome.desktop.default-applications.terminal exec 'alacritty'
-	@echo "all done, bye"
-
 set:
 ifneq ($(theme),)
 	@rm ~/.config/alacritty/*.yml
@@ -173,7 +144,3 @@ ifneq ($(theme),)
 else
 	@echo "make set theme=nord"
 endif
-
-mac:
-	brew install fzf tmux the_silver_searcher autojump
-	brew install --HEAD neovim
