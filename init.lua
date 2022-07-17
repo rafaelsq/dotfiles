@@ -20,15 +20,15 @@ setTheme = function(theme)
     vim.opt.signcolumn='yes'
     vim.opt.relativenumber=false
 
-    vim.cmd('colorscheme ' .. theme)
+    vim.cmd('silent! colorscheme ' .. theme)
 
     -- transparent
-    vim.highlight.create('Normal', {guibg='None'})
-    vim.highlight.create('SignColumn', {guibg='None'})
-    vim.highlight.create('LineNr', {guibg='None'})
+    vim.api.nvim_set_hl(0, 'Normal', {bg=''})
+    vim.api.nvim_set_hl(0, 'SignColumn', {bg=''})
     if vim.g.colors_name == 'molokai' then
       vim.g.molokai_original = 1
-      vim.highlight.create('MatchParen', {guibg='#3C3535', guifg='None', gui='bold'})
+      vim.api.nvim_set_hl(0, 'MatchParen', {bg='#3C3535', fg='', bold=true})
+      vim.api.nvim_set_hl(0, 'LineNr', {bg='', fg='#3C3535'})
     elseif vim.g.colors_name == 'molokai' then
       vim.g.airline_theme = 'onedark'
     end
@@ -37,7 +37,7 @@ setTheme = function(theme)
     -- vim.o.laststatus = 3
 
     -- LSP
-    vim.highlight.create('LspCodeLens', {guifg='#88C0D0', gui='underline'})
+    vim.api.nvim_set_hl(0, 'LspCodeLens', {fg='#88C0D0', underline=true})
 
     -- GoC
     require'nvim-goc'.setup({verticalSplit = false})
@@ -143,7 +143,7 @@ vim.keymap.set('n', '<space>y', yanks.Show, {silent=true})
 vim.opt.switchbuf = 'useopen'
 
 if vim.env['THEME'] == 'nord' then
-  vim.highlight.create('GocUncovered', {guifg='#BF616A'})
+  vim.api.nvim_set_hl(0, 'GocUncovered', {fg='#BF616A'})
 end
 
 local goc = require'nvim-goc'
@@ -623,5 +623,5 @@ vim.keymap.set('n', '#', '#<cmd>lua require("hlslens").start()<CR>', { noremap=t
 vim.keymap.set('n', 'g*', 'g*<cmd>lua require("hlslens").start()<CR>', { noremap=true })
 vim.keymap.set('n', 'g#', 'g#<cmd>lua require("hlslens").start()<CR>', { noremap=true })
 
-vim.highlight.link('HlSearchLens', 'Comment')
-vim.highlight.link('HlSearchNear', 'Info')
+vim.api.nvim_set_hl(0, 'HlSearchLens', {link='Comment'})
+vim.api.nvim_set_hl(0, 'HlSearchNear', {link='Info'})
