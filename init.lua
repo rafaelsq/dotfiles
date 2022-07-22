@@ -123,7 +123,7 @@ vim.cmd('autocmd BufEnter *.graphql setf graphql')
 
 --------------------- TreeSitter
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python" },
+  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python", "elixir" },
 
   highlight = { enable = true },
   incremental_selection = { enable = true },
@@ -447,6 +447,12 @@ lsp.gopls.setup{
       test = true,
     },
   },
+}
+
+lsp.elixirls.setup{
+  on_attach = on_attach,
+  capabilities = capabilities,
+  cmd = { vim.fn.expand("~/.elixirls/language_server.sh") },
 }
 
 vim.api.nvim_create_autocmd("BufWritePre", {
