@@ -204,9 +204,12 @@ vim.keymap.set('', 'j', 'gj', {})
 --vim.opt.backupcopy='no'
 
 -- mac compability
-vim.keymap.set('n', '"', '^', {noremap=true})
-vim.keymap.set('n', 'Ç', ':', {noremap=true})
-vim.keymap.set('v', 'Ç', ":'<,'>", {noremap=true})
+if vim.fn.has('macunix') then
+  vim.keymap.set('n', '"', '^', {noremap=true})
+  vim.keymap.set('v', '"', '^', {noremap=true})
+  vim.keymap.set('n', 'Ç', ':', {noremap=true})
+  vim.keymap.set('v', 'Ç', ":'<,'>", {noremap=true})
+end
 
 
 --------------------- FZF search
