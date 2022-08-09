@@ -55,6 +55,11 @@ tmux:
 	else \
 		cd ~/.tmux/plugins/gruvbox && git pull origin master; \
 	fi
+	@if [ ! -d ~/.tmux/plugins/ayu ]; then \
+		git clone https://github.com/jibingeo/tmux-colors-ayu ~/.tmux/plugins/ayu; \
+	else \
+		cd ~/.tmux/plugins/ayu && git pull origin master; \
+	fi
 	@echo "Don't forget to ctrl+I to install and ctrl+U to update plugins"
 
 zsh:

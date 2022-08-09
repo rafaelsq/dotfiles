@@ -20,6 +20,10 @@ setTheme = function(theme)
     vim.opt.signcolumn='yes'
     vim.opt.relativenumber=false
 
+    if theme == 'ayu' then
+      vim.g.ayucolor = "mirage"
+    end
+
     vim.cmd('silent! colorscheme ' .. theme)
 
     -- transparent
@@ -31,6 +35,8 @@ setTheme = function(theme)
       vim.api.nvim_set_hl(0, 'LineNr', {bg='', fg='#3C3535'})
     elseif vim.g.colors_name == 'molokai' then
       vim.g.airline_theme = 'onedark'
+    elseif vim.g.colors_name == 'ayu' then
+      vim.g.airline_theme = 'ayu'
     end
 
     -- only one status bar
@@ -91,6 +97,7 @@ require('packer').startup(function()
     {'tomasr/molokai',                  config = setTheme("molokai")},
     {'joshdick/onedark.vim',            config = setTheme("onedark")},
     {'dracula/vim', as  =  'dracula',   config = setTheme("dracula")},
+    {'ayu-theme/ayu-vim',               config = setTheme("ayu")},
   }
 
   -- Git
@@ -174,7 +181,7 @@ vim.keymap.set('n', '<space>gcb', function() cf(true) end, {silent=true})
 
 --------------------- opts
 vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·' }
+vim.opt.listchars = { tab = '┆ ', trail = '»' }
 vim.opt.tabstop = 4
 vim.opt.shiftwidth=4
 vim.opt.scrolloff=5

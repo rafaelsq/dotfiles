@@ -1,0 +1,57 @@
+import:
+  - ~/.config/alacritty/base.yml
+
+env:
+  THEME: ayu
+
+ayu_dark: &ayu_dark
+  primary:
+    background: '#0A0E14'
+    foreground: '#B3B1AD'
+
+  normal:
+    black: '#01060E'
+    red: '#EA6C73'
+    green: '#91B362'
+    yellow: '#F9AF4F'
+    blue: '#53BDFA'
+    magenta: '#FAE994'
+    cyan: '#90E1C6'
+    white: '#C7C7C7'
+
+  bright:
+    black: '#686868'
+    red: '#F07178'
+    green: '#C2D94C'
+    yellow: '#FFB454'
+    blue: '#59C2FF'
+    magenta: '#FFEE99'
+    cyan: '#95E6CB'
+    white: '#FFFFFF'
+
+ayu_mirage: &ayu_mirage
+  primary:
+    background: '#1F2430'
+    foreground: '#707A8C'
+
+  normal:
+    black: '#01060E'
+    red: '#FF6666'
+    green: '#87D96C'
+    yellow: '#F9AF4F'
+    blue: '#53BDFA'
+    magenta: '#FAE994'
+    cyan: '#90E1C6'
+    white: '#CCCAC2'
+
+  bright:
+    black: '#686868'
+    red: '#F07178'
+    green: '#C2D94C'
+    yellow: '#FFB454'
+    blue: '#59C2FF'
+    magenta: '#FFEE99'
+    cyan: '#95E6CB'
+    white: '#FFFFFF'
+
+color: *ayu_mirage
