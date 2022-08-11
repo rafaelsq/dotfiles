@@ -103,7 +103,7 @@ nvim:
 lsp:
 	@echo "LSP install"
 	# html, css, json and eslint: https://github.com/hrsh7th/vscode-langservers-extracted
-	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint dockerfile-language-server-nodejs
+	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint dockerfile-language-server-nodejs pyright
 	go install golang.org/x/tools/gopls@latest
 
 yarn:
