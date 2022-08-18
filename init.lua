@@ -75,6 +75,7 @@ require('packer').startup(function()
     'hrsh7th/nvim-cmp',
     'onsails/lspkind-nvim',
     'nvim-lua/lsp-status.nvim',
+    'jose-elias-alvarez/null-ls.nvim',
   }
 
   use {
@@ -396,7 +397,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.keymap.set('n', '<space>gs', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
-  vim.keymap.set('n', '<space>gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  vim.keymap.set('n', '<space>gf', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
   vim.keymap.set('v', '<space>gf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
   vim.keymap.set('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.keymap.set('n', '<space>gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
@@ -470,6 +471,46 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*.go" },
   callback = org_imports,
+})
+
+
+--------------------- NullLs
+
+local null_ls = require("null-ls")
+null_ls.setup({
+  sources = {
+    null_ls.builtins.completion.spell,
+
+    -- golang
+    null_ls.builtins.diagnostics.golangci_lint.with{
+      args = {
+        "run",
+        "--fix=false",
+        -- "--fast",
+        "--out-format=json",
+        "$DIRNAME",
+        "--path-prefix",
+        "$ROOT",
+      },
+    },
+
+    -- python
+    null_ls.builtins.diagnostics.flake8,
+    null_ls.builtins.formatting.autopep8,
+    null_ls.builtins.formatting.isort,
+  },
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = bufnr })
+        end,
+      })
+    end
+  end,
 })
 
 --------------------- Fzf-lsp
