@@ -131,7 +131,7 @@ vim.cmd('autocmd BufEnter *.graphql setf graphql')
 
 --------------------- TreeSitter
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python", "elixir" },
+  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python", "elixir", "graphql" },
 
   highlight = { enable = true },
   incremental_selection = { enable = true },
@@ -429,7 +429,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
-local servers = { 'tsserver', 'pyright', 'html', 'cssls', 'jsonls', 'eslint', 'vuels', 'yamlls', 'dockerls', 'vimls', 'rust_analyzer' }
+local servers = { 'tsserver', 'pyright', 'html', 'cssls', 'jsonls', 'eslint', 'vuels', 'yamlls', 'dockerls', 'vimls', 'rust_analyzer', 'graphql' }
 for _, l in ipairs(servers) do
   lsp[l].setup {
     on_attach = on_attach,
@@ -478,39 +478,36 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 local null_ls = require("null-ls")
 null_ls.setup({
-  sources = {
+  sources = { -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
     null_ls.builtins.completion.spell,
 
     -- golang
-    null_ls.builtins.diagnostics.golangci_lint.with{
-      args = {
-        "run",
-        "--fix=false",
-        -- "--fast",
-        "--out-format=json",
-        "$DIRNAME",
-        "--path-prefix",
-        "$ROOT",
-      },
+    null_ls.builtins.diagnostics.golangci_lint.with {
+      args = { "run", "--fix=false", "--fast", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
     },
 
     -- python
-    null_ls.builtins.diagnostics.flake8,
+    null_ls.builtins.diagnostics.flake8.with {
+      args = { "--format", "default", "--ignore", "E501", "--stdin-display-name", "$FILENAME", "-" },
+    },
     null_ls.builtins.formatting.autopep8,
     null_ls.builtins.formatting.isort,
+
+    -- many
+    null_ls.builtins.formatting.prettierd,
   },
-  on_attach = function(client, bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr })
-        end,
-      })
-    end
-  end,
+  -- on_attach = function(client, bufnr)
+  --   if client.supports_method("textDocument/formatting") then
+  --     vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+  --     vim.api.nvim_create_autocmd("BufWritePre", {
+  --       group = augroup,
+  --       buffer = bufnr,
+  --       callback = function()
+  --         vim.lsp.buf.format({ bufnr = bufnr })
+  --       end,
+  --     })
+  --   end
+  -- end,
 })
 
 --------------------- Fzf-lsp

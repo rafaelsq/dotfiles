@@ -92,7 +92,7 @@ go:
 		xargs -I@ sh -c 'curl -O https://dl.google.com/go@; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
 
 py:
-	@pip3 install jedi autopep8 yapf flake8 pylint python-language-server
+	@pip3 install autopep8 flake8 pylint
 
 nvim:
 	@echo "Neovim"
@@ -103,17 +103,9 @@ nvim:
 lsp:
 	@echo "LSP install"
 	# html, css, json and eslint: https://github.com/hrsh7th/vscode-langservers-extracted
-	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint dockerfile-language-server-nodejs pyright
+	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server es lint \
+		dockerfile-language-server-nodejs pyright graphql graphql-language-service-cli @fsouza/prettierd
 	go install golang.org/x/tools/gopls@latest
-
-yarn:
-	@npm install --global yarn
-	@echo "yarn basics"
-	@yarn global add parcel eslint prettier prettier-eslint-cli eslint-plugin-react eslint-plugin-vue vscode-html-languageserver-bin vls yaml-language-server dockerfile-language-server-nodejs vscode-json-languageserver typescript typescript-language-server vscode-langservers-extracted
-
-config:
-	@echo "max watches"
-	@sudo sysctl -w fs.inotify.max_user_watches=1048576 && sysctl -p
 
 links:
 	@echo "links"
