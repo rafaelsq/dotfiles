@@ -475,7 +475,9 @@ lsp.elixirls.setup{
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*.go,*.rs" },
-  callback = vim.lsp.buf.format,
+  callback = function(args)
+    vim.lsp.buf.format({sync=true})
+  end,
 })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
