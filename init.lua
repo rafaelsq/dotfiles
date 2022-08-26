@@ -223,12 +223,16 @@ vim.keymap.set('', 'j', 'gj', {})
 
 -- mac compability
 if vim.fn.has('macunix') then
-  vim.keymap.set('n', '"', '^', {noremap=true})
-  vim.keymap.set('v', '"', '^', {noremap=true})
-  vim.keymap.set('n', 'Ç', ':', {noremap=true})
-  vim.keymap.set('v', 'Ç', ":'<,'>", {noremap=true})
+  vim.keymap.set('n', 'ˆ', '^', {noremap=true})
+  vim.keymap.set('n', '˜', '~', {noremap=true})
 end
 
+-- if vim.fn.has('macunix') then
+--   vim.keymap.set('n', '"', '^', {noremap=true})
+--   vim.keymap.set('v', '"', '^', {noremap=true})
+--   vim.keymap.set('n', 'Ç', ':', {noremap=true})
+--   vim.keymap.set('v', 'Ç', ":'<,'>", {noremap=true})
+-- end
 
 --------------------- FZF search
 vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*_test.go" --ignore test/mock'
