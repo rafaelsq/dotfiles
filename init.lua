@@ -39,6 +39,16 @@ setTheme = function(theme)
       vim.g.airline_theme = 'ayu'
     end
 
+    -- highlight EOL
+    vim.api.nvim_set_hl(0, 'WhitespaceEOL', {link='LspErrorHighlight'})
+    vim.cmd[[
+      match WhitespaceEOL /\\\@<!\s\+\%#\@<!$/
+      augroup winenter_whitespaceeol
+          autocmd!
+          autocmd WinEnter * match WhiteSpaceEOL /\\\@<!\s\+\%#\@<!$/
+      augroup END
+    ]]
+
     -- only one status bar
     -- vim.o.laststatus = 3
 
@@ -182,7 +192,7 @@ vim.keymap.set('n', '<space>gcb', function() cf(true) end, {silent=true})
 
 --------------------- opts
 vim.opt.list = true
-vim.opt.listchars = { tab = '┆ ', trail = '»' }
+vim.opt.listchars = { tab = '┆ ', trail = ' ' }
 vim.opt.tabstop = 4
 vim.opt.shiftwidth=4
 vim.opt.scrolloff=5
