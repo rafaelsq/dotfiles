@@ -1,5 +1,6 @@
 GO_BKP=~/bk.`go version 2>&1 | ag -o 'go([0-9\.]+)'`
 DEFAULT_THEME=onedark
+UNAME_S := $(shell uname -s)
 
 default:
 	@echo "make arch"
@@ -115,8 +116,14 @@ links:
 	@ln -sf ${PWD}/prettierrc ~/.prettierrc
 	@ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 	@mkdir -p ~/.config/alacritty
+	@rm -rf ~/.config/alacritty/*.yml
 	@ln -sf ${PWD}/alacritty/${DEFAULT_THEME}.yml ~/.config/alacritty/alacritty.yml
+ifeq ($(UNAME_S), Darwin)
+	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/b.yml
+	@ln -sf ${PWD}/alacritty/mac.yml ~/.config/alacritty/base.yml
+else
 	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
+endif
 	@mkdir -p ~/.config/nvim
 	@ln -sf ${PWD}/init.lua ~/.config/nvim/init.lua
 	@mkdir -p ~/.config/terminator
@@ -137,7 +144,13 @@ set:
 ifneq ($(theme),)
 	@rm ~/.config/alacritty/*.yml
 	@ln -sf ${PWD}/alacritty/$(theme).yml ~/.config/alacritty/alacritty.yml
+ifeq ($(UNAME_S), Darwin)
+	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/b.yml
+	@ln -sf ${PWD}/alacritty/mac.yml ~/.config/alacritty/base.yml
+else
 	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
+endif
+
 else
 	@echo "make set theme=nord"
 endif
