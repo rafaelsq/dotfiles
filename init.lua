@@ -29,6 +29,7 @@ setTheme = function(theme)
     -- transparent
     vim.api.nvim_set_hl(0, 'Normal', {bg=''})
     vim.api.nvim_set_hl(0, 'SignColumn', {bg=''})
+    vim.api.nvim_set_hl(0, 'Pmenu', {bg=''})
     if vim.g.colors_name == 'molokai' then
       vim.g.molokai_original = 1
       vim.api.nvim_set_hl(0, 'MatchParen', {bg='#3C3535', fg='', bold=true})
