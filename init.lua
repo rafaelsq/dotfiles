@@ -99,6 +99,9 @@ require('packer').startup(function()
     'vim-airline/vim-airline-themes',
   }
 
+  -- Go
+  use 'rafaelsq/nvim-goc.lua'
+
   -- theme
   use 'nvim-treesitter/nvim-treesitter'
 
@@ -117,7 +120,6 @@ require('packer').startup(function()
 
   use 'tpope/vim-surround'
   use 'rafaelsq/nvim-yanks.lua'
-  use 'rafaelsq/nvim-goc.lua'
 
   -- scrollbar
   use 'petertriho/nvim-scrollbar'
@@ -141,7 +143,7 @@ vim.cmd('autocmd BufEnter *.graphql setf graphql')
 
 --------------------- TreeSitter
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python", "elixir", "graphql" },
+  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python", "elixir", "graphql", "lua" },
 
   highlight = { enable = true },
   incremental_selection = { enable = true },
@@ -423,7 +425,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<space>cl', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
 
     vim.api.nvim_create_autocmd("CursorHold,CursorHoldI,InsertLeave", {
-      callback = vim.lsp.codelens.refresh,
+      callback = vim.lsp.codelens.refresh, buffer=bufnr
     })
   end
 
