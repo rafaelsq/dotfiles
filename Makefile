@@ -93,11 +93,11 @@ go:
 		xargs -I@ sh -c 'curl -O https://dl.google.com/go@; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
 
 py:
-	@pip3 install autopep8 flake8 pylint
+	@python3 -m pip install autopep8 flake8 pylint
 
 nvim:
 	@echo "Neovim"
-	@which pip3 > /dev/null && pip3 install neovim || echo "no pip3 found"
+	@python3 -m pip install neovim
 	@echo "packer - https://github.com/wbthomason/packer.nvim"
 	@git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
