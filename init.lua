@@ -490,7 +490,8 @@ null_ls.setup({
 
     -- golang
     null_ls.builtins.diagnostics.golangci_lint.with {
-      args = { "run", "--fix=false", "--fast", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
+      -- for fast operation add argument; "--fast",
+      args = { "run", "--fix=false", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
     },
 
     -- python
