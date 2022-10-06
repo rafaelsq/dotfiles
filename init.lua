@@ -224,12 +224,6 @@ vim.keymap.set('', 'j', 'gj', {})
 -- fix watch for parcel
 --vim.opt.backupcopy='no'
 
--- mac compability
-if vim.fn.has('macunix') then
-  vim.keymap.set('n', 'ˆ', '^', {noremap=true})
-  vim.keymap.set('n', '˜', '~', {noremap=true})
-end
-
 -- if vim.fn.has('macunix') then
 --   vim.keymap.set('n', '"', '^', {noremap=true})
 --   vim.keymap.set('v', '"', '^', {noremap=true})
