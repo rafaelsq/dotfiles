@@ -237,6 +237,14 @@ end
 --   vim.keymap.set('v', 'Ç', ":'<,'>", {noremap=true})
 -- end
 
+-- map tabs
+vim.keymap.set('n', '<space>t', ':tabe<CR>')
+vim.keymap.set('n', '<space>1', '1gt')
+vim.keymap.set('n', '<space>2', '2gt')
+vim.keymap.set('n', '<space>3', '3gt')
+vim.keymap.set('n', '<space>4', '4gt')
+vim.keymap.set('n', '<space>5', '5gt')
+
 --------------------- FZF search
 vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*_test.go" --ignore test/mock'
 
