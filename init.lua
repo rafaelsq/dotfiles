@@ -246,7 +246,7 @@ vim.keymap.set('n', '<space>4', '4gt')
 vim.keymap.set('n', '<space>5', '5gt')
 
 --------------------- FZF search
-vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*_test.go" --ignore test/mock'
+vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*generated*" --ignore test/mock'
 
 vim.keymap.set('n', '<C-p>', ':Files<CR>', {silent=true})
 vim.keymap.set('n', '<space>b', ':Buffers<CR>', {})
@@ -294,20 +294,6 @@ function _G.dump(...)
     local objects = vim.tbl_map(vim.inspect, {...})
     print(unpack(objects))
 end
-
-
------------ ag ignore paths
-vim.cmd[[
-  augroup go_search
-    autocmd!
-
-    " Ag
-    autocmd FileType go command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*_test.go --ignore \*generated\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-
-    " Aga
-    autocmd FileType go command! -bang -nargs=* Aga call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*generated\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-  augroup END
-]]
 
 
 ----------- run
