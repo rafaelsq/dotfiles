@@ -370,10 +370,10 @@ end
 
 local opts = { noremap=true, silent=true }
 
-vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-vim.keymap.set('n', '<space>g', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-vim.keymap.set('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-vim.keymap.set('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '<space>g', vim.diagnostic.setloclist, opts)
+vim.keymap.set('n', '[g', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']g', vim.diagnostic.goto_next, opts)
 
 -- Use an on_attach function to only map the following keys 
 -- after the language server attaches to the current buffer
@@ -392,26 +392,26 @@ local on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'dv', '<C-w>v <cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.keymap.set('n', 'dh', '<C-w>s <cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.keymap.set('n', '<c-]>', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.keymap.set('i', '<c-s>', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.keymap.set('n', '<c-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.keymap.set('i', '<c-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.keymap.set('n', '<space>gs', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
-  vim.keymap.set('n', '<space>gf', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
-  vim.keymap.set('v', '<space>gf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
-  vim.keymap.set('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.keymap.set('n', '<space>gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
-  vim.keymap.set('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.keymap.set('x', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.keymap.set('n', '<c-]>', vim.lsp.buf.declaration, opts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set('i', '<c-s>', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+  vim.keymap.set('n', '<c-k>', vim.lsp.buf.signature_help, opts)
+  vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help, opts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.type_definition, opts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+  vim.keymap.set('n', '<space>gs', vim.lsp.buf.document_symbol, opts)
+  vim.keymap.set('n', '<space>gf', vim.lsp.buf.format, opts)
+  vim.keymap.set('v', '<space>gf', vim.lsp.buf.range_formatting, opts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+  vim.keymap.set('n', '<space>gW', vim.lsp.buf.workspace_symbol, opts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
+  vim.keymap.set('x', '<space>ca', vim.lsp.buf.code_action, opts)
   vim.keymap.set('i', '<C-c>', '<ESC><cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
   if type(client.server_capabilities.codeLensProvider) == 'table' then
-    vim.keymap.set('n', '<space>cl', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
+    vim.keymap.set('n', '<space>cl', vim.lsp.codelens.run, opts)
 
     vim.api.nvim_create_autocmd("CursorHold,CursorHoldI,InsertLeave", {
       callback = vim.lsp.codelens.refresh, buffer=bufnr
@@ -526,11 +526,7 @@ local bk = {
   p = {},
 }
 
-function _G.again()
-  bk.fn(unpack(bk.p))
-end
-
-vim.keymap.set('n', '<space>q', ':lua again()<CR>', {})
+vim.keymap.set('n', '<space>q', function() bk.fn(unpack(bk.p)) end, {})
 
 local function filter(fn)
   return (function(...)
