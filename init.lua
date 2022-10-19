@@ -140,11 +140,12 @@ vim.g.vimsyn_embed = 'lPr'
 
 ------------- higlight graphql
 vim.cmd('autocmd BufEnter *.graphql setf graphql')
+vim.cmd('autocmd BufEnter go.mod setf gomod')
 
 
 --------------------- TreeSitter
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "go", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python", "elixir", "graphql", "lua" },
+  ensure_installed = { "go", "gomod", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python", "elixir", "graphql", "lua" },
 
   highlight = { enable = true },
   incremental_selection = { enable = true },
