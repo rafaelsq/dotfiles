@@ -390,17 +390,19 @@ local on_attach = function(client, bufnr)
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local opts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'dv', '<C-w>v <cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.keymap.set('n', 'dh', '<C-w>s <cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.keymap.set('n', '<c-]>', vim.lsp.buf.declaration, opts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+  vim.keymap.set('n', '<space>gvd', '<C-w>v <cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  vim.keymap.set('n', '<space>gd', '<C-w>s <cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.type_definition, opts)
+  vim.keymap.set('n', '<space>gvD', '<C-w>v <cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  vim.keymap.set('n', '<space>gD', '<C-w>s <cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('i', '<c-s>', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
   vim.keymap.set('n', '<c-k>', vim.lsp.buf.signature_help, opts)
   vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help, opts)
-  vim.keymap.set('n', 'gD', vim.lsp.buf.type_definition, opts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
   vim.keymap.set('n', '<space>gs', vim.lsp.buf.document_symbol, opts)
   vim.keymap.set('n', '<space>gf', function() vim.lsp.buf.format { async = true } end, opts)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
@@ -420,17 +422,7 @@ local on_attach = function(client, bufnr)
   lsp_status.on_attach(client)
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  }
-}
-
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
 local servers = { 'tsserver', 'pyright', 'html', 'cssls', 'jsonls', 'vuels', 'yamlls', 'dockerls', 'vimls', 'rust_analyzer', 'graphql' }
@@ -496,8 +488,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 local null_ls = require("null-ls")
 null_ls.setup({
   sources = { -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
-    null_ls.builtins.completion.spell,
-
     -- golang
     null_ls.builtins.diagnostics.golangci_lint.with {
       -- for fast operation add argument; "--fast",
