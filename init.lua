@@ -60,6 +60,7 @@ setTheme = function(theme)
   end
 end
 
+-- DON'T FORGET TO SYNC AFTER EACH CHANGE
 require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
@@ -121,6 +122,19 @@ require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'rafaelsq/nvim-yanks.lua'
 
+  -- using packer.nvim
+  use {
+    'akinsho/bufferline.nvim',
+    config = function()
+      require('bufferline').setup {
+        options = {
+          mode = "tabs",
+        }
+      }
+    end,
+    requires = { 'kyazdani42/nvim-web-devicons' }
+  }
+
   -- scrollbar
   use 'petertriho/nvim-scrollbar'
 
@@ -135,7 +149,6 @@ end)
 
 ------------- highlight lua
 vim.g.vimsyn_embed = 'lPr'
-
 
 ------------- higlight graphql
 vim.cmd('autocmd BufEnter *.graphql setf graphql')
@@ -323,7 +336,7 @@ vim.keymap.set('n', '<space>co', ':!git checkout %<CR><CR>', {})
 
 
 --------------------- Plug
-vim.keymap.set('n', '<space>pu', ':PackerUpdate<CR>', {})
+vim.keymap.set('n', '<space>pu', ':PackerSync<CR>', {})
 
 
 --------------------- Snippet
