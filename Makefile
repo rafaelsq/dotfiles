@@ -17,6 +17,8 @@ ubuntu:
 mac:
 	brew install fzf tmux the_silver_searcher autojump
 	brew install --HEAD neovim
+	brew tap homebrew/cask-fonts
+	brew install --cask font-hack-nerd-font
 
 arch:
 	mkdir -p ~/src/yay && cd ~/src/yay && git clone https://aur.archlinux.org/yay.git && makepkg -si

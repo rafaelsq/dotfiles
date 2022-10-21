@@ -26,6 +26,9 @@ setTheme = function(theme)
 
     vim.cmd('silent! colorscheme ' .. theme)
 
+    -- fix for https://github.com/nvim-treesitter/nvim-treesitter/pull/3656
+    vim.cmd('hi! link @variable Normal')
+
     -- transparent
     vim.api.nvim_set_hl(0, 'Normal', {bg=''})
     vim.api.nvim_set_hl(0, 'SignColumn', {bg=''})
@@ -34,10 +37,6 @@ setTheme = function(theme)
       vim.g.molokai_original = 1
       vim.api.nvim_set_hl(0, 'MatchParen', {bg='#3C3535', fg='', bold=true})
       vim.api.nvim_set_hl(0, 'LineNr', {bg='', fg='#3C3535'})
-    elseif vim.g.colors_name == 'molokai' then
-      vim.g.airline_theme = 'onedark'
-    elseif vim.g.colors_name == 'ayu' then
-      vim.g.airline_theme = 'ayu'
     end
 
     -- highlight EOL
@@ -96,8 +95,8 @@ require('packer').startup(function()
 
   -- status bar
   use {
-    'vim-airline/vim-airline',
-    'vim-airline/vim-airline-themes',
+    'nvim-lualine/lualine.nvim',
+    'kyazdani42/nvim-web-devicons',
   }
 
   -- Go
@@ -152,9 +151,58 @@ require'nvim-treesitter.configs'.setup {
 }
 
 
---------------------- Airline
-vim.g.airline_powerline_fonts = 1
+--------------------- StatusBar
 
+local colors = {
+  blue   = '#61afef',
+  green  = '#98c379',
+  purple = '#c678dd',
+  cyan   = '#56b6c2',
+  red1   = '#e06c75',
+  red2   = '#be5046',
+  yellow = '#e5c07b',
+  fg     = '#abb2bf',
+  bg     = '#282c34',
+  gray1  = '#828997',
+  gray2  = '#2c323c',
+  gray3  = '#4e5462',
+}
+
+require('lualine').setup {
+  options = {
+    component_separators = {
+      left = "",
+      right = ""
+    },
+    theme  = {
+      normal = {
+        a = { fg = colors.gray1 },
+        b = { fg = colors.yellow },
+        c = { fg = colors.green },
+        x = { fg = colors.gray3 },
+      },
+      inactive = {
+        a = { fg = colors.gray3 },
+        b = { fg = colors.gray3 },
+        c = { fg = colors.gray3 },
+      },
+    }
+  },
+  sections = {
+    lualine_a = {'filetype'},
+    lualine_b = {"vim.trim(require'lsp-status'.status())"},
+    lualine_c = {
+      {
+        'filename',
+        file_status = true, -- displays file status (readonly status, modified status)
+        path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
+      },
+    },
+    lualine_x = {'encoding'},
+    lualine_y = {'location', 'diff'},
+    lualine_z = {'diagnostics'},
+  },
+}
 
 --------------------- Yanks
 local yanks = require'nvim-yanks'
@@ -652,17 +700,7 @@ vim.keymap.set('c', '<C-y>', '', {
 --------------------- LspStatusBar
 
 lsp_status.register_progress()
-
-vim.cmd([[
-  function! LspStatus() abort
-    let status = luaeval('require("lsp-status").status()')
-    return trim(status)
-  endfunction
-]])
-
-vim.fn['airline#parts#define_function']('lsp_status', 'LspStatus')
-vim.fn['airline#parts#define_condition']('lsp_status', 'luaeval("#vim.lsp.buf_get_clients() > 0")')
-vim.g.airline_section_warning = vim.fn['airline#section#create_right']({'lsp_status'})
+lsp_status.config({status_symbol = '', diagnostics = false})
 
 --------------------- Scrollbar
 
