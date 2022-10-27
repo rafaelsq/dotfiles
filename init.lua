@@ -12,6 +12,15 @@
 
 --------------------- Plugins
 
+-- update bg to nil
+emptyBG = function(name)
+  local hl = vim.api.nvim_get_hl_by_name(name, {})
+  if type(hl) == 'table' and hl.background then
+    hl.background = nil
+    vim.api.nvim_set_hl(0, name, hl)
+  end
+end
+
 setTheme = function(theme)
   if theme == vim.env['THEME'] then
 
@@ -27,12 +36,14 @@ setTheme = function(theme)
     vim.cmd('silent! colorscheme ' .. theme)
 
     -- fix for https://github.com/nvim-treesitter/nvim-treesitter/pull/3656
-    vim.cmd('hi! link @variable Normal')
+    vim.api.nvim_set_hl(0, '@variable', {link='Normal'})
+    vim.api.nvim_set_hl(0, "NormalNC", {link='Normal'})
 
-    -- transparent
-    vim.api.nvim_set_hl(0, 'Normal', {bg=''})
-    vim.api.nvim_set_hl(0, 'SignColumn', {bg=''})
-    vim.api.nvim_set_hl(0, 'Pmenu', {bg=''})
+    -- transparent background
+    emptyBG('Normal')
+    emptyBG('SignColumn')
+    emptyBG('Pmenu')
+
     if vim.g.colors_name == 'molokai' then
       vim.g.molokai_original = 1
       vim.api.nvim_set_hl(0, 'MatchParen', {bg='#3C3535', fg='', bold=true})
@@ -57,6 +68,29 @@ setTheme = function(theme)
 
     -- GoC
     require'nvim-goc'.setup({verticalSplit = false})
+
+    -- Tint inactive windows
+    require("tint").setup({
+      tint_background_colors = false,
+      transforms = {
+        function(r, g, b, hl_group_info)
+
+          local tx = 0.7
+          local min = 70
+          local max = 150
+          if math.min(r, g, b) > min then
+            if math.min(r, g, b) > max then
+              tx = 0.5
+            end
+
+            return math.max(math.ceil(r * tx), 0),
+            math.max(math.ceil(g * tx), 0),
+            math.max(math.ceil(b *tx), 0)
+          end
+          return r, g, b
+        end
+      }
+    })
   end
 end
 
@@ -105,6 +139,7 @@ require('packer').startup(function()
 
   -- theme
   use 'nvim-treesitter/nvim-treesitter'
+  use 'levouh/tint.nvim'
 
   use {
     {'arcticicestudio/nord-vim',        config = setTheme("nord")},
