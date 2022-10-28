@@ -95,7 +95,7 @@ setTheme = function(theme)
 end
 
 -- DON'T FORGET TO SYNC AFTER EACH CHANGE
-require('packer').startup(function()
+require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
@@ -574,6 +574,28 @@ lsp.elixirls.setup{
   capabilities = capabilities,
   cmd = { vim.fn.expand("~/.elixirls/language_server.sh") },
 }
+
+local runtime_path = vim.split(package.path, ";")
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+
+lsp.sumneko_lua.setup({
+  on_attach = on_attach,
+  settings = {
+    Lua = {
+      runtime = {
+        version = "LuaJIT",
+        path = runtime_path,
+      },
+      diagnostics = { globals = { "vim" } },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      telemetry = { enable = false },
+    },
+  },
+})
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*.go,*.rs" },

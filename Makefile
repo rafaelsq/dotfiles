@@ -19,6 +19,7 @@ mac:
 	brew install --HEAD neovim
 	brew tap homebrew/cask-fonts
 	brew install --cask font-hack-nerd-font
+	brew install lua-language-server
 
 arch:
 	mkdir -p ~/src/yay && cd ~/src/yay && git clone https://aur.archlinux.org/yay.git && makepkg -si
