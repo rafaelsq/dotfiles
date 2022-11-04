@@ -313,10 +313,6 @@ vim.keymap.set('x', 'P', '\'Pgv"\'.v:register."y"', {expr = true})
 vim.keymap.set('x', 'x', '\'"_x\'', {expr = true})
 vim.keymap.set('n', 'x', '\'"_x\'', {expr = true})
 
--- prevent d to yank
-vim.keymap.set('x', 'd', '\'"_d\'', {expr = true})
-vim.keymap.set('n', 'd', '\'"_d\'', {expr = true})
-
 -- close scratch window, quickfix & Remove search highlight
 vim.keymap.set('n', '<space><space>', ':cclose<CR> :lclose<CR> :nohlsearch<CR> :pclose<CR>', {})
 
@@ -799,4 +795,4 @@ vim.keymap.set('n', 'g*', 'g*<cmd>lua require("hlslens").start()<CR>', { noremap
 vim.keymap.set('n', 'g#', 'g#<cmd>lua require("hlslens").start()<CR>', { noremap=true })
 
 vim.api.nvim_set_hl(0, 'HlSearchLens', {link='Comment'})
-vim.api.nvim_set_hl(0, 'HlSearchNear', {link='Info'})
+-- vim.api.nvim_set_hl(0, 'HlSearchNear', {link='Info'})
