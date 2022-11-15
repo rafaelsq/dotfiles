@@ -127,8 +127,9 @@ ifeq ($(UNAME_S), Darwin)
 else
 	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
 endif
-	@mkdir -p ~/.config/nvim
+	@mkdir -p ~/.config/nvim/lua
 	@ln -sf ${PWD}/init.lua ~/.config/nvim/init.lua
+	@ln -sf ${PWD}/cfg.lua ~/.config/nvim/lua/cfg.lua
 	@mkdir -p ~/.config/terminator
 	@ln -sf ${PWD}/terminator.cfg ~/.config/terminator/config
 	@rm -rf ~/.config/nvim/UltiSnips
