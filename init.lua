@@ -46,9 +46,7 @@ require('packer').startup(function(use)
 
   use {
     'ray-x/lsp_signature.nvim',
-    config = function ()
-      require "lsp_signature".setup({})
-    end
+    config = c.signature,
   }
 
   use {
@@ -58,8 +56,9 @@ require('packer').startup(function(use)
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
-      'SirVer/ultisnips',
-      'quangnguyen30192/cmp-nvim-ultisnips',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+      'rafamadriz/friendly-snippets'
     },
     config = c.cmp,
   }
@@ -67,7 +66,7 @@ require('packer').startup(function(use)
   -- status bar
   use {
     'nvim-lualine/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'},
+    requires = { 'kyazdani42/nvim-web-devicons' },
     config = c.statusBar,
   }
 
@@ -91,14 +90,14 @@ require('packer').startup(function(use)
   }
 
   -- Git
-  use {'rhysd/git-messenger.vim'}
+  use { 'rhysd/git-messenger.vim' }
   use {
     'airblade/vim-gitgutter',
     config = c.git
   }
 
-   use 'tpope/vim-surround'
-   use { 'rafaelsq/nvim-yanks.lua', config = c.yanks }
+  use 'tpope/vim-surround'
+  use { 'rafaelsq/nvim-yanks.lua', config = c.yanks }
 
   -- using packer.nvim
   use {

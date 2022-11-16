@@ -395,6 +395,7 @@ M.lsp = function()
       analyses = {
         unusedparams = true,
       },
+      usePlaceholders = false,
       codelenses = {
         gc_details = true,
         test = true,
@@ -500,13 +501,19 @@ end
 ------------ completion
 M.cmp = function()
   local cmp = require('cmp')
+  local snip = require('luasnip')
 
   vim.opt.completeopt = 'menu,menuone,noselect'
+
+  local has_words_before = function()
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    return (vim.api.nvim_buf_get_lines(0, cursor[1] - 1, cursor[1], true)[1] or ''):sub(cursor[2], cursor[2]):match('%s')
+  end
 
   cmp.setup({
     snippet = {
       expand = function(args)
-        vim.fn["UltiSnips#Anon"](args.body)
+        require("luasnip").lsp_expand(args.body)
       end,
     },
     completion = {
@@ -522,6 +529,26 @@ M.cmp = function()
       }),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
       ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+      ['<Tab>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif snip.expand_or_jumpable() then
+          snip.expand_or_jump()
+        elseif has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end, { 'i', 's' }),
+      ['<S-Tab>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif snip.jumpable(-1) then
+          snip.jump(-1)
+        else
+          fallback()
+        end
+      end, { 'i', 's' }),
     }),
     formatting = {
       format = function(entry, vim_item)
@@ -544,7 +571,7 @@ M.cmp = function()
       -- documentation = cmp.config.window.bordered(),
     },
     sources = cmp.config.sources({
-      { name = 'ultisnips' },
+      { name = 'luasnip' },
       { name = 'nvim_lsp' },
       -- { name = 'buffer' },
     }),
@@ -576,10 +603,8 @@ M.cmp = function()
     end,
   })
 
-  --------------------- Snippet
-  vim.g.UltiSnipsExpandTrigger = "<tab>"
-  vim.g.UltiSnipsJumpForwardTrigger = "<tab>"
-  vim.g.UltiSnipsJumpBackwardTrigger = "<s-tab>"
+  -- https://github.com/rafamadriz/friendly-snippets/blob/main/snippets/go.jso
+  require("luasnip.loaders.from_vscode").lazy_load()
 end
 
 
@@ -614,6 +639,10 @@ M.tabbar = function()
       mode = "tabs",
     }
   }
+end
+
+M.signature = function ()
+  require "lsp_signature".setup({})
 end
 
 return M
