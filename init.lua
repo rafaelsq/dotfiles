@@ -45,6 +45,13 @@ require('packer').startup(function(use)
   }
 
   use {
+    'ray-x/lsp_signature.nvim',
+    config = function ()
+      require "lsp_signature".setup({})
+    end
+  }
+
+  use {
     'hrsh7th/nvim-cmp',
     requires = {
       'hrsh7th/cmp-nvim-lsp',
