@@ -378,7 +378,7 @@ M.lsp = function()
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
   capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
-  local servers = { 'tsserver', 'pyright', 'html', 'cssls', 'jsonls', 'vuels', 'yamlls', 'dockerls', 'vimls',
+  local servers = { 'tsserver', 'pyright', 'html', 'cssls', 'jsonls', 'vuels', 'dockerls', 'vimls',
     'rust_analyzer', 'graphql' }
   for _, l in ipairs(servers) do
     lsp[l].setup {
@@ -406,6 +406,16 @@ M.lsp = function()
         test = true,
       },
     },
+  }
+
+  lsp.yamlls.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      yaml = {
+        schemas = { kubernetes = "/k*s.yaml" },
+      }
+    }
   }
 
   lsp.eslint.setup {
