@@ -91,6 +91,11 @@ M.theme = function()
       end
     }
   })
+
+  -- hover with border
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = "rounded",
+  })
 end
 
 
@@ -567,8 +572,8 @@ M.cmp = function()
       end,
     },
     window = {
-      -- completion = cmp.config.window.bordered(),
-      -- documentation = cmp.config.window.bordered(),
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
     },
     sources = cmp.config.sources({
       { name = 'luasnip' },
@@ -641,7 +646,7 @@ M.tabbar = function()
   }
 end
 
-M.signature = function ()
+M.signature = function()
   require "lsp_signature".setup({})
 end
 
