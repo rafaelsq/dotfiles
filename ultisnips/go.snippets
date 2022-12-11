@@ -1,0 +1,148 @@
+snippet pa "package"
+package ${1:`!v expand("%:p:h:t")`}
+
+${2}
+endsnippet
+
+snippet main "func main()"
+func main() {
+	${1:fmt.Println("hello")}${2}
+}
+endsnippet
+
+snippet test "func TestXY()"
+func Test${1:FuncName}(t *testing.T) {
+	${2:assert.Nil(t, nil)}${3}
+}
+endsnippet
+
+snippet mp "map"
+map[${1:string}]${2:interface\{\}}
+endsnippet
+
+snippet pn "panic"
+panic(${1:"msg"})${2}
+endsnippet
+
+snippet pf "fmt.Printf()"
+fmt.Printf("%${1:s}\n", ${2:var})${3}
+endsnippet
+
+snippet pl "fmt.Println()"
+fmt.Println("${1:s}"${2})${3}
+endsnippet
+
+snippet lf "log.Printf()"
+log.Printf("%${1:s}\n", ${2:var})${3}
+endsnippet
+
+snippet ll "log.Println()"
+log.Println("${1:s}"${2})${3}
+endsnippet
+
+snippet re "return"
+return ${0}
+endsnippet
+
+snippet fpf "fmt.Fprintf()"
+fmt.Fprintf(${1:w}, "${2:%v}", ${3:var})${4}
+endsnippet
+
+snippet spf "fmt.Sprintf()"
+fmt.Sprintf("${1:%v}", ${2:var})${3}
+endsnippet
+
+snippet gof "go func{}()"
+go func(${1}) {
+	${3:/* code */}
+}(${2})
+${4}
+endsnippet
+
+snippet ife "if err"
+if err != nil {
+	return ${1:nil, }${2:err}
+}
+${3}
+endsnippet
+
+snippet ifp "if err panic"
+if err != nil {
+	panic(err)
+}
+
+endsnippet
+
+snippet ern "err != nil"
+err != nil${0}
+endsnippet
+
+snippet ernr "err != nil { return err }"
+err != nil {
+	return ${1:err}
+}${2}
+endsnippet
+
+snippet ef "fmt.Errorf"
+fmt.Errorf("${1}; %w", ${2:err})${3}
+endsnippet
+
+
+snippet if "if condiction"
+if ${1:/* condition */} {
+	${2:/* code */}
+}
+${3}
+endsnippet
+
+snippet json "json tag"
+\`json:"${1}${2:,omitempty}"${3}\`${4}
+endsnippet
+
+snippet sql "sql tag"
+\`sql:"${1}"\`${2}
+endsnippet
+
+snippet yaml "yaml tag"
+\`yaml:"${1}"\`${2}
+endsnippet
+
+snippet db "db tag"
+\`db:"${1}"\`${2}
+endsnippet
+
+snippet fin "for in"
+for ${1:i}${2:,}${3: var} := range ${4} {
+	${5:/* code */}
+}
+${6}
+endsnippet
+
+snippet fi "for i"
+for ${1:i} := ${2:0}; ${3:i} < ${4:/* source */}; ${5:i}++ {
+	${6:/* code */}
+}
+${7}
+endsnippet
+
+snippet func "func(){}"
+func ${1:name}(${2}) ${3:error} {
+	${4:/* code */}
+}${5}
+endsnippet
+
+
+snippet encj "encode json with indent"
+e := json.NewEncoder(${1:os.Stdout})
+e.SetIndent(" ", " ")
+_ = e.Encode(${2:payload})${3}
+endsnippet
+
+snippet decj "decode json with decoder"
+json.NewDecoder(${1:r}).Decode(${2:var})${3}
+endsnippet
+
+snippet qq "qq"
+q.Q(${1:})
+${2}
+endsnippet
