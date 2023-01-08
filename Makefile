@@ -22,8 +22,10 @@ mac:
 	brew install lua-language-server
 
 arch:
-	mkdir -p ~/src/yay && cd ~/src/yay && git clone https://aur.archlinux.org/yay.git && makepkg -si
-	sudo pacman -S fzf tmux alacritty python-pip aria2 the_silver_searcher go npm yarn bat
+	@if [ ! -d ~/src/yay ]; then \
+		mkdir -p ~/src && cd ~/src && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si; \
+	fi
+	sudo pacman -S ttf-hack-nerd fzf tmux alacritty python-pip aria2 the_silver_searcher go npm yarn bat
 	yay -S autojump google-chrome neovim-nightly-bin
 	@echo "Now"
 	@echo "make zsh"
@@ -64,7 +66,7 @@ tmux:
 	else \
 		cd ~/.tmux/plugins/ayu && git pull origin master; \
 	fi
-	@echo "Don't forget to ctrl+I to install and ctrl+U to update plugins"
+	@echo "Don't forget to prefix+I to install and prefix+U to update plugins"
 
 zsh:
 	@echo "Oh My ZSH"
@@ -78,12 +80,12 @@ zsh:
 		git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions; \
 		chsh -s $$(which zsh); \
 	fi
-
 	@mkdir -p ~/src/rafaelsq
 	@if [ ! -d ~/src/rafaelsq/nuts.zsh-theme ]; then \
 		echo "Nuts Theme"; \
-		git clone https://github.com/rafaelsq/nuts.zsh-theme.git ~/src/rafaelsq/nuts.zsh-theme && cd ~/src/rafaelsq/nuts.zsh-theme && make; \
+		git clone https://github.com/rafaelsq/nuts.zsh-theme.git ~/src/rafaelsq/nuts.zsh-theme; \
 	fi
+	@cd ~/src/rafaelsq/nuts.zsh-theme && make
 
 go:
 	@if which go > /dev/null; then \
