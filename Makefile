@@ -15,7 +15,7 @@ ubuntu:
 		curl git bison gcc g++ clang make zsh silversearcher-ag autojump aria2 terminator htop python3-pip tlp powertop tmux xsel bat
 
 mac:
-	brew install fzf tmux the_silver_searcher autojump
+	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s
 	brew install --HEAD neovim
 	brew tap homebrew/cask-fonts
 	brew install --cask font-hack-nerd-font
@@ -25,7 +25,7 @@ arch:
 	@if [ ! -d ~/src/yay ]; then \
 		mkdir -p ~/src && cd ~/src && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si; \
 	fi
-	sudo pacman -S ttf-hack-nerd fzf tmux alacritty python-pip aria2 the_silver_searcher go npm yarn bat
+	sudo pacman -S ttf-hack-nerd fzf tmux alacritty python-pip aria2 the_silver_searcher go npm yarn bat k9s
 	yay -S autojump google-chrome neovim-nightly-bin
 	@echo "Now"
 	@echo "make zsh"
