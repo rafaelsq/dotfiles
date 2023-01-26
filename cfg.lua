@@ -635,4 +635,8 @@ M.signature = function()
   require "lsp_signature".setup({})
 end
 
+M.tree = function()
+  require("nvim-tree").setup()
+end
+
 return M

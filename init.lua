@@ -111,6 +111,12 @@ require('packer').startup(function(use)
   -- search
   use { 'kevinhwang91/nvim-hlslens', config = c.search }
 
+  use {
+    'nvim-tree/nvim-tree.lua',
+    config = c.tree,
+    tag = 'nightly'
+  }
+
   -- tmux integration
   if vim.env['TMUX'] then
     use { 'christoomey/vim-tmux-navigator', config = c.tmux }
