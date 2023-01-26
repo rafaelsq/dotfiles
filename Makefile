@@ -128,6 +128,8 @@ ifeq ($(UNAME_S), Darwin)
 	@ln -sf ${PWD}/alacritty/mac.yml ~/.config/alacritty/base.yml
 else
 	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
+	@mkdir -p ~/.gnupg
+	@ln -sf ${PWD}/gpg-agent.conf ~/.gnupg/gpg-agent.conf
 endif
 	@mkdir -p ~/.config/nvim/lua
 	@ln -sf ${PWD}/init.lua ~/.config/nvim/init.lua
