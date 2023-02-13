@@ -110,8 +110,13 @@ lsp:
 	@echo "LSP install"
 	# html, css, json and eslint: https://github.com/hrsh7th/vscode-langservers-extracted
 	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint \
-		dockerfile-language-server-nodejs pyright graphql graphql-language-service-cli @fsouza/prettierd
+		dockerfile-language-server-nodejs pyright graphql graphql-language-service-cli @fsouza/prettierd vls
 	go install golang.org/x/tools/gopls@latest
+	@if [ -x "`which yay 2>/dev/null`" ]; then \
+		yay -S lua-language-server; \
+	else \
+		echo "you should learn how to install lua-language-server"; \
+	fi
 
 links:
 	@echo "links"

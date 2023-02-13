@@ -4,7 +4,7 @@
 [github]
     user = rafaelsq
 [core]
-    editor = vim
+    editor = nvim
     compression = 1
 [color]
     ui = true
