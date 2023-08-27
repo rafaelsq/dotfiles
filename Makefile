@@ -122,7 +122,6 @@ links:
 	@echo "links"
 	@ln -sf ${PWD}/zshrc ~/.zshrc
 	@ln -sf ${PWD}/gitconfig ~/.gitconfig
-	@ln -sf ${PWD}/eslintrc ~/.eslintrc
 	@ln -sf ${PWD}/prettierrc ~/.prettierrc
 	@ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 	@mkdir -p ~/.config/alacritty
