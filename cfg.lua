@@ -143,7 +143,7 @@ M.statusBar = function()
         {
           'filename',
           file_status = true, -- displays file status (readonly status, modified status)
-          path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
+          path = 1            -- 0 = just filename, 1 = relative path, 2 = absolute path
         },
       },
       lualine_x = { 'encoding' },
@@ -162,6 +162,10 @@ end
 M.goC = function()
   vim.opt.switchbuf = 'useopen'
 
+  vim.api.nvim_set_hl(0, 'GocNormal', { link = 'Comment' })
+  vim.api.nvim_set_hl(0, 'GocCovered', { link = 'String' })
+  vim.api.nvim_set_hl(0, 'GocUncovered', { link = 'Error' })
+
   if vim.env['THEME'] == 'nord' then
     vim.api.nvim_set_hl(0, 'GocUncovered', { fg = '#BF616A' })
   end
@@ -177,7 +181,6 @@ M.goC = function()
   vim.keymap.set('n', '[a', goc.AlternateSplit, { silent = true })
 
   local cf = function(testCurrentFunction)
-
     local cb = function(path)
       if path then
         vim.cmd(":silent exec \"!xdg-open " .. path .. "\"")
@@ -232,7 +235,8 @@ M.fzf = function()
           result = select(3, ...)
         end
         if vim.tbl_islist(result) then
-          result = vim.tbl_filter(function(v) return string.find(v.uri, "_test.go") == nil and
+          result = vim.tbl_filter(function(v)
+            return string.find(v.uri, "_test.go") == nil and
                 string.find(v.uri, "mock") == nil
           end, result)
         end
@@ -296,7 +300,6 @@ end
 
 
 M.lsp = function()
-
   local lsp = require 'lspconfig'
   local lsp_status = require('lsp-status')
 
@@ -304,7 +307,6 @@ M.lsp = function()
   local function org_imports()
     local clients = vim.lsp.buf_get_clients()
     for _, client in pairs(clients) do
-
       local params = vim.lsp.util.make_range_params(nil, client.offset_encoding)
       params.context = { only = { "source.organizeImports" } }
 
@@ -357,12 +359,41 @@ M.lsp = function()
     vim.keymap.set('n', '<c-k>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<space>gs', vim.lsp.buf.document_symbol, opts)
-    vim.keymap.set('n', '<space>gf', function() vim.lsp.buf.format { async = true } end, opts)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', '<space>gW', vim.lsp.buf.workspace_symbol, opts)
     vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('x', '<space>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('i', '<C-c>', '<ESC><cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+
+    -- disable tsserver formatter and use eslint codeAction fixAll instead
+    if client.name == "tsserver" then
+      client.server_capabilities.documentFormattingProvider = false
+    elseif client.name == "eslint" then
+      local function formatWithEslint()
+        local clients = vim.lsp.buf_get_clients()
+
+        for _, c in pairs(clients) do
+          if client.name == "eslint" then
+            local params = vim.lsp.util.make_range_params(nil, client.offset_encoding)
+            params.context = { only = { "source.fixAll.eslint" } }
+
+            local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 5000)
+            for _, res in pairs(result or {}) do
+              for _, r in pairs(res.result or {}) do
+                if r.edit then
+                  vim.lsp.util.apply_workspace_edit(r.edit, c.offset_encoding)
+                else
+                  vim.lsp.buf.execute_command(r.command)
+                end
+              end
+            end
+          end
+        end
+      end
+      vim.keymap.set('n', '<space>gf', formatWithEslint, opts)
+    else
+      vim.keymap.set('n', '<space>gf', function() vim.lsp.buf.format { async = true } end, opts)
+    end
 
     if type(client.server_capabilities.codeLensProvider) == 'table' then
       vim.keymap.set('n', '<space>cl', vim.lsp.codelens.run, opts)
@@ -379,7 +410,7 @@ M.lsp = function()
   capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
   local servers = { 'tsserver', 'pyright', 'html', 'cssls', 'jsonls', 'vuels', 'dockerls', 'vimls',
-    'rust_analyzer', 'graphql' }
+    'rust_analyzer', 'graphql', 'ruby_ls' }
   for _, l in ipairs(servers) do
     lsp[l].setup {
       on_attach = on_attach,
@@ -406,6 +437,20 @@ M.lsp = function()
       },
     },
   }
+
+  -- https://github.com/simrat39/rust-tools.nvim
+  -- local rt = require("rust-tools")
+
+  -- rt.setup({
+  --   server = {
+  --     on_attach = function(_, bufnr)
+  --       -- Hover actions
+  --       vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+  --       -- Code action groups
+  --       vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+  --     end,
+  --   },
+  -- })
 
   lsp.yamlls.setup {
     on_attach = on_attach,
@@ -488,7 +533,7 @@ M.lsp = function()
       null_ls.builtins.formatting.isort,
 
       -- many
-      null_ls.builtins.formatting.prettierd,
+      -- null_ls.builtins.formatting.prettierd,
     },
     -- on_attach = function(client, bufnr)
     --   if client.supports_method("textDocument/formatting") then

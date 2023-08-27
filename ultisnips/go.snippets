@@ -79,7 +79,13 @@ endsnippet
 
 snippet ernr "err != nil { return err }"
 err != nil {
-	return ${1:err}
+	${1:return err}
+}${2}
+endsnippet
+
+snippet ernp "err != nil { panic(err) }"
+err != nil {
+	${1:panic(err)}
 }${2}
 endsnippet
 
