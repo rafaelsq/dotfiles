@@ -11,47 +11,49 @@
 
 
 --------------------- Plugins
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({"git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath})
+end
+vim.opt.rtp:prepend(lazypath)
 
 local c = require('cfg')
 
--- DON'T FORGET TO SYNC AFTER EACH CHANGE
-require('packer').startup(function(use)
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
-
+local plugins = {
   ---- Search
-  use {
+  {
     'junegunn/fzf.vim',
-    requires = {
+    dependencies = {
       'nvim-lua/plenary.nvim',
       'gfanto/fzf-lsp.nvim',
-      { 'junegunn/fzf', dir = '~/.fzf', run = './install --all' },
+      {name = 'fzf', 'junegunn/fzf', build = './install --all' },
     },
     config = c.fzf,
-  }
+  },
 
   -- ident
-  use 'tpope/vim-sleuth'
+  'tpope/vim-sleuth',
 
   -- Lsp
-  use {
+  {
     'neovim/nvim-lspconfig',
-    requires = {
+    dependencies = {
       'onsails/lspkind-nvim',
       'jose-elias-alvarez/null-ls.nvim',
       'nvim-lua/lsp-status.nvim',
     },
     config = c.lsp,
-  }
+  },
 
-  use {
+  {
     'ray-x/lsp_signature.nvim',
     config = c.signature,
-  }
+  },
 
-  use {
+  {
     'hrsh7th/nvim-cmp',
-    requires = {
+    event = 'InsertEnter',
+    dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
@@ -60,76 +62,78 @@ require('packer').startup(function(use)
       'quangnguyen30192/cmp-nvim-ultisnips',
     },
     config = c.cmp,
-  }
+  },
 
   -- status bar
-  use {
+  {
     'nvim-lualine/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'},
+    dependencies = {'kyazdani42/nvim-web-devicons', lazy=true},
     config = c.statusBar,
-  }
+  },
 
   -- Go
-  use { 'rafaelsq/nvim-goc.lua', config = c.goC }
+  { 'rafaelsq/nvim-goc.lua', config = c.goC },
 
   -- theme
-  use {
+  {
     'nvim-treesitter/nvim-treesitter',
 
-    requires = {
+    dependencies = {
       'levouh/tint.nvim',
       'arcticicestudio/nord-vim',
       'gruvbox-community/gruvbox',
       'tomasr/molokai',
       'joshdick/onedark.vim',
       'ayu-theme/ayu-vim',
-      { 'dracula/vim', as = 'dracula' },
+      { 'dracula/vim', name = 'dracula' },
     },
     config = c.theme,
-  }
+  },
 
   -- Git
-  use {'rhysd/git-messenger.vim'}
-  use {
+  {'rhysd/git-messenger.vim'},
+  {
     'airblade/vim-gitgutter',
     config = c.git
-  }
+  },
 
-   use 'tpope/vim-surround'
-   use { 'rafaelsq/nvim-yanks.lua', config = c.yanks }
+  'tpope/vim-surround',
+  { 'rafaelsq/nvim-yanks.lua', config = c.yanks },
 
   -- using packer.nvim
-  use {
+  {
     'akinsho/bufferline.nvim',
     config = c.tabbar,
-    requires = { 'kyazdani42/nvim-web-devicons' }
-  }
+    dependencies = { 'kyazdani42/nvim-web-devicons' }
+  },
 
   -- scrollbar
-  use { 'petertriho/nvim-scrollbar', config = c.scrollbar }
+  { 'petertriho/nvim-scrollbar', config = c.scrollbar },
 
   -- search
-  use { 'kevinhwang91/nvim-hlslens', config = c.search }
+  { 'kevinhwang91/nvim-hlslens', config = c.search },
 
-  use {
+  {
     'nvim-tree/nvim-tree.lua',
     config = c.tree,
     tag = 'nightly'
-  }
+  },
 
   -- tmux integration
-  if vim.env['TMUX'] then
-    use { 'christoomey/vim-tmux-navigator', config = c.tmux }
-  else
-    vim.keymap.set('', '<A-h>', '<C-w>h', {})
-    vim.keymap.set('', '<A-j>', '<C-w>j', {})
-    vim.keymap.set('', '<A-k>', '<C-w>k', {})
-    vim.keymap.set('', '<A-l>', '<C-w>l', {})
-  end
-end)
+  { 'christoomey/vim-tmux-navigator', config = c.tmux },
+}
 
-------------- highlight lua
-vim.g.vimsyn_embed = 'lPr'
+if vim.env['TMUX'] then
+  table.insert(plugins, { 'christoomey/vim-tmux-navigator', config = c.tmux })
+else
+  vim.keymap.set('', '<A-h>', '<C-w>h', {})
+  vim.keymap.set('', '<A-j>', '<C-w>j', {})
+  vim.keymap.set('', '<A-k>', '<C-w>k', {})
+  vim.keymap.set('', '<A-l>', '<C-w>l', {})
+end
+
+require("lazy").setup(plugins)
+
 
 --------------------- opts
 vim.opt.list = true
