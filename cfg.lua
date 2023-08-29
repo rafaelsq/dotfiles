@@ -409,8 +409,8 @@ M.lsp = function()
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
   capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
-  local servers = { 'tsserver', 'pyright', 'html', 'cssls', 'jsonls', 'vuels', 'dockerls', 'vimls',
-    'rust_analyzer', 'graphql', 'ruby_ls' }
+  local servers = { 'tsserver', 'pylsp', 'html', 'cssls', 'jsonls', 'vuels', 'dockerls', 'vimls',
+    'rust_analyzer', 'graphql', 'ruby_ls', 'golangci_lint_ls' }
   for _, l in ipairs(servers) do
     lsp[l].setup {
       on_attach = on_attach,
@@ -512,43 +512,6 @@ M.lsp = function()
     pattern = { "*.go" },
     callback = org_imports,
   })
-
-
-  --------------------- NullLs
-
-  local null_ls = require("null-ls")
-  null_ls.setup({
-    sources = { -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
-      -- golang
-      null_ls.builtins.diagnostics.golangci_lint.with {
-        -- for fast operation add argument; "--fast",
-        args = { "run", "--fix=false", "--out-format=json", "$DIRNAME", "--path-prefix", "$ROOT" },
-      },
-
-      -- python
-      null_ls.builtins.diagnostics.flake8.with {
-        args = { "--format", "default", "--ignore", "E501", "--stdin-display-name", "$FILENAME", "-" },
-      },
-      null_ls.builtins.formatting.autopep8,
-      null_ls.builtins.formatting.isort,
-
-      -- many
-      -- null_ls.builtins.formatting.prettierd,
-    },
-    -- on_attach = function(client, bufnr)
-    --   if client.supports_method("textDocument/formatting") then
-    --     vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-    --     vim.api.nvim_create_autocmd("BufWritePre", {
-    --       group = augroup,
-    --       buffer = bufnr,
-    --       callback = function()
-    --         vim.lsp.buf.format({ bufnr = bufnr })
-    --       end,
-    --     })
-    --   end
-    -- end,
-  })
-
 
   --------------------- LspStatusBar
 
