@@ -199,7 +199,17 @@ M.goC = function()
 end
 
 M.fzf = function()
-  vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*generated*" --ignore test/mock'
+  vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*generated*" --ignore "*mock*"'
+
+  vim.cmd[[
+    augroup go_search
+      autocmd!
+      " Ag
+      autocmd FileType go command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*_test.go --ignore \*generated\* --ignore \*mock\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+      " Aga
+      autocmd FileType go command! -bang -nargs=* Aga call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*generated\* --ignore \*mock\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+    augroup END
+  ]]
 
   vim.keymap.set('n', '<C-p>', ':Files<CR>', { silent = true })
   vim.keymap.set('n', '<space>b', ':Buffers<CR>', {})

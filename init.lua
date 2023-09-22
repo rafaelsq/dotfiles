@@ -185,7 +185,7 @@ vim.keymap.set('n', '<space>4', '4gt')
 vim.keymap.set('n', '<space>5', '5gt')
 
 --------------------- Plug
-vim.keymap.set('n', '<space>pu', ':PackerSync<CR>', {})
+vim.keymap.set('n', '<space>pu', ':Lazy<CR>', {})
 
 --------------------- utils
 function _G.dump(...)
