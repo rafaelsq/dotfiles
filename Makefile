@@ -93,7 +93,7 @@ go:
 		sudo mv /usr/local/go ${GO_BKP};\
 	fi
 	@curl --silent https://go.dev/dl/ 2>&1 |\
-		ag -o "/go([0-9.]+).`uname | awk '{print tolower($0)}'`-amd64.tar.gz" |\
+		ag -o "/go([0-9.]+).`uname | tr A-Z a-z`-amd64.tar.gz" |\
 		head -n 1 |\
 		xargs -I@ sh -c 'curl -O https://dl.google.com/go@; echo @ | ag -o "(go[0-9\.]+.+)" | xargs -I % sh -c "sudo tar -C /usr/local -xzf % && rm %"'
 
