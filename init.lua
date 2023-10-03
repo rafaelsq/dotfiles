@@ -167,7 +167,7 @@ vim.keymap.set('', 'k', 'gk', {})
 vim.keymap.set('', 'j', 'gj', {})
 
 -- fix watch for parcel
---vim.opt.backupcopy='no'
+vim.opt.backupcopy='no'
 
 -- if vim.fn.has('macunix') then
 --   vim.keymap.set('n', '"', '^', {noremap=true})

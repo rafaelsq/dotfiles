@@ -18,7 +18,7 @@ px(){ ps xao pid,ppid,pgid,args=ARGS | ag $1 | ag -v "ag $1"; }
 alias bat=batcat
 
 # exports
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor --ignore node_modules -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor --ignore node_modules --ignore .venv -g ""'
 export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:~/.yarn/bin:~/.bin:~/go/bin/:~/.local/bin/:/snap/bin:/usr/local/node/bin:/usr/lib/lua-language-server/bin
 export TMPDIR=/tmp
 
@@ -70,8 +70,6 @@ db64(){base64 -dw 0 < <(echo -n $1) | xsel -b}
 # others
 export GPG_TTY=$(tty)
 
-[ -f /usr/share/autojump/autojump.sh ] && . /usr/share/autojump/autojump.sh
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
