@@ -70,6 +70,7 @@ db64(){base64 -dw 0 < <(echo -n $1) | xsel -b}
 # others
 export GPG_TTY=$(tty)
 
+[ -f /usr/share/autojump/autojump.sh ] && . /usr/share/autojump/autojump.sh
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

@@ -12,7 +12,14 @@ ubuntu:
 	@echo "Installing Dependencies"
 	@echo "for NVM, check https://github.com/nvm-sh/nvm"
 	@sudo apt update && sudo apt install \
-		curl git bison gcc g++ clang make zsh silversearcher-ag autojump aria2 terminator htop python3-pip tlp powertop tmux xsel bat
+		curl git zsh silversearcher-ag autojump aria2 terminator htop python3-pip tmux xsel bat alacritty nodejs npm
+	@sudo snap install nvim --classic
+	@sudo snap install go --classic
+	@sudo snap install kubectl --classic
+	@sudo snap install k9s
+	@npm install --global yarn
+	# https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip
+	# https://github.com/derailed/k9s/releases/download/latest/k9s_Linux_amd64.tar.gz
 
 mac:
 	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s
@@ -103,8 +110,6 @@ py:
 nvim:
 	@echo "Neovim"
 	@python3 -m pip install neovim
-	@echo "packer - https://github.com/wbthomason/packer.nvim"
-	@git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 lsp:
 	@echo "LSP install"
@@ -119,6 +124,12 @@ lsp:
 	else \
 		echo "you should learn how to install lua-language-server"; \
 	fi
+	@if [ -x "`which rustup 2>/dev/null`" ]; then \
+		rustup component add rust-analyzer; \
+	fi
+
+rust:
+	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 links:
 	@echo "links"
