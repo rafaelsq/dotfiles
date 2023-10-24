@@ -308,6 +308,15 @@ M.tmux = function()
   vim.keymap.set('n', '<A-l>', ':TmuxNavigateRight<cr>', { silent = true })
 end
 
+M.kitty = function()
+  vim.g.kitty_navigator_no_mappings = 1
+
+  vim.keymap.set('n', '<A-h>', ':KittyNavigateLeft<cr>', { silent = true })
+  vim.keymap.set('n', '<A-j>', ':KittyNavigateDown<cr>', { silent = true })
+  vim.keymap.set('n', '<A-k>', ':KittyNavigateUp<cr>', { silent = true })
+  vim.keymap.set('n', '<A-l>', ':KittyNavigateRight<cr>', { silent = true })
+end
+
 
 M.lsp = function()
   local lsp = require 'lspconfig'

@@ -145,6 +145,8 @@ ifeq ($(UNAME_S), Darwin)
 	@ln -sf ${PWD}/alacritty/mac.yml ~/.config/alacritty/base.yml
 else
 	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
+	@mkdir -p ~/.config/kitty
+	@ln -sf ${PWD}/kitty.conf ~/.config/kitty/kitty.conf
 	@mkdir -p ~/.gnupg
 	@ln -sf ${PWD}/gpg-agent.conf ~/.gnupg/gpg-agent.conf
 endif
@@ -174,6 +176,15 @@ ifeq ($(UNAME_S), Darwin)
 	@ln -sf ${PWD}/alacritty/mac.yml ~/.config/alacritty/base.yml
 else
 	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
+endif
+	# kitty
+	@echo <<EOF\
+		env THEME=$(theme) \
+>~/.config/kitty/themes.conf
+ifeq ($(theme), onedark)
+	kitten themes --config-file-name=themes.conf one dark
+else
+	kitten themes --config-file-name=themes.conf $(theme)
 endif
 
 else

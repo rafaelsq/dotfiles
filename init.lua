@@ -117,13 +117,12 @@ local plugins = {
     config = c.tree,
     tag = 'nightly'
   },
-
-  -- tmux integration
-  { 'christoomey/vim-tmux-navigator', config = c.tmux },
 }
 
 if vim.env['TMUX'] then
   table.insert(plugins, { 'christoomey/vim-tmux-navigator', config = c.tmux })
+elseif vim.env['KITTY_PID'] then
+  table.insert(plugins, { 'knubie/vim-kitty-navigator', config = c.kitty, build = 'cp ./*.py ~/.config/kitty/' })
 else
   vim.keymap.set('', '<A-h>', '<C-w>h', {})
   vim.keymap.set('', '<A-j>', '<C-w>j', {})
