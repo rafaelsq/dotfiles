@@ -428,7 +428,7 @@ M.lsp = function()
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
   capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
-  local servers = { 'tsserver', 'pylsp', 'html', 'cssls', 'jsonls', 'vuels', 'dockerls', 'vimls',
+  local servers = { 'tsserver', 'html', 'cssls', 'jsonls', 'vuels', 'dockerls', 'vimls',
     'rust_analyzer', 'graphql', 'ruby_ls', 'golangci_lint_ls' }
   for _, l in ipairs(servers) do
     lsp[l].setup {
@@ -439,6 +439,21 @@ M.lsp = function()
       }
     }
   end
+
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pylsp
+  lsp.pylsp.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      pylsp = {
+        plugins = {
+          pycodestyle = { -- pylsp:pycodestyle https://pycodestyle.pycqa.org/en/latest/intro.html
+            maxLineLength = 120
+          }
+        }
+      }
+    }
+  }
 
   -- https://github.com/neovim/neovim/blob/master/runtime/doc/lsp.txt#L810
   -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
