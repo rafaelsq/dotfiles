@@ -440,6 +440,17 @@ M.lsp = function()
     }
   end
 
+  -- avoid to install neovim in every py virtualenv
+  vim.cmd [[
+    augroup py_virtualenv
+      if exists("$VIRTUAL_ENV")
+          let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+      else
+          let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
+      endif
+    augroup END
+  ]]
+
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pylsp
   lsp.pylsp.setup {
     on_attach = on_attach,
