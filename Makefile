@@ -29,17 +29,20 @@ mac:
 	brew install lua-language-server
 
 arch:
-	@if [ ! -d ~/src/yay ]; then \
-		mkdir -p ~/src && cd ~/src && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si; \
-	fi
-	sudo pacman -S ttf-hack-nerd fzf tmux alacritty python-pip aria2 the_silver_searcher go npm yarn bat k9s
-	yay -S autojump google-chrome neovim-nightly-bin
+	# Step 1
+	# enable AUR from app center
+	# Step 2
+	# sudo pamac install make
+	sudo pamac install python-pip aria2 the_silver_searcher go npm yarn bat k9s kitty \
+		autojump google-chrome neovim-nightly-bin docker-desktop docker-compose-v2-git # aur
+	sudo usermod -aG docker ${USER}
 	@echo "Now"
 	@echo "make zsh"
 	@echo "make tmux"
 	@echo "make nvim"
 	@echo "make lsp"
 	@echo "make links"
+	@echo "don't forget to run make set theme=<any> for kitty to work"
 
 tmux:
 	@echo "tmux tpm"
