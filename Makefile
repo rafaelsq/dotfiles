@@ -118,10 +118,10 @@ lsp:
 	@echo "LSP install"
 	# html, css, json and eslint: https://github.com/hrsh7th/vscode-langservers-extracted
 	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint \
-		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls
+		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls pyright
 	go install golang.org/x/tools/gopls@latest
 	go install github.com/nametake/golangci-lint-langserver@latest
-	pip install "python-lsp-server[all]" --break-system-packages
+	pip install --upgrade black pycodestyle --break-system-packages
 	@if [ -x "`which yay 2>/dev/null`" ]; then \
 		yay -S lua-language-server; \
 	else \

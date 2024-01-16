@@ -447,19 +447,10 @@ M.lsp = function()
     augroup END
   ]]
 
-  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pylsp
-  lsp.pylsp.setup {
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pyright
+  lsp.pyright.setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    settings = {
-      pylsp = {
-        plugins = {
-          pycodestyle = { -- pylsp:pycodestyle https://pycodestyle.pycqa.org/en/latest/intro.html
-            maxLineLength = 120
-          }
-        }
-      }
-    }
   }
 
   -- https://github.com/neovim/neovim/blob/master/runtime/doc/lsp.txt#L810
@@ -547,6 +538,36 @@ M.lsp = function()
         telemetry = { enable = false },
       },
     },
+  })
+
+  --------------------- NullLs
+
+  local null_ls = require("null-ls")
+  null_ls.setup({
+    sources = { -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
+      -- python
+      -- null_ls.builtins.diagnostics.flake8.with {
+      --   args = { "--format", "default", "--ignore", "E501", "--stdin-display-name", "$FILENAME", "-" },
+      -- },
+      null_ls.builtins.diagnostics.pycodestyle,
+      null_ls.builtins.formatting.isort,
+      null_ls.builtins.formatting.black,
+      -- null_ls.builtins.formatting.autopep8,
+      -- null_ls.builtins.diagnostics.mypy,
+      -- null_ls.builtins.diagnostics.ruff,
+    },
+    on_attach = function(client, bufnr)
+      if client.supports_method("textDocument/formatting") then
+        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          group = augroup,
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.buf.format({ bufnr = bufnr })
+          end,
+        })
+      end
+    end,
   })
 
   vim.api.nvim_create_autocmd("BufWritePre", {
