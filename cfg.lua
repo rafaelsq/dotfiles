@@ -417,7 +417,7 @@ M.lsp = function()
     if type(client.server_capabilities.codeLensProvider) == 'table' then
       vim.keymap.set('n', '<space>cl', vim.lsp.codelens.run, opts)
 
-      vim.api.nvim_create_autocmd("CursorHold,CursorHoldI,InsertLeave", {
+      vim.api.nvim_create_autocmd({"CursorHold", "CursorHoldI", "InsertLeave"}, {
         callback = vim.lsp.codelens.refresh, buffer = bufnr
       })
     end
