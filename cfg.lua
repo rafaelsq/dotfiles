@@ -351,14 +351,10 @@ M.lsp = function()
 
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
-  local setDir = false
   local on_attach = function(client, bufnr)
-    -- use project root_dir
-    if not setDir and client.config.root_dir then
-      vim.api.nvim_set_current_dir(client.config.root_dir)
-      setDir = true
+    if client.config.on_attach_fix then
+      client.config.on_attach_fix(client, bufnr)
     end
-
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -481,6 +477,12 @@ M.lsp = function()
         test = true,
       },
     },
+    on_attach_fix = function(client, bufnr)
+      -- use project root_dir
+      if client.config.root_dir then
+        vim.api.nvim_set_current_dir(client.config.root_dir)
+      end
+    end
   }
 
   -- https://github.com/simrat39/rust-tools.nvim
