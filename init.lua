@@ -85,6 +85,7 @@ local plugins = {
       'joshdick/onedark.vim',
       'ayu-theme/ayu-vim',
       { 'dracula/vim', name = 'dracula' },
+      { 'rose-pine/neovim', name = 'rose-pine' },
     },
     config = c.theme,
   },

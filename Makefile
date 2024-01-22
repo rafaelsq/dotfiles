@@ -76,6 +76,11 @@ tmux:
 	else \
 		cd ~/.tmux/plugins/ayu && git pull origin master; \
 	fi
+	@if [ ! -d ~/.tmux/plugins/rose-pine ]; then \
+		git clone https://github.com/rose-pine/tmux ~/.tmux/plugins/rose-pine; \
+	else \
+		cd ~/.tmux/plugins/rose-pine && git pull origin main; \
+	fi
 	@echo "Don't forget to prefix+I to install and prefix+U to update plugins"
 
 zsh:
@@ -188,6 +193,8 @@ endif
 >~/.config/kitty/themes.conf
 ifeq ($(theme), onedark)
 	kitten themes --config-file-name=themes.conf one dark
+else ifeq ($(theme), rose-pine)
+	kitten themes --config-file-name=themes.conf Rosé Pine
 else
 	kitten themes --config-file-name=themes.conf $(theme)
 endif
