@@ -195,6 +195,8 @@ ifeq ($(theme), onedark)
 	kitten themes --config-file-name=themes.conf one dark
 else ifeq ($(theme), rose-pine)
 	kitten themes --config-file-name=themes.conf Rosé Pine
+else ifeq ($(theme), catppuccin-frappe)
+	kitten themes --config-file-name=themes.conf Catppuccin-Frappe
 else
 	kitten themes --config-file-name=themes.conf $(theme)
 endif

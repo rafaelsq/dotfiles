@@ -86,6 +86,7 @@ local plugins = {
       'ayu-theme/ayu-vim',
       { 'dracula/vim', name = 'dracula' },
       { 'rose-pine/neovim', name = 'rose-pine' },
+      { "catppuccin/nvim", as = "catppuccin" },
     },
     config = c.theme,
   },
