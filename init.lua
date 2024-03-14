@@ -145,8 +145,18 @@ vim.opt.mouse = 'a'
 vim.opt.ignorecase = true
 vim.opt.updatetime = 200
 vim.opt.hidden = true
-vim.opt.colorcolumn = '120'
 vim.opt.swapfile = false
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*" },
+  callback = function(a, b)
+    if vim.bo.filetype == 'python' then
+      vim.opt.colorcolumn = '88'
+    else
+      vim.opt.colorcolumn = '120'
+    end
+  end,
+})
 
 vim.opt.clipboard = { 'unnamed', 'unnamedplus' }
 
