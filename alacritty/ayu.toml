@@ -1,0 +1,77 @@
+import = ["~/.config/alacritty/base.toml"]
+
+[ayu_dark.bright]
+black = "#686868"
+blue = "#59C2FF"
+cyan = "#95E6CB"
+green = "#C2D94C"
+magenta = "#FFEE99"
+red = "#F07178"
+white = "#FFFFFF"
+yellow = "#FFB454"
+
+[ayu_dark.normal]
+black = "#01060E"
+blue = "#53BDFA"
+cyan = "#90E1C6"
+green = "#91B362"
+magenta = "#FAE994"
+red = "#EA6C73"
+white = "#C7C7C7"
+yellow = "#F9AF4F"
+
+[ayu_dark.primary]
+background = "#0A0E14"
+foreground = "#B3B1AD"
+
+[ayu_mirage.bright]
+black = "#686868"
+blue = "#59C2FF"
+cyan = "#95E6CB"
+green = "#C2D94C"
+magenta = "#FFEE99"
+red = "#F07178"
+white = "#FFFFFF"
+yellow = "#FFB454"
+
+[ayu_mirage.normal]
+black = "#01060E"
+blue = "#53BDFA"
+cyan = "#90E1C6"
+green = "#87D96C"
+magenta = "#FAE994"
+red = "#FF6666"
+white = "#CCCAC2"
+yellow = "#F9AF4F"
+
+[ayu_mirage.primary]
+background = "#1F2430"
+foreground = "#707A8C"
+
+[color.bright]
+black = "#686868"
+blue = "#59C2FF"
+cyan = "#95E6CB"
+green = "#C2D94C"
+magenta = "#FFEE99"
+red = "#F07178"
+white = "#FFFFFF"
+yellow = "#FFB454"
+
+[color.normal]
+black = "#01060E"
+blue = "#53BDFA"
+cyan = "#90E1C6"
+green = "#87D96C"
+magenta = "#FAE994"
+red = "#FF6666"
+white = "#CCCAC2"
+yellow = "#F9AF4F"
+
+[color.primary]
+background = "#1F2430"
+foreground = "#707A8C"
+
+[env]
+THEME = "ayu"
+

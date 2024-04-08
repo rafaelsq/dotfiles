@@ -1,0 +1,33 @@
+import = ["~/.config/alacritty/base.toml"]
+
+[colors.bright]
+black = "#72696a"
+blue = "#f38d70"
+cyan = "#85dacc"
+green = "#adda78"
+magenta = "#a8a9eb"
+red = "#fd6883"
+white = "#fff1f3"
+yellow = "#f9cc6c"
+
+[colors.cursor]
+cursor = "#F8F8F0"
+text = "#000000"
+
+[colors.normal]
+black = "#2c2525"
+blue = "#f38d70"
+cyan = "#85dacc"
+green = "#adda78"
+magenta = "#a8a9eb"
+red = "#fd6883"
+white = "#fff1f3"
+yellow = "#f9cc6c"
+
+[colors.primary]
+background = "#272822"
+foreground = "#F8F8F2"
+
+[env]
+THEME = "molokai"
+

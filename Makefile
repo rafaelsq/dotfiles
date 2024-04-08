@@ -81,6 +81,11 @@ tmux:
 	else \
 		cd ~/.tmux/plugins/rose-pine && git pull origin main; \
 	fi
+	@if [ ! -d ~/.tmux/plugins/catppuccin ]; then \
+		git clone https://github.com/catppuccin/tmux ~/.tmux/plugins/catppuccin; \
+	else \
+		cd ~/.tmux/plugins/catppuccin && git pull origin main; \
+	fi
 	@echo "Don't forget to prefix+I to install and prefix+U to update plugins"
 
 zsh:
@@ -146,13 +151,13 @@ links:
 	@ln -sf ${PWD}/prettierrc ~/.prettierrc
 	@ln -sf ${PWD}/.tmux.conf ~/.tmux.conf
 	@mkdir -p ~/.config/alacritty
-	@rm -rf ~/.config/alacritty/*.yml
-	@ln -sf ${PWD}/alacritty/${DEFAULT_THEME}.yml ~/.config/alacritty/alacritty.yml
+	@rm -rf ~/.config/alacritty/*.toml
+	@ln -sf ${PWD}/alacritty/${DEFAULT_THEME}.toml ~/.config/alacritty/alacritty.toml
 ifeq ($(UNAME_S), Darwin)
-	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/b.yml
-	@ln -sf ${PWD}/alacritty/mac.yml ~/.config/alacritty/base.yml
+	@ln -sf ${PWD}/alacritty/base.toml ~/.config/alacritty/b.toml
+	@ln -sf ${PWD}/alacritty/mac.toml ~/.config/alacritty/base.toml
 else
-	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
+	@ln -sf ${PWD}/alacritty/base.toml ~/.config/alacritty/base.toml
 	@mkdir -p ~/.config/kitty
 	@ln -sf ${PWD}/kitty.conf ~/.config/kitty/kitty.conf
 	@mkdir -p ~/.gnupg
@@ -179,13 +184,13 @@ gh:
 
 set:
 ifneq ($(theme),)
-	@rm ~/.config/alacritty/*.yml
-	@ln -sf ${PWD}/alacritty/$(theme).yml ~/.config/alacritty/alacritty.yml
+	@rm -f ~/.config/alacritty/*.toml
+	@ln -sf ${PWD}/alacritty/$(theme).toml ~/.config/alacritty/alacritty.toml
 ifeq ($(UNAME_S), Darwin)
-	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/b.yml
-	@ln -sf ${PWD}/alacritty/mac.yml ~/.config/alacritty/base.yml
+	@ln -sf ${PWD}/alacritty/base.toml ~/.config/alacritty/b.toml
+	@ln -sf ${PWD}/alacritty/mac.toml ~/.config/alacritty/base.toml
 else
-	@ln -sf ${PWD}/alacritty/base.yml ~/.config/alacritty/base.yml
+	@ln -sf ${PWD}/alacritty/base.toml ~/.config/alacritty/base.toml
 endif
 	# kitty
 	@echo <<EOF\

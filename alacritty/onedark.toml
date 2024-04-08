@@ -1,0 +1,23 @@
+import = ["~/.config/alacritty/base.toml"]
+
+[colors.cursor]
+cursor = "#F8F8F0"
+text = "#000000"
+
+[colors.normal]
+black = "#282C34"
+blue = "#61AFEF"
+cyan = "#56B6C2"
+green = "#98C379"
+magenta = "#C678DD"
+red = "#E06C75"
+white = "#ABB2BF"
+yellow = "#E5C07B"
+
+[colors.primary]
+background = "#282C34"
+foreground = "#ABB2BF"
+
+[env]
+THEME = "onedark"
+
