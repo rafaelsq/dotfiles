@@ -1,7 +1,7 @@
 import:
   - ~/.config/alacritty/b.yml
 
-alt_send_esc: false
+    # alt_send_esc: false
 
 font:
   size: 14.0
