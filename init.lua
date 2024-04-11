@@ -146,6 +146,7 @@ vim.opt.ignorecase = true
 vim.opt.updatetime = 200
 vim.opt.hidden = true
 vim.opt.swapfile = false
+vim.opt.foldmethod = 'manual' -- (range)zf|zf('m=mark?)
 
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*" },

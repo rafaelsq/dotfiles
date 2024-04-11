@@ -181,9 +181,9 @@ M.goC = function()
   vim.keymap.set('n', '[a', goc.AlternateSplit, { silent = true })
 
   local cf = function(testCurrentFunction)
-    local cb = function(path)
+    local cb = function(path, index)
       if path then
-        vim.cmd(":silent exec \"!xdg-open " .. path .. "\"")
+        vim.cmd(":silent exec \"!xdg-open file://" .. path .. "\\\\#file" .. index .. "\"")
       end
     end
 
@@ -447,11 +447,35 @@ M.lsp = function()
     augroup END
   ]]
 
-  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pyright
-  lsp.pyright.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
+  if true then
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pyright
+    lsp.pyright.setup {
+      on_attach = on_attach,
+      capabilities = capabilities,
+    }
+  else
+    if false then
+      -- pip install "python-lsp-server[all]" --break-system-packages
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pylsp
+      lsp.pylsp.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          pylsp = {
+            plugins = {
+              pylint_lint ={
+                enabled = false,
+              },
+              -- ruff = {
+              --   -- enabled = true,
+              --   format = {'I'},
+              -- },
+            }
+          }
+        }
+      }
+    end
+  end
 
   -- https://github.com/neovim/neovim/blob/master/runtime/doc/lsp.txt#L810
   -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
@@ -715,7 +739,14 @@ M.signature = function()
 end
 
 M.tree = function()
-  require("nvim-tree").setup()
+  require("nvim-tree").setup({
+    update_focused_file = {
+      enable = true,
+    },
+  })
+
+  vim.keymap.set('n', 'ntt', ':NvimTreeToggle<CR>', { noremap = true })
+  vim.keymap.set('n', 'ntf', ':NvimTreeFindFile<CR>', { noremap = true })
 end
 
 return M
