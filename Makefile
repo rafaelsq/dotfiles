@@ -22,11 +22,10 @@ ubuntu:
 	# https://github.com/derailed/k9s/releases/download/latest/k9s_Linux_amd64.tar.gz
 
 mac:
-	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s
-	brew install --HEAD neovim
+	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s gnupg go neovim
 	brew tap homebrew/cask-fonts
 	brew install --cask font-hack-nerd-font
-	brew install lua-language-server
+	brew install node yarn
 
 arch:
 	# Step 1
@@ -131,9 +130,11 @@ lsp:
 		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls pyright
 	go install golang.org/x/tools/gopls@latest
 	go install github.com/nametake/golangci-lint-langserver@latest
-	pip install --upgrade black pycodestyle --break-system-packages
+	pip3 install --upgrade black pycodestyle --break-system-packages
 	@if [ -x "`which yay 2>/dev/null`" ]; then \
 		yay -S lua-language-server; \
+	@elif [ -x "`wich brew 2>/dev/null`" ]; then \
+		brew install lua-language-server; \
 	else \
 		echo "you should learn how to install lua-language-server"; \
 	fi
@@ -163,6 +164,8 @@ else
 	@mkdir -p ~/.gnupg
 	@ln -sf ${PWD}/gpg-agent.conf ~/.gnupg/gpg-agent.conf
 endif
+	@mkdir -p ~/.config/kitty
+	@ln -sf ${PWD}/kitty.conf ~/.config/kitty/kitty.conf
 	@mkdir -p ~/.config/nvim/lua
 	@ln -sf ${PWD}/init.lua ~/.config/nvim/init.lua
 	@ln -sf ${PWD}/cfg.lua ~/.config/nvim/lua/cfg.lua
