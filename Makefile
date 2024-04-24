@@ -133,7 +133,7 @@ lsp:
 	pip3 install --upgrade black pycodestyle --break-system-packages
 	@if [ -x "`which yay 2>/dev/null`" ]; then \
 		yay -S lua-language-server; \
-	@elif [ -x "`wich brew 2>/dev/null`" ]; then \
+	elif [ -x "`wich brew 2>/dev/null`" ]; then \
 		brew install lua-language-server; \
 	else \
 		echo "you should learn how to install lua-language-server"; \
