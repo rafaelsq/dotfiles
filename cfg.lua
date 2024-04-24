@@ -19,7 +19,7 @@ M.theme = function()
   --------------------- TreeSitter
   require 'nvim-treesitter.configs'.setup {
     ensure_installed = { "go", "gomod", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python",
-      "elixir", "graphql", "lua" },
+      "elixir", "graphql", "lua", "terraform" },
 
     highlight = { enable = true },
     incremental_selection = { enable = true },
@@ -425,7 +425,7 @@ M.lsp = function()
   capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
   local servers = { 'tsserver', 'html', 'cssls', 'jsonls', 'vuels', 'dockerls', 'vimls',
-    'rust_analyzer', 'graphql', 'ruby_ls', 'golangci_lint_ls' }
+    'rust_analyzer', 'graphql', 'golangci_lint_ls', 'terraformls' }
   for _, l in ipairs(servers) do
     lsp[l].setup {
       on_attach = on_attach,
