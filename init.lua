@@ -92,11 +92,7 @@ local plugins = {
   },
 
   -- Git
-  {'rhysd/git-messenger.vim'},
-  {
-    'airblade/vim-gitgutter',
-    config = c.git
-  },
+  {'lewis6991/gitsigns.nvim', config = c.gitsigns},
 
   'tpope/vim-surround',
   { 'rafaelsq/nvim-yanks.lua', config = c.yanks },
