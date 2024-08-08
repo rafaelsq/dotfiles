@@ -35,6 +35,7 @@ arch:
 	sudo pamac install python-pip aria2 the_silver_searcher go npm yarn bat k9s kitty \
 		autojump google-chrome neovim-nightly-bin docker-desktop docker-compose-v2-git # aur
 	sudo usermod -aG docker ${USER}
+	pip3 install --upgrade pynvim --break-system-packages
 	@echo "Now"
 	@echo "make zsh"
 	@echo "make tmux"
@@ -126,7 +127,7 @@ nvim:
 lsp:
 	@echo "LSP install"
 	# html, css, json and eslint: https://github.com/hrsh7th/vscode-langservers-extracted
-	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint \
+	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint@8 \
 		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls pyright
 	go install golang.org/x/tools/gopls@latest
 	go install github.com/nametake/golangci-lint-langserver@latest
