@@ -430,8 +430,8 @@ M.lsp = function()
     vim.keymap.set('x', '<space>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('i', '<C-c>', '<ESC><cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
-    -- disable tsserver formatter and use eslint codeAction fixAll instead
-    if client.name == "tsserver" then
+    -- disable ts_ls formatter and use eslint codeAction fixAll instead
+    if client.name == "ts_ls" then
       client.server_capabilities.documentFormattingProvider = false
     elseif client.name == "eslint" then
       local function formatWithEslint()
@@ -474,7 +474,7 @@ M.lsp = function()
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
   capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
-  local servers = { 'tsserver', 'html', 'cssls', 'jsonls', 'vuels', 'dockerls', 'vimls',
+  local servers = { 'ts_ls', 'html', 'cssls', 'jsonls', 'vuels', 'dockerls', 'vimls',
     'rust_analyzer', 'graphql', 'golangci_lint_ls', 'terraformls' }
   for _, l in ipairs(servers) do
     lsp[l].setup {
