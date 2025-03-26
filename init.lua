@@ -19,6 +19,9 @@ vim.opt.rtp:prepend(lazypath)
 
 local c = require('cfg')
 
+-- use treesitter instead
+vim.cmd.syntax 'off'
+
 local plugins = {
   ---- Search
   {
@@ -30,9 +33,6 @@ local plugins = {
     },
     config = c.fzf,
   },
-
-  -- ident
-  'tpope/vim-sleuth',
 
   -- Lsp
   {
@@ -132,6 +132,13 @@ require("lazy").setup(plugins)
 
 
 --------------------- opts
+-- let treesitter handle it(check cfg for indent.enable=true
+vim.cmd[[ filetype plugin indent off ]]
+
+vim.opt.autoindent = false
+-- vim.opt.smartindent = false
+-- vim.opt.smarttab = true
+-- vim.opt.smartcase = false
 vim.opt.list = true
 vim.opt.listchars = { tab = '┆ ', trail = ' ' }
 vim.opt.tabstop = 4
@@ -149,6 +156,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(a, b)
     if vim.bo.filetype == 'python' then
       vim.opt.colorcolumn = '88'
+      vim.opt.expandtab = true
     else
       vim.opt.colorcolumn = '120'
     end
