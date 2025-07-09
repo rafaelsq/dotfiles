@@ -1,0 +1,14 @@
+[general]
+import = ["~/.config/alacritty/b.toml"]
+
+[font]
+size = 14.0
+
+[window]
+option_as_alt="OnlyLeft"
+
+[keyboard]
+bindings=[
+  { key = "Right", mods = "Alt", chars = "\u001BF" },
+  { key = "Left",  mods = "Alt", chars = "\u001BB" },
+]

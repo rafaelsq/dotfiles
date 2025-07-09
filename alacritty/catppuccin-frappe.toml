@@ -1,4 +1,5 @@
 # https://github.com/catppuccin/alacritty/blob/main/catppuccin-frappe.toml
+[general]
 import = ["~/.config/alacritty/base.toml"]
 
 [colors.primary]
