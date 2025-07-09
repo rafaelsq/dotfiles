@@ -22,10 +22,17 @@ ubuntu:
 	# https://github.com/derailed/k9s/releases/download/latest/k9s_Linux_amd64.tar.gz
 
 mac:
-	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s gnupg go neovim
-	brew tap homebrew/cask-fonts
+	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s gnupg go neovim alacritty bat
 	brew install --cask font-hack-nerd-font
 	brew install node yarn
+	defaults write org.alacritty AppleFontSmoothing -int 1
+	defaults write com.apple.dock autohide-delay -float 0; defaults write com.apple.dock autohide-time-modifier -int 1;killall Dock
+	# save gpg pass?
+	brew install pinentry-mac
+	@if [ ! -f ~/.gnupg/gpg-agent.conf ]; then \
+		echo "pinentry-program /usr/local/bin/pinentry-mac" > ~/.gnupg/gpg-agent.conf; \
+	fi
+	# aws-vault + keychain: File -> Add Keychain: Users/{USER}/Library/Keychains/aws-vault.keychain-db
 
 arch:
 	# Step 1

@@ -15,7 +15,6 @@ alias kb='pod=$(k get pods | cut -f1 -d" " | fzf); k exec -ti $pod bash || k exe
 gro(){ gfo $1 && g reset --hard origin/$1; }
 alias grom="gro master && g trim"
 px(){ ps xao pid,ppid,pgid,args=ARGS | ag $1 | ag -v "ag $1"; }
-alias bat=batcat
 
 # exports
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor --ignore node_modules --ignore .venv -g ""'
@@ -77,10 +76,7 @@ export GPG_TTY=$(tty)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export NVM_DIR="$HOME/.nvm"
-export NVM_CD_FLAGS=-q
-export NVM_BIN=$NVM_DIR/versions/node/v16.16.0/bin
-export NVM_INC=$NVM_DIR/versions/node/v16.16.0/include/node
-export PATH=$PATH:$NVM_BIN
+# export NVM_CD_FLAGS=-q
 nvmstart() {
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
