@@ -25,13 +25,9 @@ vim.cmd.syntax 'off'
 local plugins = {
   ---- Search
   {
-    'junegunn/fzf.vim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'gfanto/fzf-lsp.nvim',
-      {name = 'fzf', 'junegunn/fzf', build = './install --all' },
-    },
-    config = c.fzf,
+    'nvim-telescope/telescope.nvim', branch = '0.1.x',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = c.telescope,
   },
 
   -- Lsp
@@ -217,18 +213,14 @@ vim.cmd('autocmd FileType go nmap <space>rg :!go run %<CR>')
 
 function _G.openQuickfix(new_split_cmd)
   local line = vim.api.nvim_win_get_cursor(0)[1]
-  local loc = vim.fn.getloclist(0)[line]
-  vim.cmd('wincmd p')
-  if string.len(new_split_cmd) > 0 then
-    vim.cmd(new_split_cmd)
-  end
+  local loc = vim.fn.getqflist()[line]
+  vim.cmd(':' .. new_split_cmd .. ' ' .. loc.user_data.uri)
   vim.fn.cursor(loc.lnum, loc.col)
-  vim.cmd('lclose')
+  -- vim.cmd('cclose')  | use space+space instead
 end
 
 vim.cmd('autocmd FileType qf nnoremap <buffer> <C-v> :lua openQuickfix("vsplit")<CR>')
 vim.cmd('autocmd FileType qf nnoremap <buffer> <C-x> :lua openQuickfix("split")<CR>')
-vim.cmd('autocmd FileType qf nnoremap <buffer> <CR> :lua openQuickfix("")<CR>')
 
 -- no j/k for quickfix
 vim.cmd('autocmd FileType qf map <buffer> k k')

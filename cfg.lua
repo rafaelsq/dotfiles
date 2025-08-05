@@ -199,87 +199,37 @@ M.goC = function()
   vim.keymap.set('n', '<space>gcb', function() cf(true) end, { silent = true })
 end
 
-M.fzf = function()
-  vim.env.FZF_DEFAULT_COMMAND = vim.env.FZF_DEFAULT_COMMAND .. ' --ignore "*generated*" --ignore "*mock*"'
-
-  vim.cmd[[
-    augroup go_search
-      autocmd!
-      " Ag
-      autocmd FileType go command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*_test.go --ignore \*generated\* --ignore \*mock\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-      " Aga
-      autocmd FileType go command! -bang -nargs=* Aga call fzf#vim#ag(<q-args>, '--ignore vendor --ignore \*generated\* --ignore \*mock\*', <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-    augroup END
-  ]]
-
-  vim.keymap.set('n', '<C-p>', ':Files<CR>', { silent = true })
-  vim.keymap.set('n', '<space>b', ':Buffers<CR>', {})
-  vim.keymap.set('n', '<space>f', ':BLines<CR>', {})
-
-  -- clear buffers
-  vim.keymap.set('n', '<space>cb', ':%bd|e#|bd#<CR>', {})
-
-
-  -- select word under cursor
-  vim.keymap.set('x', '<space>a', '"yy:Ag <c-r>y<cr>', {})
-
-  -- search selection
-  vim.keymap.set('n', '<space>a', ':Ag <c-r><c-w><cr>', {})
-
-
-  --------------------- Fzf-lsp
-  local fzf_lsp = require 'fzf_lsp'
-
-  local bk = {
-    fn = function() end,
-    p = {},
-  }
-
-  vim.keymap.set('n', '<space>q', function() bk.fn(unpack(bk.p)) end, {})
-
-  local function filter(fn)
-    return (function(...)
-      return (function(...)
-        local result = select(2, ...)
-        local fallback = type(result) == 'string'
-        if fallback then
-          result = select(3, ...)
-        end
-        if vim.tbl_islist(result) then
-          result = vim.tbl_filter(function(v)
-            return string.find(v.uri, "_test.go") == nil and
-                string.find(v.uri, "mock") == nil
-          end, result)
-        end
-
-        local p = { ... }
-        if fallback then
-          p[3] = result
-        else
-          p[2] = result
-        end
-
-        -- backup last
-        bk = {
-          fn = fn,
-          p = p,
+M.telescope = function()
+  require('telescope').setup{
+    defaults = {
+      mappings = {
+        i = {
+          ["<C-`>"] = "close",
+          ["<C-[>"] = "close"
         }
-
-        fn(unpack(p))
-      end)(...)
-    end)
+      }
+    },
+  }
+  local builtin = require('telescope.builtin')
+  local map = function(keys, func, desc, mode)
+    mode = mode or 'n'
+    vim.keymap.set(mode, keys, func, { desc = desc })
   end
 
-  vim.lsp.handlers["textDocument/codeAction"] = fzf_lsp.code_action_handler
-  vim.lsp.handlers["textDocument/definition"] = fzf_lsp.definition_handler
-  vim.lsp.handlers["textDocument/declaration"] = fzf_lsp.declaration_handler
-  vim.lsp.handlers["textDocument/typeDefinition"] = fzf_lsp.type_definition_handler
-  vim.lsp.handlers["textDocument/implementation"] = filter(fzf_lsp.implementation_handler)
-  vim.lsp.handlers["textDocument/references"] = filter(fzf_lsp.references_handler)
-  vim.lsp.handlers["textDocument/documentSymbol"] = fzf_lsp.document_symbol_handler
-  vim.lsp.handlers["workspace/symbol"] = fzf_lsp.workspace_symbol_handler
-  vim.lsp.handlers["callHierarchy/incomingCalls"] = fzf_lsp.incoming_calls_handler
-  vim.lsp.handlers["callHierarchy/outgoingCalls"] = fzf_lsp.outgoing_calls_handler
+  map('<C-p>',     builtin.find_files, 'Telescope find files')
+  map('<space>fg', builtin.live_grep,  'Telescope live grep')
+  map('<space>b',  builtin.buffers,    'Telescope buffers')
+  map('<space>fh', builtin.help_tags,  'Telescope help tags')
+
+  -- LSP
+  map('gr', builtin.lsp_references, 'LSP: [G]oto [R]eferences')
+  map('gi', builtin.lsp_implementations, 'LSP: [G]oto [I]mplementation')
+  map('gd', builtin.lsp_definitions, 'LSP: [G]oto [D]efinition')
+  map('gs', builtin.lsp_document_symbols, 'LSP: Open [D]ocument [S]ymbols')
+  map('gw', builtin.lsp_workspace_symbols, 'LSP: Open Workspace Symbols')
+  map('gW', builtin.lsp_dynamic_workspace_symbols, 'LSP: Open Workspace Symbols')
+  map('gt', builtin.lsp_type_definitions, 'LSP: [G]oto [T]ype Definition')
+  map('ld', function() builtin.diagnostics({ bufnr = 0 }) end, 'LSP: [L]ist [D]iagnostics')
 end
 
 M.gitsigns = function()
@@ -412,23 +362,21 @@ M.lsp = function()
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     local opts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', '<c-]>', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', '<space>gvd', '<C-w>v <cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    vim.keymap.set('n', '<space>gd', '<C-w>s <cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    vim.keymap.set('n', 'gD', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<space>gvD', '<C-w>v <cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    vim.keymap.set('n', '<space>gD', '<C-w>s <cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    -- vim.keymap.set('n', '<space>gvd', '<C-w>v <cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    -- vim.keymap.set('n', '<space>gd', '<C-w>s <cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    -- vim.keymap.set('n', 'gD', vim.lsp.buf.type_definition, opts)
+    -- vim.keymap.set('n', '<space>gvD', '<C-w>v <cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    -- vim.keymap.set('n', '<space>gD', '<C-w>s <cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('i', '<c-s>', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<c-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('i', '<c-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>gs', vim.lsp.buf.document_symbol, opts)
+    -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set({'n','i'}, '<c-k>', vim.lsp.buf.signature_help, opts)
+    -- vim.keymap.set('n', '<space>gs', vim.lsp.buf.document_symbol, opts)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', '<space>gW', vim.lsp.buf.workspace_symbol, opts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('x', '<space>ca', vim.lsp.buf.code_action, opts)
+    -- vim.keymap.set('n', '<space>gW', vim.lsp.buf.workspace_symbol, opts)
+    vim.keymap.set({'n', 'x'}, '<space>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('i', '<C-c>', '<ESC><cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
     -- disable ts_ls formatter and use eslint codeAction fixAll instead

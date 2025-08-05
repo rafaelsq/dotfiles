@@ -22,7 +22,7 @@ ubuntu:
 	# https://github.com/derailed/k9s/releases/download/latest/k9s_Linux_amd64.tar.gz
 
 mac:
-	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s gnupg go neovim alacritty bat
+	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s gnupg go neovim alacritty bat ripgrep
 	brew install --cask font-hack-nerd-font
 	brew install node yarn
 	defaults write org.alacritty AppleFontSmoothing -int 1
