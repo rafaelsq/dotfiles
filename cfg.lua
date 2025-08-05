@@ -81,7 +81,7 @@ M.theme = function()
         local max = 150
         if math.min(r, g, b) > min then
           if math.min(r, g, b) > max then
-            tx = 0.5
+            tx = 0.9
           end
 
           return math.max(math.ceil(r * tx), 0),

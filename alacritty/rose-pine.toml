@@ -1,5 +1,6 @@
 # https://github.com/rose-pine/alacritty
 
+[general]
 import = ["~/.config/alacritty/base.toml"]
 
 [colors.bright]

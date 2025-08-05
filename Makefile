@@ -195,7 +195,6 @@ gh:
 
 set:
 ifneq ($(theme),)
-	@rm -f ~/.config/alacritty/*.toml
 	@ln -sf ${PWD}/alacritty/$(theme).toml ~/.config/alacritty/alacritty.toml
 ifeq ($(UNAME_S), Darwin)
 	@ln -sf ${PWD}/alacritty/base.toml ~/.config/alacritty/b.toml

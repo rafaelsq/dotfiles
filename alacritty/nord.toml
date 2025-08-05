@@ -1,5 +1,6 @@
 # https://github.com/arcticicestudio/nord-alacritty
 
+[general]
 import = ["~/.config/alacritty/base.toml"]
 
 [colors.bright]
@@ -41,7 +42,7 @@ background = "#2e3440"
 dim_foreground = "#a5abb6"
 foreground = "#d8dee9"
 
-[colors.search.footer_bar]
+[colors.footer_bar]
 background = "#434c5e"
 foreground = "#d8dee9"
 

@@ -1,3 +1,4 @@
+[general]
 import = ["~/.config/alacritty/base.toml"]
 
 [colors.cursor]
@@ -26,7 +27,7 @@ foreground = "0xf8f8f2"
 background = "0xffb86c"
 foreground = "0x44475a"
 
-[colors.search.footer_bar]
+[colors.footer_bar]
 background = "0x282a36"
 foreground = "0xf8f8f2"
 

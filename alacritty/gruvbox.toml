@@ -1,3 +1,4 @@
+[general]
 import = ["~/.config/alacritty/base.toml"]
 
 [colors.bright]
