@@ -13,29 +13,30 @@
 --------------------- Plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({"git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath})
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable",
+    lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 
 local c = require('cfg')
 
--- use treesitter instead
-vim.cmd.syntax 'off'
-
 local plugins = {
   ---- Search
   {
-    'nvim-telescope/telescope.nvim', branch = '0.1.x',
+    'nvim-telescope/telescope.nvim',
+    branch = '0.1.x',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = c.telescope,
   },
+
+  -- ident
+  'tpope/vim-sleuth',
 
   -- Lsp
   {
     'neovim/nvim-lspconfig',
     dependencies = {
       'onsails/lspkind-nvim',
-      'jose-elias-alvarez/null-ls.nvim',
       'nvim-lua/lsp-status.nvim',
     },
     config = c.lsp,
@@ -62,36 +63,35 @@ local plugins = {
   -- status bar
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = {'kyazdani42/nvim-web-devicons', lazy=true},
+    dependencies = { 'kyazdani42/nvim-web-devicons', lazy = true },
     config = c.statusBar,
   },
 
   -- Go
-  { 'rafaelsq/nvim-goc.lua', config = c.goC },
+  { 'rafaelsq/nvim-goc.lua',   config = c.goC },
 
   -- theme
   {
     'nvim-treesitter/nvim-treesitter',
 
     dependencies = {
-      'levouh/tint.nvim',
       'arcticicestudio/nord-vim',
       'gruvbox-community/gruvbox',
       'tomasr/molokai',
       'joshdick/onedark.vim',
       'ayu-theme/ayu-vim',
-      { 'dracula/vim', name = 'dracula' },
+      { 'dracula/vim',      name = 'dracula' },
       { 'rose-pine/neovim', name = 'rose-pine' },
-      { "catppuccin/nvim", as = "catppuccin" },
+      { "catppuccin/nvim",  as = "catppuccin" },
     },
     config = c.theme,
   },
 
   -- Git
-  {'lewis6991/gitsigns.nvim', config = c.gitsigns},
+  { 'lewis6991/gitsigns.nvim', config = c.gitsigns },
 
   'tpope/vim-surround',
-  { 'rafaelsq/nvim-yanks.lua', config = c.yanks },
+  { 'rafaelsq/nvim-yanks.lua',   config = c.yanks },
 
   -- using packer.nvim
   {
@@ -106,11 +106,12 @@ local plugins = {
   -- search
   { 'kevinhwang91/nvim-hlslens', config = c.search },
 
-  {
-    'nvim-tree/nvim-tree.lua',
-    config = c.tree,
-    tag = 'nightly'
-  },
+  -- slowing down my search
+  -- {
+  --   'nvim-tree/nvim-tree.lua',
+  --   config = c.tree,
+  --   tag = 'nightly'
+  -- },
 }
 
 if vim.env['TMUX'] then
@@ -124,19 +125,20 @@ else
   vim.keymap.set('', '<A-l>', '<C-w>l', {})
 end
 
-require("lazy").setup(plugins)
+require("lazy").setup(plugins, { rocks = { enabled = false } })
 
 
 --------------------- opts
 -- let treesitter handle it(check cfg for indent.enable=true
-vim.cmd[[ filetype plugin indent off ]]
+vim.cmd [[ filetype plugin indent off ]]
 
 vim.opt.autoindent = false
 -- vim.opt.smartindent = false
 -- vim.opt.smarttab = true
 -- vim.opt.smartcase = false
+vim.opt.expandtab = false -- space instead of tab
 vim.opt.list = true
-vim.opt.listchars = { tab = '┆ ', trail = ' ' }
+vim.opt.listchars = { tab = '┆ ', trail = '-' }
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.scrolloff = 5
@@ -146,20 +148,8 @@ vim.opt.updatetime = 200
 vim.opt.hidden = true
 vim.opt.swapfile = false
 vim.opt.foldmethod = 'manual' -- (range)zf|zf('m=mark?)
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = { "*" },
-  callback = function(a, b)
-    if vim.bo.filetype == 'python' then
-      vim.opt.colorcolumn = '88'
-      vim.opt.expandtab = true
-    else
-      vim.opt.colorcolumn = '120'
-    end
-  end,
-})
-
 vim.opt.clipboard = { 'unnamed', 'unnamedplus' }
+vim.opt.winborder = 'rounded'
 
 -- prevent p/P to yank
 vim.keymap.set('x', 'p', '\'pgv"\'.v:register."y"', { expr = true })
@@ -179,7 +169,7 @@ vim.keymap.set('', 'k', 'gk', {})
 vim.keymap.set('', 'j', 'gj', {})
 
 -- fix watch for parcel
-vim.opt.backupcopy='no'
+vim.opt.backupcopy = 'no'
 
 -- if vim.fn.has('macunix') then
 --   vim.keymap.set('n', '"', '^', {noremap=true})

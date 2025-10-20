@@ -11,7 +11,6 @@ function emptyBG(name)
 end
 
 M.theme = function()
-
   ------------- higlight graphql
   vim.cmd('autocmd BufEnter *.graphql setf graphql')
   vim.cmd('autocmd BufEnter go.mod setf gomod')
@@ -19,7 +18,7 @@ M.theme = function()
   --------------------- TreeSitter
   require 'nvim-treesitter.configs'.setup {
     ensure_installed = { "go", "gomod", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python",
-      "elixir", "graphql", "lua", "terraform" },
+      "graphql", "lua", "terraform" },
 
     highlight = { enable = true },
     incremental_selection = { enable = true },
@@ -69,39 +68,10 @@ M.theme = function()
 
   -- LSP
   vim.api.nvim_set_hl(0, 'LspCodeLens', { fg = '#88C0D0', underline = true })
-
-  -- Tint inactive windows
-  require("tint").setup({
-    tint_background_colors = false,
-    transforms = {
-      function(r, g, b)
-
-        local tx = 0.7
-        local min = 70
-        local max = 150
-        if math.min(r, g, b) > min then
-          if math.min(r, g, b) > max then
-            tx = 0.9
-          end
-
-          return math.max(math.ceil(r * tx), 0),
-              math.max(math.ceil(g * tx), 0),
-              math.max(math.ceil(b * tx), 0)
-        end
-        return r, g, b
-      end
-    }
-  })
-
-  -- hover with border
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = "rounded",
-  })
 end
 
 
 M.statusBar = function()
-
   local colors = {
     blue   = '#61afef',
     green  = '#98c379',
@@ -200,7 +170,7 @@ M.goC = function()
 end
 
 M.telescope = function()
-  require('telescope').setup{
+  require('telescope').setup {
     defaults = {
       mappings = {
         i = {
@@ -216,26 +186,33 @@ M.telescope = function()
     vim.keymap.set(mode, keys, func, { desc = desc })
   end
 
-  map('<C-p>',     builtin.find_files, 'Telescope find files')
-  map('<space>fg', builtin.live_grep,  'Telescope live grep')
-  map('<space>b',  builtin.buffers,    'Telescope buffers')
-  map('<space>fh', builtin.help_tags,  'Telescope help tags')
+  map('<C-p>', builtin.find_files, 'Telescope find files')
+  map('<space>fg', builtin.live_grep, 'Telescope live grep')
+  map('<space>a', function()
+    builtin.live_grep({ default_text = vim.fn.expand("<cword>") })
+  end, 'Telescope live grep')
+  map('<space>b', builtin.buffers, 'Telescope buffers')
+  map('<space>fh', builtin.help_tags, 'Telescope help tags')
 
   -- LSP
   map('gr', builtin.lsp_references, 'LSP: [G]oto [R]eferences')
   map('gi', builtin.lsp_implementations, 'LSP: [G]oto [I]mplementation')
   map('gd', builtin.lsp_definitions, 'LSP: [G]oto [D]efinition')
+  map('<space>gd', function()
+    vim.cmd(':sp')
+    builtin.lsp_definitions()
+  end, 'LSP: [G]oto [D]efinition splitted')
   map('gs', builtin.lsp_document_symbols, 'LSP: Open [D]ocument [S]ymbols')
   map('gw', builtin.lsp_workspace_symbols, 'LSP: Open Workspace Symbols')
   map('gW', builtin.lsp_dynamic_workspace_symbols, 'LSP: Open Workspace Symbols')
   map('gt', builtin.lsp_type_definitions, 'LSP: [G]oto [T]ype Definition')
-  map('ld', function() builtin.diagnostics({ bufnr = 0 }) end, 'LSP: [L]ist [D]iagnostics')
+  map('<space>ld', function() builtin.diagnostics({ bufnr = 0 }) end, 'LSP: [L]ist [D]iagnostics')
 end
 
 M.gitsigns = function()
   local gitsigns = require('gitsigns')
 
-  gitsigns.setup{
+  gitsigns.setup {
     signs = {
       add          = { text = '+' },
       change       = { text = '~' },
@@ -253,7 +230,6 @@ M.gitsigns = function()
       untracked    = { text = '┆' },
     },
     on_attach = function(bufnr)
-
       local function map(mode, l, r, opts)
         opts = opts or {}
         opts.buffer = bufnr
@@ -263,7 +239,7 @@ M.gitsigns = function()
       -- Navigation
       map('n', ']c', function()
         if vim.wo.diff then
-          vim.cmd.normal({']c', bang = true})
+          vim.cmd.normal({ ']c', bang = true })
         else
           gitsigns.nav_hunk('next')
         end
@@ -271,7 +247,7 @@ M.gitsigns = function()
 
       map('n', '[c', function()
         if vim.wo.diff then
-          vim.cmd.normal({'[c', bang = true})
+          vim.cmd.normal({ '[c', bang = true })
         else
           gitsigns.nav_hunk('prev')
         end
@@ -280,20 +256,20 @@ M.gitsigns = function()
       -- Actions
       map('n', '<space>hs', gitsigns.stage_hunk)
       map('n', '<space>hr', gitsigns.reset_hunk)
-      map('v', '<space>hs', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
-      map('v', '<space>hr', function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+      map('v', '<space>hs', function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
+      map('v', '<space>hr', function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end)
       map('n', '<space>hS', gitsigns.stage_buffer)
       map('n', '<space>hu', gitsigns.undo_stage_hunk)
       map('n', '<space>hR', gitsigns.reset_buffer)
       map('n', '<space>hp', gitsigns.preview_hunk)
-      map('n', '<space>hb', function() gitsigns.blame_line{full=true} end)
+      map('n', '<space>hb', function() gitsigns.blame_line { full = true } end)
       map('n', '<space>tb', gitsigns.toggle_current_line_blame)
       map('n', '<space>hd', gitsigns.diffthis)
       map('n', '<space>hD', function() gitsigns.diffthis('~') end)
       map('n', '<space>td', gitsigns.toggle_deleted)
 
       -- Text object
-      map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+      map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
     end
   }
 end
@@ -320,28 +296,7 @@ end
 
 
 M.lsp = function()
-  local lsp = require 'lspconfig'
   local lsp_status = require('lsp-status')
-
-  -- https://github.com/neovim/nvim-lspconfig/issues/115
-  local function org_imports()
-    local clients = vim.lsp.buf_get_clients()
-    for _, client in pairs(clients) do
-      local params = vim.lsp.util.make_range_params(nil, client.offset_encoding)
-      params.context = { only = { "source.organizeImports" } }
-
-      local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 5000)
-      for _, res in pairs(result or {}) do
-        for _, r in pairs(res.result or {}) do
-          if r.edit then
-            vim.lsp.util.apply_workspace_edit(r.edit, client.offset_encoding)
-          else
-            vim.lsp.buf.execute_command(r.command)
-          end
-        end
-      end
-    end
-  end
 
   local opts = { noremap = true, silent = true }
 
@@ -353,11 +308,8 @@ M.lsp = function()
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
   local on_attach = function(client, bufnr)
-    if client.config.on_attach_fix then
-      client.config.on_attach_fix(client, bufnr)
-    end
     -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -372,67 +324,63 @@ M.lsp = function()
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('i', '<c-s>', vim.lsp.buf.hover, opts)
     -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set({'n','i'}, '<c-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set({ 'n', 'i' }, '<c-k>', vim.lsp.buf.signature_help, opts)
     -- vim.keymap.set('n', '<space>gs', vim.lsp.buf.document_symbol, opts)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
     -- vim.keymap.set('n', '<space>gW', vim.lsp.buf.workspace_symbol, opts)
-    vim.keymap.set({'n', 'x'}, '<space>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set({ 'n', 'x' }, '<space>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('i', '<C-c>', '<ESC><cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-
-    -- disable ts_ls formatter and use eslint codeAction fixAll instead
-    if client.name == "ts_ls" then
-      client.server_capabilities.documentFormattingProvider = false
-    elseif client.name == "eslint" then
-      local function formatWithEslint()
-        local clients = vim.lsp.buf_get_clients()
-
-        for _, c in pairs(clients) do
-          if client.name == "eslint" then
-            local params = vim.lsp.util.make_range_params(nil, client.offset_encoding)
-            params.context = { only = { "source.fixAll.eslint" } }
-
-            local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 5000)
-            for _, res in pairs(result or {}) do
-              for _, r in pairs(res.result or {}) do
-                if r.edit then
-                  vim.lsp.util.apply_workspace_edit(r.edit, c.offset_encoding)
-                else
-                  vim.lsp.buf.execute_command(r.command)
-                end
-              end
-            end
-          end
-        end
-      end
-      vim.keymap.set('n', '<space>gf', formatWithEslint, opts)
-    else
-      vim.keymap.set('n', '<space>gf', function() vim.lsp.buf.format { async = true } end, opts)
-    end
-
-    if type(client.server_capabilities.codeLensProvider) == 'table' then
-      vim.keymap.set('n', '<space>cl', vim.lsp.codelens.run, opts)
-
-      vim.api.nvim_create_autocmd({"CursorHold", "CursorHoldI", "InsertLeave"}, {
-        callback = vim.lsp.codelens.refresh, buffer = bufnr
-      })
-    end
+    vim.keymap.set('n', '<space>gf', function() vim.lsp.buf.format { async = true } end, opts)
 
     lsp_status.on_attach(client)
   end
 
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
+  local lsp_group = vim.api.nvim_create_augroup('lsp', {})
+  vim.api.nvim_create_autocmd('LspAttach', {
+    group = lsp_group,
+    callback = function(args)
+      local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+      if client.server_capabilities.codeLensProvider then
+        vim.keymap.set('n', '<space>cl', vim.lsp.codelens.run, { silent = true })
 
-  local servers = { 'ts_ls', 'html', 'cssls', 'jsonls', 'vuels', 'dockerls', 'vimls',
-    'rust_analyzer', 'graphql', 'golangci_lint_ls', 'terraformls' }
-  for _, l in ipairs(servers) do
-    lsp[l].setup {
-      on_attach = on_attach,
-      capabilities = capabilities,
-      flags = {
-        debounce_text_changes = 150,
-      }
-    }
+        local bufnr = vim.api.nvim_get_current_buf()
+        vim.api.nvim_create_autocmd({ 'InsertLeave', 'CursorHold' }, {
+          group = vim.api.nvim_create_augroup(string.format('lsp-codelens-%s', bufnr), {}),
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.codelens.refresh({ bufnr = bufnr })
+          end,
+        })
+      end
+    end,
+  })
+  vim.api.nvim_create_autocmd('LspDetach', {
+    group = lsp_group,
+    callback = function(args)
+      local group = vim.api.nvim_create_augroup(string.format('lsp-%s-%s', args.buf, args.data.client_id), {})
+      pcall(vim.api.nvim_del_augroup_by_name, group)
+    end,
+  })
+
+  -- shared
+  vim.lsp.config('*', {
+    on_attach = on_attach,
+    capabilities = vim.tbl_extend('keep', require('cmp_nvim_lsp').default_capabilities(), lsp_status.capabilities),
+    flags = {
+      debounce_text_changes = 150,
+    },
+    root_markers = { '.git' },
+  })
+
+  for _, l in ipairs({
+    'html', 'cssls', 'jsonls', 'dockerls', 'graphql', 'terraformls', 'ts_ls',
+    'pyright', 'ruff', 'gopls', 'yamlls', 'eslint', 'mybiome', 'lua_ls',
+    -- 'oxlint', 'vuels', 'vimls'
+    -- 'pylsp',
+    -- 'pyrefly'
+    -- 'ty'
+  }) do
+    vim.lsp.enable(l)
   end
 
   -- avoid to install neovim in every py virtualenv
@@ -446,163 +394,48 @@ M.lsp = function()
     augroup END
   ]]
 
-  if true then
-    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pyright
-    lsp.pyright.setup {
-      on_attach = on_attach,
-      capabilities = capabilities,
-    }
-  else
-    if false then
-      -- pip install "python-lsp-server[all]" --break-system-packages
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pylsp
-      lsp.pylsp.setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          pylsp = {
-            plugins = {
-              pylint_lint ={
-                enabled = false,
-              },
-              -- ruff = {
-              --   -- enabled = true,
-              --   format = {'I'},
-              -- },
-            }
-          }
-        }
-      }
-    end
-  end
-
-  -- https://github.com/neovim/neovim/blob/master/runtime/doc/lsp.txt#L810
-  -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
-  lsp.gopls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    init_options = {
-      ['local'] = string.gmatch(vim.fn.getcwd(), '/([^/]+)$')(),
-      analyses = {
-        unusedparams = true,
-      },
-      codelenses = {
-        gc_details = true,
-        test = true,
-      },
-    },
-    on_attach_fix = function(client, bufnr)
-      -- use project root_dir
-      if client.config.root_dir then
-        vim.api.nvim_set_current_dir(client.config.root_dir)
-      end
-    end
-  }
-
-  -- https://github.com/simrat39/rust-tools.nvim
-  -- local rt = require("rust-tools")
-
-  -- rt.setup({
-  --   server = {
-  --     on_attach = function(_, bufnr)
-  --       -- Hover actions
-  --       vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-  --       -- Code action groups
-  --       vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-  --     end,
-  --   },
-  -- })
-
-  lsp.yamlls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-      yaml = {
-        schemas = { kubernetes = "/k*s.yaml" },
-      }
-    }
-  }
-
-  lsp.eslint.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 150,
-    },
-    settings = {
-      packageManager = 'yarn',
-      workingDirectory = { mode = 'auto' }, -- fix for monorepo
-    },
-  }
-
-  lsp.elixirls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    cmd = { vim.fn.expand("~/.elixirls/language_server.sh") },
-  }
-
-  local runtime_path = vim.split(package.path, ";")
-  table.insert(runtime_path, "lua/?.lua")
-  table.insert(runtime_path, "lua/?/init.lua")
-
-  lsp.lua_ls.setup({
-    on_attach = on_attach,
-    settings = {
-      Lua = {
-        runtime = {
-          version = "LuaJIT",
-          path = runtime_path,
-        },
-        diagnostics = { globals = { "vim" } },
-        workspace = {
-          -- Make the server aware of Neovim runtime files
-          library = vim.api.nvim_get_runtime_file("", true),
-        },
-        telemetry = { enable = false },
-      },
-    },
-  })
-
-  --------------------- NullLs
-
-  local null_ls = require("null-ls")
-  null_ls.setup({
-    sources = { -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
-      -- python
-      -- null_ls.builtins.diagnostics.flake8.with {
-      --   args = { "--format", "default", "--ignore", "E501", "--stdin-display-name", "$FILENAME", "-" },
-      -- },
-      null_ls.builtins.diagnostics.pycodestyle,
-      null_ls.builtins.formatting.isort,
-      null_ls.builtins.formatting.black,
-      -- null_ls.builtins.formatting.autopep8,
-      -- null_ls.builtins.diagnostics.mypy,
-      -- null_ls.builtins.diagnostics.ruff,
-    },
-    on_attach = function(client, bufnr)
-      if client.supports_method("textDocument/formatting") then
-        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          group = augroup,
-          buffer = bufnr,
-          callback = function()
-            vim.lsp.buf.format({ bufnr = bufnr })
-          end,
-        })
-      end
-    end,
-  })
+  ---------------------
 
   vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.go,*.rs" },
+    pattern = { "*.go,*.py" },
     callback = function()
       vim.lsp.buf.format({ sync = true })
     end,
   })
 
   vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.go" },
-    callback = org_imports,
+    pattern = { "*.go,*.py" },
+    callback = function()
+      vim.lsp.buf.code_action({
+        context = {
+          only = { "source.organizeImports" },
+        },
+        apply = true,
+      })
+      -- Optional: Add a small delay if you encounter race conditions,
+      -- though `apply = true` should generally handle this.
+      -- vim.wait(100)
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = { "*" },
+    callback = function()
+      if vim.bo.filetype == 'python' then
+        vim.opt.colorcolumn = '88'
+      elseif vim.bo.filetype == 'go' then
+        vim.opt.expandtab = false
+      else
+        vim.opt.colorcolumn = '120'
+      end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = { "*.js,*.ts,*.tsx" },
+    callback = function()
+      vim.keymap.set('n', '<space>fp', function() vim.cmd(':silent !yarn prettier -w %'); end, opts)
+    end
   })
 
   --------------------- LspStatusBar

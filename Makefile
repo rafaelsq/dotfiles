@@ -135,19 +135,22 @@ lsp:
 	@echo "LSP install"
 	# html, css, json and eslint: https://github.com/hrsh7th/vscode-langservers-extracted
 	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint@8 \
-		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls pyright
+		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls pyright oxlint @biomejs/biome
 	go install golang.org/x/tools/gopls@latest
 	go install github.com/nametake/golangci-lint-langserver@latest
-	pip3 install --upgrade black pycodestyle --break-system-packages
+	pip3 install --upgrade black pycodestyle ruff pyrefly ty --break-system-packages uv
 	@if [ -x "`which yay 2>/dev/null`" ]; then \
 		yay -S lua-language-server; \
-	elif [ -x "`wich brew 2>/dev/null`" ]; then \
+	elif [ -x "`which brew 2>/dev/null`" ]; then \
 		brew install lua-language-server; \
 	else \
 		echo "you should learn how to install lua-language-server"; \
 	fi
 	@if [ -x "`which rustup 2>/dev/null`" ]; then \
 		rustup component add rust-analyzer; \
+	fi
+	@if [ -x "`which brew 2>/dev/null`" ]; then \
+		brew install hashicorp/tap/terraform-ls; \
 	fi
 
 rust:
@@ -175,6 +178,7 @@ endif
 	@mkdir -p ~/.config/kitty
 	@ln -sf ${PWD}/kitty.conf ~/.config/kitty/kitty.conf
 	@mkdir -p ~/.config/nvim/lua
+	@ln -sf ${PWD}/lsp ~/.config/nvim/
 	@ln -sf ${PWD}/init.lua ~/.config/nvim/init.lua
 	@ln -sf ${PWD}/cfg.lua ~/.config/nvim/lua/cfg.lua
 	@mkdir -p ~/.config/terminator
