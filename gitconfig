@@ -38,6 +38,7 @@
     trimRemote = !git branch -a --merged | grep -v `git branch | ag master >/dev/null && echo master || echo main` | grep remotes/origin | sed 's,remotes/origin/,,' | xargs -r -I@ git push origin :@
     rhw = !git fetch w `git br | ag master >/dev/null && echo master || echo main` && git reset --hard w/`git br | ag master >/dev/null && echo master || echo main`
     rho = !git fetch origin `git br | ag master >/dev/null && echo master || echo main` && git reset --hard origin/`git br | ag master >/dev/null && echo master || echo main`
+    fo = !git fetch origin `git br | ag master >/dev/null && echo master || echo main`
     rh = !git fetch origin `git rev-parse --abbrev-ref HEAD` && git reset --hard origin/`git rev-parse --abbrev-ref HEAD`
 [format]
     pretty = "Commit:  %C(yellow)%H%nAuthor:  %C(green)%aN <%aE>%nDate:    (%C(red)%ar%Creset) %ai%nSubject: %s%n%n%b"
