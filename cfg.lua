@@ -172,6 +172,19 @@ end
 M.telescope = function()
   require('telescope').setup {
     defaults = {
+      path_display = { "smart" },
+      vimgrep_arguments = {
+        'rg',
+        '--color=never',
+        '--no-heading',
+        '--with-filename',
+        '--line-number',
+        '--column',
+        '--smart-case',
+        '-g', '!go.sum',
+        '-g', '!uv.lock',
+        '-g', '!yarn.lock',
+      },
       mappings = {
         i = {
           ["<C-`>"] = "close",
@@ -186,7 +199,7 @@ M.telescope = function()
     vim.keymap.set(mode, keys, func, { desc = desc })
   end
 
-  map('<C-p>', builtin.find_files, 'Telescope find files')
+  map('<C-p>', function() builtin.git_files({ show_untracked = true }) end, 'Telescope find files')
   map('<space>fg', builtin.live_grep, 'Telescope live grep')
   map('<space>a', function()
     builtin.live_grep({ default_text = vim.fn.expand("<cword>") })
