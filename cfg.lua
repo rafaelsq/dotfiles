@@ -143,30 +143,43 @@ M.goC = function()
 
   local goc = require 'nvim-goc'
 
-  goc.setup({ verticalSplit = false })
+  goc.setup({ verticalSplit = true })
 
-  vim.keymap.set('n', '<space>gcf', goc.Coverage, { silent = true })
-  vim.keymap.set('n', '<space>gcc', goc.ClearCoverage, { silent = true })
-  vim.keymap.set('n', '<space>gct', goc.CoverageFunc, { silent = true })
-  vim.keymap.set('n', ']a', goc.Alternate, { silent = true })
-  vim.keymap.set('n', '[a', goc.AlternateSplit, { silent = true })
+  vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = { "*.go" },
+    callback = function()
+      vim.keymap.set('n', '<space>gcf', goc.Coverage, { silent = true })
+      vim.keymap.set('n', '<space>gcc', goc.ClearCoverage, { silent = true })
+      vim.keymap.set('n', '<space>gct', goc.CoverageFunc, { silent = true })
+      vim.keymap.set('n', ']a', goc.Alternate, { silent = true })
+      vim.keymap.set('n', '[a', goc.AlternateSplit, { silent = true })
 
-  local cf = function(testCurrentFunction)
-    local cb = function(path, index)
-      if path then
-        vim.cmd(":silent exec \"!xdg-open file://" .. path .. "\\\\#file" .. index .. "\"")
+      local cf = function(testCurrentFunction)
+        local cb = function(path, index)
+          if path then
+            vim.cmd(":silent exec \"!xdg-open file://" .. path .. "\\\\#file" .. index .. "\"")
+          end
+        end
+
+        if testCurrentFunction then
+          goc.CoverageFunc(nil, cb)
+        else
+          goc.Coverage(nil, cb)
+        end
       end
-    end
 
-    if testCurrentFunction then
-      goc.CoverageFunc(nil, cb)
-    else
-      goc.Coverage(nil, cb)
+      vim.keymap.set('n', '<space>gca', cf, { silent = true })
+      vim.keymap.set('n', '<space>gcb', function() cf(true) end, { silent = true })
     end
-  end
+  })
 
-  vim.keymap.set('n', '<space>gca', cf, { silent = true })
-  vim.keymap.set('n', '<space>gcb', function() cf(true) end, { silent = true })
+  vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = { "*.js,*.ts,*.tsx" },
+    callback = function()
+      vim.keymap.set('n', ']a', function() goc.AlternateFile(false, '.test', 'vert') end, { silent = true })
+      vim.keymap.set('n', '[a', function() goc.AlternateFile(true, '.test', 'vert') end, { silent = true })
+    end
+  })
 end
 
 M.telescope = function()
