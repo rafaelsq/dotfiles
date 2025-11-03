@@ -213,12 +213,19 @@ M.telescope = function()
   end
 
   map('<C-p>', function() builtin.git_files({ show_untracked = true }) end, 'Telescope find files')
-  map('<space>fg', builtin.live_grep, 'Telescope live grep')
+  map('<space>fl', builtin.live_grep, 'Telescope live grep')
   map('<space>a', function()
-    builtin.live_grep({ default_text = vim.fn.expand("<cword>") })
-  end, 'Telescope live grep')
+    builtin.grep_string({ search = vim.fn.expand("<cword>") })
+  end, 'Telescope search current word')
   map('<space>b', builtin.buffers, 'Telescope buffers')
   map('<space>fh', builtin.help_tags, 'Telescope help tags')
+  map('<space>fs', function()
+    vim.ui.input({ prompt = "> " }, function(input)
+      if input then
+        builtin.grep_string({ search = input })
+      end
+    end)
+  end, "Telescope Grep String")
 
   -- LSP
   map('gr', builtin.lsp_references, 'LSP: [G]oto [R]eferences')
