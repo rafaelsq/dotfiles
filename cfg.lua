@@ -108,7 +108,7 @@ M.statusBar = function()
       }
     },
     sections = {
-      lualine_a = { 'filetype' },
+      lualine_a = {},
       lualine_b = { "vim.trim(require'lsp-status'.status())" },
       lualine_c = {
         {
@@ -117,9 +117,18 @@ M.statusBar = function()
           path = 1            -- 0 = just filename, 1 = relative path, 2 = absolute path
         },
       },
-      lualine_x = { 'encoding' },
+      lualine_x = { { 'filetype', icon_only = true }, 'encoding' },
       lualine_y = { 'location', 'diff' },
       lualine_z = { 'diagnostics' },
+    },
+    inactive_sections = {
+      lualine_c = {
+        {
+          'filename',
+          path = 2,           -- Set to 2 for absolute path
+          file_status = true, -- Optional: display file status (modified, readonly)
+        }
+      },
     },
   }
 end
@@ -212,20 +221,26 @@ M.telescope = function()
     vim.keymap.set(mode, keys, func, { desc = desc })
   end
 
+  local last_query = ''
+
   map('<C-p>', function() builtin.git_files({ show_untracked = true }) end, 'Telescope find files')
+  map('<C-f>', builtin.find_files, 'Telescope find files')
   map('<space>fl', builtin.live_grep, 'Telescope live grep')
   map('<space>a', function()
-    builtin.grep_string({ search = vim.fn.expand("<cword>") })
+    last_query = vim.fn.expand("<cword>")
+    builtin.grep_string({ search = last_query })
   end, 'Telescope search current word')
   map('<space>b', builtin.buffers, 'Telescope buffers')
   map('<space>fh', builtin.help_tags, 'Telescope help tags')
   map('<space>fs', function()
     vim.ui.input({ prompt = "> " }, function(input)
       if input then
+        last_query = input
         builtin.grep_string({ search = input })
       end
     end)
   end, "Telescope Grep String")
+  map('<space>q', function() builtin.grep_string({ search = last_query }) end, "Repeat Last Grep String")
 
   -- LSP
   map('gr', builtin.lsp_references, 'LSP: [G]oto [R]eferences')

@@ -107,11 +107,10 @@ local plugins = {
   { 'kevinhwang91/nvim-hlslens', config = c.search },
 
   -- slowing down my search
-  -- {
-  --   'nvim-tree/nvim-tree.lua',
-  --   config = c.tree,
-  --   tag = 'nightly'
-  -- },
+  {
+    'nvim-tree/nvim-tree.lua',
+    config = c.tree,
+  },
 }
 
 if vim.env['TMUX'] then
