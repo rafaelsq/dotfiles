@@ -18,7 +18,7 @@ M.theme = function()
   --------------------- TreeSitter
   require 'nvim-treesitter.configs'.setup {
     ensure_installed = { "go", "gomod", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python",
-      "graphql", "lua", "terraform" },
+      "graphql", "lua", "terraform", "rust" },
 
     highlight = { enable = true },
     incremental_selection = { enable = true },
@@ -27,6 +27,7 @@ M.theme = function()
 
   local theme = vim.env['THEME']
 
+  print('theme', theme)
   vim.opt.termguicolors = true
   vim.opt.number = true
   vim.opt.signcolumn = 'yes'
@@ -422,7 +423,7 @@ M.lsp = function()
 
   for _, l in ipairs({
     'html', 'cssls', 'jsonls', 'dockerls', 'graphql', 'terraformls', 'ts_ls',
-    'pyright', 'ruff', 'gopls', 'yamlls', 'eslint', 'mybiome', 'lua_ls',
+    'pyright', 'ruff', 'gopls', 'yamlls', 'eslint', 'mybiome', 'lua_ls', 'rust_analyzer',
     -- 'oxlint', 'vuels', 'vimls'
     -- 'pylsp',
     -- 'pyrefly'

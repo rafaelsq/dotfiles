@@ -177,10 +177,8 @@ else
 endif
 	@mkdir -p ~/.config/kitty
 	@ln -sf ${PWD}/kitty.conf ~/.config/kitty/kitty.conf
-	@mkdir -p ~/.config/nvim/lua
-	@ln -sf ${PWD}/lsp ~/.config/nvim/
+	@ln -sf ${PWD}/lua ~/.config/nvim/
 	@ln -sf ${PWD}/init.lua ~/.config/nvim/init.lua
-	@ln -sf ${PWD}/cfg.lua ~/.config/nvim/lua/cfg.lua
 	@mkdir -p ~/.config/terminator
 	@ln -sf ${PWD}/terminator.cfg ~/.config/terminator/config
 	@rm -rf ~/.config/nvim/UltiSnips
