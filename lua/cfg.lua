@@ -155,14 +155,20 @@ M.goC = function()
 
   goc.setup({ verticalSplit = true })
 
-  vim.api.nvim_create_autocmd("BufEnter", {
-    pattern = { "*.go" },
+  local altVert = function(suffix)
+    vim.keymap.set('n', ']a', function() goc.AlternateFile(false, suffix, 'vert') end, { silent = true, buffer = true })
+    vim.keymap.set('n', '[a', function() goc.AlternateFile(true, suffix, 'vert') end, { silent = true, buffer = true })
+  end
+
+  vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("GoGocKeymap", { clear = true }),
+    pattern = { "go" },
     callback = function()
       vim.keymap.set('n', '<space>gcf', goc.Coverage, { silent = true })
       vim.keymap.set('n', '<space>gcc', goc.ClearCoverage, { silent = true })
       vim.keymap.set('n', '<space>gct', goc.CoverageFunc, { silent = true })
-      vim.keymap.set('n', ']a', goc.Alternate, { silent = true })
-      vim.keymap.set('n', '[a', goc.AlternateSplit, { silent = true })
+
+      altVert('_test')
 
       local cf = function(testCurrentFunction)
         local cb = function(path, index)
@@ -180,15 +186,23 @@ M.goC = function()
 
       vim.keymap.set('n', '<space>gca', cf, { silent = true })
       vim.keymap.set('n', '<space>gcb', function() cf(true) end, { silent = true })
-    end
+    end,
   })
 
-  vim.api.nvim_create_autocmd("BufEnter", {
-    pattern = { "*.js,*.ts,*.tsx" },
+  vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("JavascriptAlternateFile", { clear = true }),
+    pattern = { "javascript", "typescript", "typescriptreact" },
     callback = function()
-      vim.keymap.set('n', ']a', function() goc.AlternateFile(false, '.test', 'vert') end, { silent = true })
-      vim.keymap.set('n', '[a', function() goc.AlternateFile(true, '.test', 'vert') end, { silent = true })
-    end
+      altVert('.test')
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("PythonAlternateFile", { clear = true }),
+    pattern = { "python" },
+    callback = function()
+      altVert('_test')
+    end,
   })
 end
 
