@@ -135,7 +135,7 @@ lsp:
 	@echo "LSP install"
 	# html, css, json and eslint: https://github.com/hrsh7th/vscode-langservers-extracted
 	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint@8 \
-		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls pyright oxlint @biomejs/biome
+		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls pyright oxlint oxfmt @vtsls/language-server
 	go install golang.org/x/tools/gopls@latest
 	go install github.com/nametake/golangci-lint-langserver@latest
 	pip3 install --upgrade black pycodestyle ruff pyrefly ty --break-system-packages uv

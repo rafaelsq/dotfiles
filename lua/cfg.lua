@@ -27,7 +27,6 @@ M.theme = function()
 
   local theme = vim.env['THEME']
 
-  print('theme', theme)
   vim.opt.termguicolors = true
   vim.opt.number = true
   vim.opt.signcolumn = 'yes'
@@ -209,7 +208,7 @@ end
 M.telescope = function()
   require('telescope').setup {
     defaults = {
-      path_display = { "smart" },
+      -- path_display = { "smart" },
       vimgrep_arguments = {
         'rg',
         '--color=never',
@@ -436,12 +435,12 @@ M.lsp = function()
   })
 
   for _, l in ipairs({
-    'html', 'cssls', 'jsonls', 'dockerls', 'graphql', 'terraformls', 'ts_ls',
-    'pyright', 'ruff', 'gopls', 'yamlls', 'eslint', 'mybiome', 'lua_ls', 'rust_analyzer',
-    -- 'oxlint', 'vuels', 'vimls'
-    -- 'pylsp',
-    -- 'pyrefly'
-    -- 'ty'
+    'dockerls', 'terraformls', 'ruff', 'gopls', 'lua_ls', 'yamlls',
+    'html', 'cssls', 'jsonls', 'graphql',
+    'vtsls', 'eslint', 'oxlint', 'oxfmt',  -- 'ts_ls', 'vimls'
+    'vuels',
+    'ty',              -- 'pyright', 'pylsp', 'pyrefly'
+    'rust_analyzer',
   }) do
     vim.lsp.enable(l)
   end
@@ -459,25 +458,49 @@ M.lsp = function()
 
   ---------------------
 
+  -- format on save
   vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.go,*.py" },
+    pattern = { "*.ts,*.tsx,*.js" },
     callback = function()
       vim.lsp.buf.format({ sync = true })
     end,
   })
 
+  -- sync organizeImports on save
   vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.go,*.py" },
-    callback = function()
-      vim.lsp.buf.code_action({
-        context = {
-          only = { "source.organizeImports" },
-        },
-        apply = true,
-      })
-      -- Optional: Add a small delay if you encounter race conditions,
-      -- though `apply = true` should generally handle this.
-      -- vim.wait(100)
+    pattern = "*.py,*.go",
+    callback = function(args)
+      local clients = vim.lsp.get_clients({ bufnr = args.buf })
+      if #clients == 0 then return end
+
+      local offset_encoding = clients[1].offset_encoding
+
+      local params = vim.lsp.util.make_range_params(0, offset_encoding)
+      params.context = {
+        only = { "source.organizeImports" },
+        diagnostics = {},
+      }
+
+      local result = vim.lsp.buf_request_sync(args.buf, "textDocument/codeAction", params, 1000)
+      for client_id, res in pairs(result or {}) do
+        for _, r in pairs(res.result or {}) do
+          if r.edit then
+            vim.lsp.util.apply_workspace_edit(r.edit, offset_encoding)
+          elseif r.command then
+            vim.lsp.buf.execute_command(r.command)
+          elseif r.data then
+            local client = vim.lsp.get_client_by_id(client_id)
+            if client and client.supports_method("codeAction/resolve") then
+              local resolved = client.request_sync("codeAction/resolve", r, 1000, args.buf)
+              if resolved and resolved.result and resolved.result.edit then
+                vim.lsp.util.apply_workspace_edit(resolved.result.edit, offset_encoding)
+              end
+            end
+          end
+        end
+      end
+
+      vim.lsp.buf.format({ sync = true, bufnr = args.buf })
     end,
   })
 
