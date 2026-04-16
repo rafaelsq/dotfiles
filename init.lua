@@ -103,10 +103,6 @@ local plugins = {
   -- scrollbar
   { 'petertriho/nvim-scrollbar', config = c.scrollbar },
 
-  -- search
-  { 'kevinhwang91/nvim-hlslens', config = c.search },
-
-  -- slowing down my search
   {
     'nvim-tree/nvim-tree.lua',
     config = c.tree,

@@ -237,7 +237,14 @@ M.telescope = function()
 
   local last_query = ''
 
-  map('<C-p>', function() builtin.git_files({ show_untracked = true }) end, 'Telescope find files')
+  map('<C-p>', function()
+    builtin.git_files({
+      show_untracked = true,
+      file_ignore_patterns = {
+        "index.ts", "vendor/",
+      },
+    })
+  end, 'Telescope find files')
   map('<C-f>', builtin.find_files, 'Telescope find files')
   map('<space>fl', builtin.live_grep, 'Telescope live grep')
   map('<space>a', function()
@@ -437,7 +444,7 @@ M.lsp = function()
   for _, l in ipairs({
     'dockerls', 'terraformls', 'ruff', 'gopls', 'lua_ls', 'yamlls',
     'html', 'cssls', 'jsonls', 'graphql',
-    'vtsls', 'eslint', 'oxlint', 'oxfmt',  -- 'ts_ls', 'vimls'
+    'tsgo', 'oxlint', 'oxfmt', 'eslint',  -- 'vtsls', 'ts_ls', 'vimls'
     'vuels',
     'ty',              -- 'pyright', 'pylsp', 'pyrefly'
     'rust_analyzer',
@@ -557,22 +564,6 @@ M.cmp = function()
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
       ['<C-y>'] = cmp.mapping.confirm({ select = true }),
     }),
-    formatting = {
-      format = function(entry, vim_item)
-        -- fancy icons and a name of kind
-        vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind
-
-        -- set a name for each source
-        vim_item.menu = ({
-          buffer = "[Buffer]",
-          nvim_lsp = "[LSP]",
-          luasnip = "[LuaSnip]",
-          nvim_lua = "[Lua]",
-          latex_symbols = "[Latex]",
-        })[entry.source.name]
-        return vim_item
-      end,
-    },
     window = {
       completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
