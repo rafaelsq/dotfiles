@@ -1,0 +1,25 @@
+{
+  "return": {
+    "prefix": "re",
+    "body": [
+      "return ${0}"
+    ],
+    "description": "return"
+  },
+  "encode json with indent": {
+    "prefix": "encj",
+    "body": [
+      "import json; print(json.dumps(${1:obj}, indent=2))",
+      "${2}"
+    ],
+    "description": "encode json with indent"
+  },
+  "print": {
+    "prefix": "pl",
+    "body": [
+      "print(\"${1:>>>}\"${2:, }${3})",
+      "${4}"
+    ],
+    "description": "print"
+  }
+}

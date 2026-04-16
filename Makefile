@@ -183,8 +183,8 @@ endif
 	@ln -sf ${PWD}/init.lua ~/.config/nvim/init.lua
 	@mkdir -p ~/.config/terminator
 	@ln -sf ${PWD}/terminator.cfg ~/.config/terminator/config
-	@rm -rf ~/.config/nvim/UltiSnips
-	@ln -sf ${PWD}/ultisnips ~/.config/nvim/UltiSnips
+	@rm -rf ~/.config/nvim/snippets
+	@ln -sf ${PWD}/snippets ~/.config/nvim/snippets
 	@mkdir -p ~/.config/wireplumber/policy.lua.d
 	@ln -sf ${PWD}/11-bluetooth-policy.lua ~/.config/wireplumber/policy.lua.d
 

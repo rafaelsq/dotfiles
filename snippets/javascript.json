@@ -1,0 +1,37 @@
+{
+  "console.log": {
+    "prefix": "cl",
+    "body": [
+      "console.log('${1:s}'${2})${3}"
+    ],
+    "description": "console.log"
+  },
+  "console.info": {
+    "prefix": "ci",
+    "body": [
+      "console.info('${1:s}'${2})${3}"
+    ],
+    "description": "console.info"
+  },
+  "console.warn": {
+    "prefix": "cw",
+    "body": [
+      "console.warn('${1:s}'${2})${3}"
+    ],
+    "description": "console.warn"
+  },
+  "return": {
+    "prefix": "re",
+    "body": [
+      "return ${0}"
+    ],
+    "description": "return"
+  },
+  "JSON.stringify": {
+    "prefix": "str",
+    "body": [
+      "JSON.stringify(${1})${2}"
+    ],
+    "description": "JSON.stringify"
+  }
+}

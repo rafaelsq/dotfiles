@@ -434,7 +434,7 @@ M.lsp = function()
   -- shared
   vim.lsp.config('*', {
     on_attach = on_attach,
-    capabilities = vim.tbl_extend('keep', require('cmp_nvim_lsp').default_capabilities(), lsp_status.capabilities),
+    capabilities = vim.tbl_extend('keep', require('blink.cmp').get_lsp_capabilities(), lsp_status.capabilities),
     flags = {
       debounce_text_changes = 150,
     },
@@ -540,73 +540,42 @@ end
 
 ------------ completion
 M.cmp = function()
-  local cmp = require('cmp')
+  require('blink.cmp').setup({
+    keymap = {
+      preset = 'default',
+      ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+      ['<C-e>'] = { 'hide' },
+      ['<CR>'] = { 'accept', 'fallback' },
 
-  vim.opt.completeopt = 'menu,menuone,noselect'
+      ['<Tab>'] = { 'snippet_forward', 'select_next', 'fallback' },
+      ['<S-Tab>'] = { 'snippet_backward', 'select_prev', 'fallback' },
 
-  cmp.setup({
-    snippet = {
-      expand = function(args)
-        vim.fn["UltiSnips#Anon"](args.body)
-      end,
+      ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+      ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
     },
-    completion = {
-      completeopt = 'menu,menuone,noinsert',
-    },
-    mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
-      ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-    }),
-    window = {
-      completion = cmp.config.window.bordered(),
-      documentation = cmp.config.window.bordered(),
-    },
-    sources = cmp.config.sources({
-      { name = 'ultisnips' },
-      { name = 'nvim_lsp' },
-      -- { name = 'buffer' },
-    }),
-    experimental = {
-      ghost_text = true
-    }
-  })
 
-  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline('/', {
-    mapping = cmp.mapping.preset.cmdline(),
+    appearance = {
+      use_nvim_cmp_as_default = true,
+      nerd_font_variant = 'mono'
+    },
+
     sources = {
-      { name = 'buffer' }
-    }
-  })
+      default = { 'lsp', 'path', 'snippets', 'buffer' },
+      providers = {
+        snippets = {
+          opts = {
+            search_paths = { vim.fn.expand('~/.config/nvim/snippets') }
+          }
+        }
+      }
+    },
 
-  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-  cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
+    snippets = {
+      preset = 'default',
+    },
 
-  -- add c-y to :
-  vim.keymap.set('c', '<C-y>', '', {
-    callback = function()
-      cmp.confirm({ select = false })
-    end,
+    signature = { enabled = true }
   })
-
-  --------------------- Snippet
-  vim.g.UltiSnipsExpandTrigger = "<tab>"
-  vim.g.UltiSnipsJumpForwardTrigger = "<tab>"
-  vim.g.UltiSnipsJumpBackwardTrigger = "<s-tab>"
 end
 
 
@@ -641,10 +610,6 @@ M.tabbar = function()
       mode = "tabs",
     }
   }
-end
-
-M.signature = function()
-  require "lsp_signature".setup({})
 end
 
 M.tree = function()

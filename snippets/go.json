@@ -1,0 +1,245 @@
+{
+  "package": {
+    "prefix": "pa",
+    "body": [
+      "package ${1:main}",
+      "",
+      "${2}"
+    ],
+    "description": "package"
+  },
+  "main": {
+    "prefix": "main",
+    "body": [
+      "func main() {",
+      "\t${1:fmt.Println(\"hello\")}${2}",
+      "}"
+    ],
+    "description": "func main()"
+  },
+  "test": {
+    "prefix": "test",
+    "body": [
+      "func Test${1:FuncName}(t *testing.T) {",
+      "\t${2:assert.Nil(t, nil)}${3}",
+      "}"
+    ],
+    "description": "func TestXY()"
+  },
+  "map": {
+    "prefix": "mp",
+    "body": [
+      "map[${1:string}]${2:interface{}}"
+    ],
+    "description": "map"
+  },
+  "panic": {
+    "prefix": "pn",
+    "body": [
+      "panic(${1:\"msg\"})${2}"
+    ],
+    "description": "panic"
+  },
+  "fmt.Printf()": {
+    "prefix": "pf",
+    "body": [
+      "fmt.Printf(\"%${1:s}\\n\", ${2:var})${3}"
+    ],
+    "description": "fmt.Printf()"
+  },
+  "fmt.Println()": {
+    "prefix": "pl",
+    "body": [
+      "fmt.Println(\"${1:s}\"${2})${3}"
+    ],
+    "description": "fmt.Println()"
+  },
+  "log.Printf()": {
+    "prefix": "lf",
+    "body": [
+      "log.Printf(\"%${1:s}\\n\", ${2:var})${3}"
+    ],
+    "description": "log.Printf()"
+  },
+  "log.Println()": {
+    "prefix": "ll",
+    "body": [
+      "log.Println(\"${1:s}\"${2})${3}"
+    ],
+    "description": "log.Println()"
+  },
+  "return": {
+    "prefix": "re",
+    "body": [
+      "return ${0}"
+    ],
+    "description": "return"
+  },
+  "fmt.Fprintf()": {
+    "prefix": "fpf",
+    "body": [
+      "fmt.Fprintf(${1:w}, \"${2:%v}\", ${3:var})${4}"
+    ],
+    "description": "fmt.Fprintf()"
+  },
+  "fmt.Sprintf()": {
+    "prefix": "spf",
+    "body": [
+      "fmt.Sprintf(\"${1:%v}\", ${2:var})${3}"
+    ],
+    "description": "fmt.Sprintf()"
+  },
+  "go func{}()": {
+    "prefix": "gof",
+    "body": [
+      "go func(${1}) {",
+      "\t${3:/* code */}",
+      "}(${2})",
+      "${4}"
+    ],
+    "description": "go func{}()"
+  },
+  "if err": {
+    "prefix": "ife",
+    "body": [
+      "if err != nil {",
+      "\treturn ${1:nil, }${2:err}",
+      "}",
+      "${3}"
+    ],
+    "description": "if err"
+  },
+  "if err panic": {
+    "prefix": "ifp",
+    "body": [
+      "if err != nil {",
+      "\tpanic(err)",
+      "}",
+      ""
+    ],
+    "description": "if err panic"
+  },
+  "err != nil": {
+    "prefix": "ern",
+    "body": [
+      "err != nil${0}"
+    ],
+    "description": "err != nil"
+  },
+  "err != nil { return err }": {
+    "prefix": "ernr",
+    "body": [
+      "err != nil {",
+      "\t${1:return err}",
+      "}${2}"
+    ],
+    "description": "err != nil { return err }"
+  },
+  "err != nil { panic(err) }": {
+    "prefix": "ernp",
+    "body": [
+      "err != nil {",
+      "\t${1:panic(err)}",
+      "}${2}"
+    ],
+    "description": "err != nil { panic(err) }"
+  },
+  "fmt.Errorf": {
+    "prefix": "ef",
+    "body": [
+      "fmt.Errorf(\"${1}; %w\", ${2:err})${3}"
+    ],
+    "description": "fmt.Errorf"
+  },
+  "if condition": {
+    "prefix": "if",
+    "body": [
+      "if ${1:/* condition */} {",
+      "\t${2:/* code */}",
+      "}",
+      "${3}"
+    ],
+    "description": "if condition"
+  },
+  "json tag": {
+    "prefix": "json",
+    "body": [
+      "`json:\"${1}${2:,omitempty}\"${3}`${4}"
+    ],
+    "description": "json tag"
+  },
+  "sql tag": {
+    "prefix": "sql",
+    "body": [
+      "`sql:\"${1}\"`${2}"
+    ],
+    "description": "sql tag"
+  },
+  "yaml tag": {
+    "prefix": "yaml",
+    "body": [
+      "`yaml:\"${1}\"`${2}"
+    ],
+    "description": "yaml tag"
+  },
+  "db tag": {
+    "prefix": "db",
+    "body": [
+      "`db:\"${1}\"`${2}"
+    ],
+    "description": "db tag"
+  },
+  "for in": {
+    "prefix": "fin",
+    "body": [
+      "for ${1:i}${2:,}${3: var} := range ${4} {",
+      "\t${5:/* code */}",
+      "}",
+      "${6}"
+    ],
+    "description": "for in"
+  },
+  "for i": {
+    "prefix": "fi",
+    "body": [
+      "for ${1:i} := ${2:0}; ${3:i} < ${4:/* source */}; ${5:i}++ {",
+      "\t${6:/* code */}",
+      "}",
+      "${7}"
+    ],
+    "description": "for i"
+  },
+  "func(){}": {
+    "prefix": "func",
+    "body": [
+      "func ${1:name}(${2}) ${3:error} {",
+      "\t${4:/* code */}",
+      "}${5}"
+    ],
+    "description": "func(){}"
+  },
+  "encode json with indent": {
+    "prefix": "encj",
+    "body": [
+      "e := json.NewEncoder(${1:os.Stdout})",
+      "e.SetIndent(\" \", \" \")",
+      "_ = e.Encode(${2:payload})${3}"
+    ],
+    "description": "encode json with indent"
+  },
+  "decode json with decoder": {
+    "prefix": "decj",
+    "body": [
+      "json.NewDecoder(${1:r}).Decode(${2:var})${3}"
+    ],
+    "description": "decode json with decoder"
+  },
+  "qq": {
+    "prefix": "qq",
+    "body": [
+      "q.Q(${1:})",
+      "${2}"
+    ],
+    "description": "qq"
+  }
+}

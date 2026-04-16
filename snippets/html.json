@@ -1,0 +1,29 @@
+{
+  "html with bulma": {
+    "prefix": "html",
+    "body": [
+      "<!DOCTYPE html>",
+      "<html lang=\"${1:pt-br}\">",
+      "\t<head>",
+      "\t\t<meta charset=\"utf-8\">",
+      "\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+      "\t\t<title>${2:Page Title}</title>",
+      "\t\t<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css\">",
+      "\t</head>",
+      "\t<body>",
+      "\t\t<section class=\"section\">",
+      "\t\t\t<div class=\"container\">",
+      "\t\t\t\t<h1 class=\"title\">",
+      "\t\t\t\t\t${3:Hello World}",
+      "\t\t\t\t</h1>",
+      "\t\t\t\t<p class=\"subtitle\">",
+      "\t\t\t\t${4:My first website with <strong>Bulma</strong>!}",
+      "\t\t\t\t</p>${5}",
+      "\t\t\t</div>",
+      "\t\t</section>",
+      "\t</body>",
+      "</html>"
+    ],
+    "description": "html with bulma"
+  }
+}

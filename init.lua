@@ -43,20 +43,10 @@ local plugins = {
   },
 
   {
-    'ray-x/lsp_signature.nvim',
-    config = c.signature,
-  },
-
-  {
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      'SirVer/ultisnips',
-      'quangnguyen30192/cmp-nvim-ultisnips',
-    },
+    'saghen/blink.cmp',
+    lazy = false, -- lazy loading blink.cmp is not recommended by the author
+    dependencies = 'rafamadriz/friendly-snippets',
+    version = 'v0.*',
     config = c.cmp,
   },
 
