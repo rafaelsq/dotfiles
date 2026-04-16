@@ -12,19 +12,20 @@ ubuntu:
 	@echo "Installing Dependencies"
 	@echo "for NVM, check https://github.com/nvm-sh/nvm"
 	@sudo apt update && sudo apt install \
-		curl git zsh silversearcher-ag autojump aria2 terminator htop python3-pip tmux xsel bat alacritty nodejs npm
+		curl git zsh silversearcher-ag autojump aria2 terminator htop python3-pip tmux xsel bat alacritty nodejs
+	@npm install -g corepack
 	@sudo snap install nvim --classic
 	@sudo snap install go --classic
 	@sudo snap install kubectl --classic
 	@sudo snap install k9s
-	@npm install --global yarn
 	# https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip
 	# https://github.com/derailed/k9s/releases/download/latest/k9s_Linux_amd64.tar.gz
 
 mac:
 	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s gnupg go neovim alacritty bat ripgrep
 	brew install --cask font-hack-nerd-font
-	brew install node yarn
+	brew install node
+	npm install -g corepack
 	defaults write org.alacritty AppleFontSmoothing -int 1
 	defaults write com.apple.dock autohide-delay -float 0; defaults write com.apple.dock autohide-time-modifier -int 1;killall Dock
 	# save gpg pass?
@@ -39,8 +40,9 @@ arch:
 	# enable AUR from app center
 	# Step 2
 	# sudo pamac install make
-	sudo pamac install python-pip aria2 the_silver_searcher go npm yarn bat k9s kitty \
+	sudo pamac install python-pip aria2 the_silver_searcher go bat k9s kitty \
 		autojump google-chrome neovim-nightly-bin docker-desktop docker-compose-v2-git # aur
+	npm install -g corepack
 	sudo usermod -aG docker ${USER}
 	pip3 install --upgrade pynvim --break-system-packages
 	@echo "Now"
@@ -135,10 +137,10 @@ lsp:
 	@echo "LSP install"
 	# html, css, json and eslint: https://github.com/hrsh7th/vscode-langservers-extracted
 	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint@8 \
-		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls pyright oxlint oxfmt @vtsls/language-server
+		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls pyright oxlint oxfmt @typescript/native-preview
 	go install golang.org/x/tools/gopls@latest
 	go install github.com/nametake/golangci-lint-langserver@latest
-	pip3 install --upgrade black pycodestyle ruff pyrefly ty --break-system-packages uv
+	pip3 install --upgrade black pycodestyle ruff pyrefly ty uv --break-system-packages
 	@if [ -x "`which yay 2>/dev/null`" ]; then \
 		yay -S lua-language-server; \
 	elif [ -x "`which brew 2>/dev/null`" ]; then \
