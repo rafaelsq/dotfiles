@@ -5,9 +5,9 @@ size = 10.0
 family = "Hack Nerd Font"
 style = "Regular"
 
-[terminal.shell]
-args = ["--login", "-c", "tmux"]
-program = "/bin/zsh"
+# [terminal.shell]
+# args = ["--login", "-c", "tmux"]
+# program = "/bin/zsh"
 
 [window]
 decorations = "none"
