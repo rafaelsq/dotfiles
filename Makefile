@@ -139,6 +139,7 @@ lsp:
 	yarn global add typescript-language-server vscode-langservers-extracted yaml-language-server eslint@8 \
 		dockerfile-language-server-nodejs graphql graphql-language-service-cli @fsouza/prettierd vls pyright oxlint oxfmt @typescript/native-preview
 	go install golang.org/x/tools/gopls@latest
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	go install github.com/nametake/golangci-lint-langserver@latest
 	pip3 install --upgrade black pycodestyle ruff pyrefly ty uv --break-system-packages
 	@if [ -x "`which yay 2>/dev/null`" ]; then \

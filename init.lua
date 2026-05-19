@@ -136,6 +136,9 @@ vim.opt.foldmethod = 'manual' -- (range)zf|zf('m=mark?)
 vim.opt.clipboard = { 'unnamed', 'unnamedplus' }
 vim.opt.winborder = 'rounded'
 
+-- slow n
+vim.opt.shortmess:append("S")
+
 -- prevent p/P to yank
 vim.keymap.set('x', 'p', '\'pgv"\'.v:register."y"', { expr = true })
 vim.keymap.set('x', 'P', '\'Pgv"\'.v:register."y"', { expr = true })
@@ -152,9 +155,6 @@ vim.keymap.set('', '<Up>', 'gk', {})
 vim.keymap.set('', '<Down>', 'gj', {})
 vim.keymap.set('', 'k', 'gk', {})
 vim.keymap.set('', 'j', 'gj', {})
-
--- fix watch for parcel
-vim.opt.backupcopy = 'no'
 
 -- if vim.fn.has('macunix') then
 --   vim.keymap.set('n', '"', '^', {noremap=true})

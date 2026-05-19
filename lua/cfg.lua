@@ -442,7 +442,7 @@ M.lsp = function()
   })
 
   for _, l in ipairs({
-    'dockerls', 'terraformls', 'ruff', 'gopls', 'lua_ls', 'yamlls',
+    'dockerls', 'terraformls', 'ruff', 'gopls', 'golangci_lint_ls', 'lua_ls', 'yamlls',
     'html', 'cssls', 'jsonls', 'graphql',
     'tsgo', 'oxlint', 'oxfmt', 'eslint',  -- 'vtsls', 'ts_ls', 'vimls'
     'vuels',
