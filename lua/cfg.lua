@@ -619,8 +619,8 @@ M.tree = function()
     },
   })
 
-  vim.keymap.set('n', 'ntt', ':NvimTreeToggle<CR>', { noremap = true })
-  vim.keymap.set('n', 'ntf', ':NvimTreeFindFile<CR>', { noremap = true })
+  vim.keymap.set('n', '<space>ntt', ':NvimTreeToggle<CR>', { noremap = true })
+  vim.keymap.set('n', '<space>ntf', ':NvimTreeFindFile<CR>', { noremap = true })
 end
 
 return M
