@@ -16,14 +16,13 @@ M.theme = function()
   vim.cmd('autocmd BufEnter go.mod setf gomod')
 
   --------------------- TreeSitter
-  require 'nvim-treesitter.configs'.setup {
-    ensure_installed = { "go", "gomod", "javascript", "tsx", "json", "yaml", "html", "css", "vue", "typescript", "python",
-      "graphql", "lua", "terraform", "rust" },
-
-    highlight = { enable = true },
-    incremental_selection = { enable = true },
-    indent = { enable = true },
-  }
+  require("tree-sitter-manager").setup({
+    ensure_installed = { "go", "gomod", "gosum", "javascript", "tsx", "json", "yaml", "html", "css", "typescript", "python", "graphql", "lua", "terraform", "rust" },
+    -- border = nil, -- border style for the window (e.g. "rounded", "single"), if nil, use the default border style defined by 'vim.o.winborder'. See :h 'winborder' for more info.
+    -- auto_install = false, -- if enabled, install missing parsers when editing a new file
+    -- highlight = true, -- treesitter highlighting is enabled by default
+    -- languages = {}, -- override or add new parser sources
+  })
 
   local theme = vim.env['THEME']
 
@@ -208,6 +207,9 @@ end
 M.telescope = function()
   require('telescope').setup {
     defaults = {
+      preview = { -- prevent crash for the new treesitter
+        treesitter = false,
+      },
       -- path_display = { "smart" },
       vimgrep_arguments = {
         'rg',
@@ -417,7 +419,7 @@ M.lsp = function()
           group = vim.api.nvim_create_augroup(string.format('lsp-codelens-%s', bufnr), {}),
           buffer = bufnr,
           callback = function()
-            vim.lsp.codelens.refresh({ bufnr = bufnr })
+            vim.lsp.codelens.enable(true, { bufnr = bufnr })
           end,
         })
       end
@@ -441,11 +443,17 @@ M.lsp = function()
     root_markers = { '.git' },
   })
 
+  vim.lsp.config('tsgo', {
+    on_init = function(client)
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end,
+  })
+
   for _, l in ipairs({
     'dockerls', 'terraformls', 'ruff', 'gopls', 'golangci_lint_ls', 'lua_ls', 'yamlls',
     'html', 'cssls', 'jsonls', 'graphql',
-    'tsgo', 'oxlint', 'oxfmt', 'eslint',  -- 'vtsls', 'ts_ls', 'vimls'
-    'vuels',
+    'tsgo', 'oxlint', 'oxfmt', -- 'eslint',
     'ty',              -- 'pyright', 'pylsp', 'pyrefly'
     'rust_analyzer',
   }) do

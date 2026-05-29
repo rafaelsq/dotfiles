@@ -62,7 +62,7 @@ local plugins = {
 
   -- theme
   {
-    'nvim-treesitter/nvim-treesitter',
+    "romus204/tree-sitter-manager.nvim",
 
     dependencies = {
       'arcticicestudio/nord-vim',
@@ -112,6 +112,14 @@ end
 
 require("lazy").setup(plugins, { rocks = { enabled = false } })
 
+
+vim.filetype.add({
+  pattern = {
+    ['.*%.docker%-compose%.yml'] = 'yaml.docker-compose',
+    ['.*%.gitlab%-ci%.yml'] = 'yaml.gitlab',
+    ['.*values%.yaml'] = 'yaml.helm-values',
+  },
+})
 
 --------------------- opts
 -- let treesitter handle it(check cfg for indent.enable=true
