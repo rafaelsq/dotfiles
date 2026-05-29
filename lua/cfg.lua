@@ -590,20 +590,6 @@ M.scrollbar = function()
   })
 end
 
-M.search = function()
-  vim.keymap.set('n', 'n', '<cmd>execute("normal! " . v:count1 . "n")<CR><Cmd>lua require("hlslens").start()<CR>',
-    { noremap = true, silent = true })
-  vim.keymap.set('n', 'N', '<cmd>execute("normal! " . v:count1 . "N")<CR><Cmd>lua require("hlslens").start()<CR>',
-    { noremap = true, silent = true })
-  vim.keymap.set('n', '*', '*<cmd>lua require("hlslens").start()<CR>', { noremap = true })
-  vim.keymap.set('n', '#', '#<cmd>lua require("hlslens").start()<CR>', { noremap = true })
-  vim.keymap.set('n', 'g*', 'g*<cmd>lua require("hlslens").start()<CR>', { noremap = true })
-  vim.keymap.set('n', 'g#', 'g#<cmd>lua require("hlslens").start()<CR>', { noremap = true })
-
-  vim.api.nvim_set_hl(0, 'HlSearchLens', { link = 'Comment' })
-  -- vim.api.nvim_set_hl(0, 'HlSearchNear', {link='Info'})
-end
-
 M.tabbar = function()
   require('bufferline').setup {
     options = {
