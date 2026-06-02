@@ -22,9 +22,8 @@ ubuntu:
 	# https://github.com/derailed/k9s/releases/download/latest/k9s_Linux_amd64.tar.gz
 
 mac:
-	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s gnupg go neovim alacritty bat ripgrep
+	brew install fzf tmux the_silver_searcher autojump derailed/k9s/k9s gnupg go neovim alacritty bat ripgrep pipx node
 	brew install --cask font-hack-nerd-font
-	brew install node
 	npm install -g corepack
 	defaults write org.alacritty AppleFontSmoothing -int 1
 	defaults write com.apple.dock autohide-delay -float 0; defaults write com.apple.dock autohide-time-modifier -int 1;killall Dock
@@ -141,7 +140,7 @@ lsp:
 	go install golang.org/x/tools/gopls@latest
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	go install github.com/nametake/golangci-lint-langserver@latest
-	pip3 install --upgrade black pycodestyle ruff pyrefly ty uv --break-system-packages
+	pipx install uv ty
 	@if [ -x "`which yay 2>/dev/null`" ]; then \
 		yay -S lua-language-server; \
 	elif [ -x "`which brew 2>/dev/null`" ]; then \
