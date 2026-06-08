@@ -140,7 +140,7 @@ lsp:
 	go install golang.org/x/tools/gopls@latest
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	go install github.com/nametake/golangci-lint-langserver@latest
-	pipx install uv ty
+	pipx install uv ty ruff
 	@if [ -x "`which yay 2>/dev/null`" ]; then \
 		yay -S lua-language-server; \
 	elif [ -x "`which brew 2>/dev/null`" ]; then \

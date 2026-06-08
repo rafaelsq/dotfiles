@@ -126,8 +126,8 @@ vim.filetype.add({
 vim.cmd [[ filetype plugin indent off ]]
 
 vim.opt.autoindent = false
--- vim.opt.smartindent = false
--- vim.opt.smarttab = true
+vim.opt.smartindent = true
+vim.opt.smarttab = true
 -- vim.opt.smartcase = false
 vim.opt.expandtab = false -- space instead of tab
 vim.opt.list = true
@@ -216,3 +216,22 @@ vim.cmd('autocmd FileType qf map <buffer> j j')
 -- vim.g.lsp_log_verbose = 1
 -- vim.g.lsp_log_file = expand('~/vim-lsp.log')
 -- vim.g.asyncomplete_log_file = expand('~/asyncomplete.log')
+
+vim.api.nvim_create_user_command('LspList', function()
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+
+  if #clients == 0 then
+    vim.notify("No active LSPs in this buffer.", vim.log.levels.WARN)
+    return
+  end
+
+  -- Extract server names
+  local names = {}
+  for _, client in ipairs(clients) do
+    table.insert(names, "- " .. client.name)
+  end
+
+  -- Format and display the message
+  local msg = "Active LSPs:\n" .. table.concat(names, "\n")
+  vim.notify(msg, vim.log.levels.INFO)
+end, {})
