@@ -144,6 +144,13 @@ vim.opt.foldmethod = 'manual' -- (range)zf|zf('m=mark?)
 vim.opt.clipboard = { 'unnamed', 'unnamedplus' }
 vim.opt.winborder = 'rounded'
 
+-- fix python comment sending you back to col 1
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "python",
+  callback = function()
+    vim.keymap.set("i", "#", "X<BS>#", { buffer = true, remap = false })
+  end,
+})
 -- slow n
 vim.opt.shortmess:append("S")
 
